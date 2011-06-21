@@ -1,0 +1,25 @@
+body {
+    background: #efefef;
+    font-family: Helvetica, 'Arial';
+    color: #777;
+    font-size: 11px;
+}
+
+a {
+    color: darkblue
+}
+
+a:hover {
+    color: lightblue
+}
+
+#canvas {
+    position: absolute;
+    top: 70px;
+    left: 20px;
+    right: 240px;
+    bottom: 20px;
+    border: 5px solid #ccc;
+    overflow: auto;
+    background: #fff;
+}

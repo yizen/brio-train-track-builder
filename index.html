@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>tracks</title>
+	
+	<link rel="stylesheet" href="./css/style.css">
+	
+	<script src="./js/lib/base.js"></script>
+	<script src="./js/lib/jquery-1.4.4.js"></script>
+	<script src="./js/lib/jquery.jkey-1.1.js"></script>
+
+	
+	<!-- NODE GRAPH LIBS -->
+	<script src="./js/lib/node-graph/edge.js"></script>
+	<script src="./js/lib/node-graph/graph.js"></script>
+	<script src="./js/lib/node-graph/vertex.js"></script>
+	<script src="./js/lib/node-graph/matrices/adjacency.js"></script>
+	<script src="./js/lib/node-graph/searches/depthfirstsearch.js"></script>
+	<script src="./js/lib/node-graph/searches/dijkstra.js"></script>
+	
+	<!-- EASEL LIBS -->
+	<script src="./js/lib/easeljs/utils/UID.js"></script>
+
+	<script src="./js/lib/easeljs/geom/Matrix2D.js"></script>
+	<script src="./js/lib/easeljs/geom/Point.js"></script>
+	<script src="./js/lib/easeljs/geom/Rectangle.js"></script>
+
+	<script src="./js/lib/easeljs/events/MouseEvent.js"></script>
+	
+	<script src="./js/lib/easeljs/display/SpriteSheet.js"></script>
+	<script src="./js/lib/easeljs/display/Shadow.js"></script>
+	<script src="./js/lib/easeljs/display/DisplayObject.js"></script>
+	<script src="./js/lib/easeljs/display/Container.js"></script>
+	<script src="./js/lib/easeljs/display/Stage.js"></script>
+	<script src="./js/lib/easeljs/display/Bitmap.js"></script>
+	<script src="./js/lib/easeljs/display/BitmapSequence.js"></script>
+	<script src="./js/lib/easeljs/display/Graphics.js"></script>
+	<script src="./js/lib/easeljs/display/Shape.js"></script>
+	<script src="./js/lib/easeljs/display/Text.js"></script>
+	
+	<script src="./js/lib/easeljs/filters/Filter.js"></script> 
+	<script src="./js/lib/easeljs/filters/ColorFilter.js"></script> 
+	<script src="./js/lib/easeljs/filters/BoxBlurFilter.js"></script> 
+	<script src="./js/lib/easeljs/filters/ColorMatrixFilter.js"></script> 
+	
+	<script src="./js/lib/easeljs/utils/SpriteSheetUtils.js"></script>
+	<script src="./js/lib/easeljs/utils/Ticker.js"></script>
+	
+	<!-- Tween JS LIBS -->
+	<script src="./js/lib/tweenjs/Tween.js"></script>
+
+	<!-- APP LIBS -->
+	<script src="./js/tracks/Config.js"></script>
+	<script src="./js/tracks/Point2D.js"></script>
+	<script src="./js/tracks/Connector.js"></script>
+	<script src="./js/tracks/Grid.js"></script>
+	<script src="./js/tracks/Gizmo.js"></script>
+	
+	<script src="./js/tracks/Selection.js"></script>
+	<script src="./js/tracks/RotationDial.js"></script>
+	
+	<script src="./js/tracks/Railroad.js"></script>
+
+	<script src="./js/tracks/Track.js"></script>
+	
+	<script src="./js/tracks/StraightTrack.js"></script>
+	<script src="./js/tracks/CurvedTrack.js"></script>
+	<script src="./js/tracks/LongTrack.js"></script>
+	<script src="./js/tracks/TripleTrack.js"></script>
+
+
+	<script src="./js/tracks/Keys.js"></script>
+	<script src="./js/tracks/Main.js"></script>
+</head>
+<body>
+
+	<canvas style="position:absolute; float:left" id="trackCanvas"></canvas> 
+
+</body>
+</html>
