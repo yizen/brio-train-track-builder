@@ -10,10 +10,14 @@ var influenceRadiusMultiplier = 2.3;
 var influenceRadiusForConnectors = 4;
 
 var colors = new Object();
-colors.defaultTrackFill 	= "#FFFFFF";
+//colors.defaultTrackFill 	= "#FFFFFF";
+colors.defaultTrackFill 	= "rgba(0,0,0,0.2)";
+
 colors.defaultTrackStroke = "#A0998A";
 
 colors.defaultSelectedTrackFill = "#FCF688";
 colors.defaultSelectedTrackStroke = "#A0998A";
 
-colors.defaultDialTickStoke = "rgba(0,0,0,0.2)"; //"#333333";
+colors.defaultDialTickStoke = "rgba(0,0,0,0.2)";
+
+colors.mapViewBackground = "#FFFFFF";

@@ -318,8 +318,7 @@ var Railroad = Class.extend({
         		.call(this.snapSelectionAlong, [this.dragGestureConnection.sourceTrack, dx,dy, deltaRotation, connectPoint.target], this)
         		.call(this.reconnectConnectorsWithinNeighbourhood, this.selection, this)
         		.call(this.extendSelection, [this.dragGestureConnection.sourceTrack], this)
-        		.call(this.showRotationDial, [this.selection], this);	
-          
+        		.call(this.showRotationDial, [this.selection], this);          
     },
     
     snapSelectionAlong: function(sourceTrack, dx,dy, rotation, pivot) {
@@ -475,5 +474,4 @@ var Railroad = Class.extend({
    	hideRotationDial: function() {
    		this.rotationDial.hide();
    	}
-
 });

@@ -10,8 +10,11 @@
     StraightTrack.prototype.initialize = function () {
         this.Track_initialize();
 
-        this.connectors.push(new Connector("FEMALE", 0, 0, 0, 40));
-        this.connectors.push(new Connector("MALE", 90, 40, 90, 0));
+		var cA = new Connector("FEMALE", 0, 0, 0, 40);
+		var cB = new Connector("MALE", 90, 40, 90, 0);
+        this.connectors.push( cA, cB );
+        
+        cA.createPath("main", cB, new Segment( "LINE"));
 
         //Pivot Point
         this.regX = 50;

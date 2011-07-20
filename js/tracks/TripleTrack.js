@@ -10,9 +10,15 @@
     TripleTrack.prototype.initialize = function () {
         this.Track_initialize();
 
-        this.connectors.push(new Connector("FEMALE", 0, 0, 0, 40));
-        this.connectors.push(new Connector("MALE", 150, 40, 150, 0));
-        this.connectors.push(new Connector("MALE", 25, 125, 65, 125));
+        cA = new Connector("FEMALE", 0, 0, 0, 40);
+        cB = new Connector("MALE", 150, 40, 150, 0);
+        cC = new Connector("MALE", 25, 125, 65, 125);
+        
+        this.connectors.push(cA, cB, cC);
+        
+        cA.createPath("main", cB, new Segment( "LINE"));
+        cB.createPath("down", cC, new Segment( "BEZIER", new Point2D(66.5,20), new Point2D(44,88) ));
+        cB.switchPosition = "main";
 
         //Pivot Point
         this.regX = 80;

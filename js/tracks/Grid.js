@@ -15,6 +15,9 @@
 
         this.regX = this.gridWidth/2;
         this.regY = this.gridHeight/2;
+        
+        this.height = this.gridHeight;
+        this.width  = this.gridWidth;
 
         this.makeShape();
         this.clickWasADrag = false;

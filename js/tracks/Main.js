@@ -1,6 +1,7 @@
 var stage;
 var canvas;
 var backgroundGrid;
+var mapView;
 
 var update = true;
 
@@ -22,15 +23,22 @@ function init() {
     stage.snapToPixelEnabled = true;
 
     backgroundGrid = new Grid(canvasWidth * 2, canvasHeight * 2);
+    mapView = new MapView(backgroundGrid, 0.2);
+    
+    //mapView.height = 100;
+    //mapView.width  = 200;
+    mapView.x = canvasWidth - mapView.width - 30;
+    mapView.y = canvasHeight - mapView.height - 30;
 
     stage.addChild(backgroundGrid);
-    
+    stage.addChild(mapView);
+
     railroad = new Railroad();
 }
 
 function createSampleObjects() {
 
-    var maxObjects = 25;
+    var maxObjects = 5;
     var objectsArray = new Array();
     var rnd = 0;
     for (var i = 0; i < maxObjects; i++) {
@@ -59,6 +67,7 @@ function tick() {
     // this set makes it so the stage only re-renders when an event handler indicates a change has happened.
     if (update) {
         update = false; // only update once
+        mapView.refresh();
         stage.update();
     }
 }
@@ -72,8 +81,7 @@ $(function () {
     init();
     createSampleObjects();
 
-    Ticker.addListener(stage);
-
+    Ticker.addListener(window);
     Ticker.setFPS(maxFPS);
     
     $(window).jkey('backspace',Keys.deleteSelection);

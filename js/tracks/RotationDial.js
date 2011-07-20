@@ -44,14 +44,27 @@
         
         var dial = this;
         var prevAngle = 0;
+        var angle;
+        var predefinedAngle = 20;
        
 		evt.onMouseMove = function (evt) {
-            var angle = dial.getAngle(new Point2D(origX, origY),new Point2D(evt.stageX,evt.stageY));
+            angle = dial.getAngle(new Point2D(origX, origY),new Point2D(evt.stageX,evt.stageY));
             
             //FIXME : something must be wrong somewhere, we shouldn't have to substract 180.
             angle = angle - 180;
+            
             delta = angle - prevAngle;
-
+            
+            if (evt.nativeEvent.shiftKey) {
+				if (delta > 0) {
+					angle = dial.rotation + predefinedAngle;
+					delta = predefinedAngle;
+				} else {
+					angle = dial.rotation - predefinedAngle;
+					delta = -predefinedAngle;
+				}
+            }
+                        
             dial.rotation = angle;
             
             for (var i=0; i<dial.selection.length; i++) {

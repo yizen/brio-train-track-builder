@@ -11,6 +11,9 @@ var Connector = Class.extend({
         this.angle = 0;
 
         this.edge = null;
+        
+        this.path = new Array();
+        this.switchPosition = null; //describe the current switch position - value is a path.
 
         this.shape = new Shape();
         this.shapeDraw();
@@ -30,6 +33,7 @@ var Connector = Class.extend({
         if (!debug.connector) return;
 
         this.shape.graphics.clear();
+        this.shape.graphics.endFill();
         this.shape.graphics.setStrokeStyle(4);
 
         this.edge ? color = "#B92233" : color = "#434238";
@@ -45,16 +49,18 @@ var Connector = Class.extend({
 
         this.shape.graphics.beginFill("#24734B"); //GREEN
         this.shape.graphics.drawEllipse(this.p2.x - 5, this.p2.y - 5, 10, 10);
-
+		
         setDirty();
     },
 
     setRegistrationPoint: function (regX, regY) {
-        this.p1.x -= regX;
-        this.p1.y -= regY;
+        this.p1.rmoveto(-regX,-regY);
+        this.p2.rmoveto(-regX,-regY);
+        
+         for (var i=0; i<this.path.length; i++) {  
+        	this.path[i].segment.moveBy(-regX, -regY);
+        }      			
 
-        this.p2.x -= regX;
-        this.p2.y -= regY;
         this.shapeDraw();
     },
 
@@ -73,15 +79,17 @@ var Connector = Class.extend({
     move: function (x, y) {
         dx = x - this.previous.x;
         dy = y - this.previous.y;
-
-        this.p1.x = this.p1.x + dx;
-        this.p1.y = this.p1.y + dy;
-
-        this.p2.x = this.p2.x + dx;
-        this.p2.y = this.p2.y + dy;
+        
+        this.p1.rmoveto(dx,dy);
+        this.p2.rmoveto(dx,dy);
 
         this.previous.x = x;
         this.previous.y = y;
+        
+        for (var i=0; i<this.path.length; i++) {  
+        	this.path[i].segment.moveBy(dx,dy);
+        }      			
+        
         this.shapeDraw();
     },
 
@@ -107,9 +115,12 @@ var Connector = Class.extend({
 
         this.p1.rotate(pivotAngle, pivotPoint);
         this.p2.rotate(pivotAngle, pivotPoint);
+        
+        for (var i=0; i<this.path.length; i++) {  
+        	this.path[i].segment.rotate(pivotAngle, pivotPoint);
+        } 
 
         this.shapeDraw();
-
     },
 
     match: function (connectorB) {
@@ -127,6 +138,32 @@ var Connector = Class.extend({
     connectTo: function(connectorB) {    	
     	this.edge = connectorB;
     	connectorB.edge = this;
+    },
+    
+    createPath: function(pathName, connectorB, segment) {
+    
+    	var p1 = new Object();
+    	p1.name = pathName;
+    	p1.target = connectorB;
+    	p1.segment = segment;
+    	
+    	this.path.push(p1);
+    	
+  		var p2 = new Object();
+    	p2.name = pathName;
+    	p2.target = this;
+    	p2.segment = segment.clone();
+    	p2.segment.reverse();
+    	
+    	connectorB.path.push(p2);
+    },
+    
+    isSwitch: function() {
+    	return ((this.path.length > 1) ? true : false);
+    },
+    
+    getCenter: function() {
+    	return new Point2D( (this.p1.x + this.p2.x) / 2, (this.p1.y + this.p2.y) / 2);
     },
     
     resetConnection: function() {

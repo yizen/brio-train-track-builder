@@ -10,9 +10,15 @@
     CurvedTrack.prototype.initialize = function () {
         this.Track_initialize();
 
-        this.connectors.push(new Connector("MALE", 0, 36.7, 28, 65));
-        this.connectors.push(new Connector("FEMALE", 148, 65, 176, 37));
+        var cA = new Connector("MALE", 0, 36.7, 28, 65);
+        var cB = new Connector("FEMALE", 148, 65, 176, 37);
+		
+		this.connectors.push( cA );
+        this.connectors.push( cB );
 
+		cA.createPath("main", cB, new Segment( "BEZIER", new Point2D(67.6, 9), new Point2D(112.9, 9)));
+
+		
         //Pivot Point
         this.regX = 88;
         this.regY = 23;
