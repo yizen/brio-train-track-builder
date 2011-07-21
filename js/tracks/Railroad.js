@@ -308,17 +308,20 @@ var Railroad = Class.extend({
         console.log("New Source rotation ="+newSourceRotation);          	
         */    
 		
+		this.redirectTickerToStage(true);
+		
         tween = Tween.get(this.dragGestureConnection.sourceTrack).to({
             x: sourceCoord.x,
             y: sourceCoord.y,
             rotation: newSourceRotation
-       		 }, 300)
+       		 }, 400)
         		.call(this.dragGestureConnection.sourceTrack.move, [sourceCoord.x, sourceCoord.y])
         		.call(this.dragGestureConnection.sourceTrack.rotate, [newSourceRotation])
         		.call(this.snapSelectionAlong, [this.dragGestureConnection.sourceTrack, dx,dy, deltaRotation, connectPoint.target], this)
         		.call(this.reconnectConnectorsWithinNeighbourhood, this.selection, this)
         		.call(this.extendSelection, [this.dragGestureConnection.sourceTrack], this)
-        		.call(this.showRotationDial, [this.selection], this);          
+        		.call(this.showRotationDial, [this.selection], this)
+        		.call(this.redirectTickerToStage, [false], this);          
     },
     
     snapSelectionAlong: function(sourceTrack, dx,dy, rotation, pivot) {
@@ -468,10 +471,23 @@ var Railroad = Class.extend({
     	stage.addChildAt(this.rotationDial, topmost);
     	
     	this.rotationDial.selection = selection;
-    	this.rotationDial.show();	
+    	this.rotationDial.show();
+    	Ticker.removeListener(stage);	
+    	Ticker.addListener(window);
    	},
    	
    	hideRotationDial: function() {
    		this.rotationDial.hide();
+   	},
+   	
+   	redirectTickerToStage: function( value ) {
+   		if (value) {
+   			Ticker.removeListener(window);	
+    		Ticker.addListener(stage);
+   		} else {
+   			Ticker.removeListener(stage);	
+    		Ticker.addListener(window);
+   		}
    	}
+   	
 });
