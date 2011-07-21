@@ -20,11 +20,9 @@
     }
 
     Selection.prototype.addOne = function (track) {
-    	if (this.indexOf((track)) !== -1) {
-    		//Track already exists.	
-    		return;
-    	}
-    	
+        if (track === undefined) return; //this might happen after deleting a selection
+    	if (this.indexOf((track)) !== -1)  return; //Track already exists.	    	
+
     	this.push(track);
     	track.setSelection(true);
     }
@@ -68,6 +66,7 @@
     
     Selection.prototype.clear = function() {
     	this.reset();
+    	railroad.rotationDial.hide();
     }
     
     
