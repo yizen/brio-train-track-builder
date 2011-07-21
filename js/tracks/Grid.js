@@ -55,7 +55,11 @@
     }
 
     Grid.prototype.move = function( x, y ){
-    
+
+    	if (this.regX - x < 0) return;
+    	if (this.regY - y < 0) return;
+
+    	
     	var dx = x - this.x;
     	var dy = y - this.y;
     	    

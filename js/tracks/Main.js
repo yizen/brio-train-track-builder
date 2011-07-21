@@ -23,12 +23,15 @@ function init() {
     stage.snapToPixelEnabled = true;
 
     backgroundGrid = new Grid(canvasWidth * 2, canvasHeight * 2);
-    mapView = new MapView(backgroundGrid, 0.2);
+    backgroundGrid.x = canvasWidth/2 ;
+    backgroundGrid.y = canvasHeight/2;
+    
+    mapView = new MapView(backgroundGrid, mapViewZoomLevel);
     
     //mapView.height = 100;
     //mapView.width  = 200;
-    mapView.x = canvasWidth - mapView.width - 30;
-    mapView.y = canvasHeight - mapView.height - 30;
+    mapView.x = canvasWidth  - mapView.width;
+    mapView.y = canvasHeight - mapView.height;
 
     stage.addChild(backgroundGrid);
     stage.addChild(mapView);
@@ -67,7 +70,10 @@ function tick() {
     // this set makes it so the stage only re-renders when an event handler indicates a change has happened.
     if (update) {
         update = false; // only update once
+        
+        stage.addChild(mapView); //keep the mapview on top
         mapView.refresh();
+        
         stage.update();
     }
 }

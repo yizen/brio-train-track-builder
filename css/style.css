@@ -3,6 +3,7 @@ body {
     font-family: Helvetica, 'Arial';
     color: #777;
     font-size: 11px;
+    margin: 0;
 }
 
 a {
@@ -15,11 +16,13 @@ a:hover {
 
 #canvas {
     position: absolute;
-    top: 70px;
-    left: 20px;
-    right: 20px;
-    bottom: 50px;
-    border: 5px solid #ccc;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    border: 0;
+    padding: 0;
+    margin:0;
     overflow: auto;
     background: #fff;
 }

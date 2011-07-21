@@ -39,13 +39,26 @@
         var g = this.map.graphics;
 
         g.clear();
-        g.beginFill(colors.mapViewBackground);
-        g.setStrokeStyle(3);
+        g.beginFill(colors.mapViewBackground).setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
         g.rect(0, 0, this.width / this.zoomFactor, this.height / this.zoomFactor).endFill();
 
         for (var track in railroad.tracks) {
             this.drawPath(railroad.tracks[track], g);
         }
+        
+        g.endFill();
+        
+        g.beginFill(colors.mapViewViewport).setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
+        
+        //TODO : remove dependancy to global backgroundGrid
+        var x = backgroundGrid.width/2 - backgroundGrid.x;
+        var y = backgroundGrid.height/2 - backgroundGrid.y;
+        
+        var height = window.innerHeight;
+        var width  = window.innerWidth;
+
+        g.rect(x,y,width,height);
+        g.endFill();
     }
     
     MapView.prototype.refresh = function() {
@@ -59,7 +72,7 @@
                 c1 = this.absolutizePoint ( track.connectors[connector].getCenter() );
                 c2 = this.absolutizePoint ( track.connectors[connector].path[i].target.getCenter() );
 
-                graphics.endFill().setStrokeStyle(5).beginStroke("#000");
+                graphics.endFill().setStrokeStyle(5/this.zoomFactor).beginStroke("#000");
 
                 if (track.connectors[connector].path[i].segment.type == "LINE") {
                     graphics.moveTo(c1.x, c1.y).lineTo(c2.x, c2.y).closePath();
@@ -83,11 +96,21 @@
     MapView.prototype.absolutizePoint = function (point) {
     	var newPoint = new Point2D();
     	//FIXME : remove dependancy from global backgroundGrid
-    	newPoint.x = (point.x -  backgroundGrid.x + this.gridWidth / 2);
-    	newPoint.y = (point.y -  backgroundGrid.y + this.gridHeight / 2);
+    	newPoint.x = point.x - backgroundGrid.x + backgroundGrid.regX;
+    	newPoint.y = point.y - backgroundGrid.y + backgroundGrid.regY;
     	
     	return newPoint;
     }
+    
+    MapView.prototype.onPress = function (evt) {       
+		evt.onMouseMove = function (evt) {
+        		
+        };
+		
+		evt.onMouseUp = function (evt) {
+					
+		};
+	}
 
     window.MapView = MapView;
 }(window));
