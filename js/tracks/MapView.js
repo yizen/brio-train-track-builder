@@ -90,6 +90,14 @@
 	                    c2.y);
                 }
             }
+            
+            //Draw connectors
+            graphics.endFill().setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
+            p1 = this.absolutizePoint ( track.connectors[connector].p1 );
+            p2 = this.absolutizePoint ( track.connectors[connector].p2 );
+
+            graphics.moveTo(p1.x, p1.y).lineTo(p2.x, p2.y).closePath();
+
         }
     }
     
