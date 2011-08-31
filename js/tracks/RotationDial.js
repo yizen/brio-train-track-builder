@@ -1,6 +1,8 @@
 (function (window)  {
 
 	function RotationDial() {
+		this.type = "RotationDial";
+		
 		this.initialize();
 	}
 	
@@ -33,7 +35,6 @@
 		this.visible = false;
 		this.rotation = 0;
 		setDirty();
-	
 	}
 	
 	RotationDial.prototype.onPress = function (evt) {

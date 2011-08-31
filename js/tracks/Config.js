@@ -22,3 +22,8 @@ colors.defaultDialTickStoke = "rgba(0,0,0,0.2)";
 
 colors.mapViewBackground = "rgba(255,255,255,0.4)";
 colors.mapViewViewport = "rgba(11,154,211,0.4)";
+
+colors.carMagnetPoint = "#993399";
+
+var config = new Object();
+config.pathPrecision = 10; //Discreetization of bezier and line paths, ranging from 1 to 100;

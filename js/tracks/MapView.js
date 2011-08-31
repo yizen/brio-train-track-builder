@@ -1,6 +1,7 @@
 (function (window) {
 
     function MapView(originalGrid, zoomFactor) {
+    	this.type = "MapView";
     
     	this.zoomFactor = zoomFactor;
     
@@ -68,18 +69,18 @@
     MapView.prototype.drawPath = function (track, graphics) {
 
         for (var connector in track.connectors) {
-            for (var i = 0; i < track.connectors[connector].path.length; i++) {
-                c1 = this.absolutizePoint ( track.connectors[connector].getCenter() );
-                c2 = this.absolutizePoint ( track.connectors[connector].path[i].target.getCenter() );
+            for (var i = 0; i < track.connectors[connector].paths.length; i++) {
+                var c1 = backgroundGrid.absolutizePoint ( track.connectors[connector].getCenter() );
+                var c2 = backgroundGrid.absolutizePoint ( track.connectors[connector].paths[i].target.getCenter() );
 
                 graphics.endFill().setStrokeStyle(5/this.zoomFactor).beginStroke("#000");
 
-                if (track.connectors[connector].path[i].segment.type == "LINE") {
+                if (track.connectors[connector].paths[i].segment.type == "LINE") {
                     graphics.moveTo(c1.x, c1.y).lineTo(c2.x, c2.y).closePath();
                 } else {
                 
-                	cp1 = this.absolutizePoint ( track.connectors[connector].path[i].segment.cp1 );
-                	cp2 = this.absolutizePoint ( track.connectors[connector].path[i].segment.cp2 );
+                	cp1 = backgroundGrid.absolutizePoint ( track.connectors[connector].paths[i].segment.cp1 );
+                	cp2 = backgroundGrid.absolutizePoint ( track.connectors[connector].paths[i].segment.cp2 );
 
                     graphics.moveTo(c1.x, c1.y).bezierCurveTo(
 	                    cp1.x, 
@@ -93,21 +94,12 @@
             
             //Draw connectors
             graphics.endFill().setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
-            p1 = this.absolutizePoint ( track.connectors[connector].p1 );
-            p2 = this.absolutizePoint ( track.connectors[connector].p2 );
+            var p1 = backgroundGrid.absolutizePoint ( track.connectors[connector].p1 );
+            var p2 = backgroundGrid.absolutizePoint ( track.connectors[connector].p2 );
 
             graphics.moveTo(p1.x, p1.y).lineTo(p2.x, p2.y).closePath();
 
         }
-    }
-    
-    MapView.prototype.absolutizePoint = function (point) {
-    	var newPoint = new Point2D();
-    	//FIXME : remove dependancy from global backgroundGrid
-    	newPoint.x = point.x - backgroundGrid.x + backgroundGrid.regX;
-    	newPoint.y = point.y - backgroundGrid.y + backgroundGrid.regY;
-    	
-    	return newPoint;
     }
     
     MapView.prototype.onPress = function (evt) {       

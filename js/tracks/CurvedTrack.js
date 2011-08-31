@@ -17,7 +17,6 @@
         this.connectors.push( cB );
 
 		cA.createPath("main", cB, new Segment( "BEZIER", new Point2D(67.6, 9), new Point2D(112.9, 9)));
-
 		
         //Pivot Point
         this.regX = 88;

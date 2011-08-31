@@ -1,6 +1,8 @@
 (function (window) {
 
     function Grid( gridWidth, gridHeight ) {
+    	this.type="Grid";
+    	
 	    this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
         this.initialize();
@@ -97,6 +99,14 @@
 		this.cache(0,0,this.gridWidth, this.gridHeight);		
     }
     
+    Grid.prototype.absolutizePoint = function (point) {
+    	var newPoint = new Point2D();
+    	//FIXME : remove dependancy from global backgroundGrid
+    	newPoint.x = point.x - this.x + this.regX;
+    	newPoint.y = point.y - this.y + this.regY;
+    	
+    	return newPoint;
+    }
 
     window.Grid = Grid;
 }(window));

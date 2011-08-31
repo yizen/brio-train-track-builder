@@ -182,7 +182,7 @@ var Railroad = Class.extend({
 
                     //Do our two influence zone intersects ?
                     //Distance between two centers
-                    distanceToCenter = candidateTrack.getCoord().distanceFrom(trackInSelection.getCoord());
+                    var distanceToCenter = candidateTrack.getCoord().distanceFrom(trackInSelection.getCoord());
 
                     //Are we in the influence area ?
                     if ((distanceToCenter < ((candidateTrack.influence + trackInSelection.influence)) * influenceRadiusMultiplier)) {
@@ -220,7 +220,7 @@ var Railroad = Class.extend({
 				//Check if the two connectors can be glued together, based on their types and availability
                 if (source.connectors[sourceConnector].match(target.connectors[targetConnector])) {
 					
-                    distance = source.connectors[sourceConnector].getDistance(target.connectors[targetConnector]);
+                    var distance = source.connectors[sourceConnector].getDistance(target.connectors[targetConnector]);
 
                     if (distance < bestMatchConnectors.distance) {
                         bestMatchConnectors.distance = distance;

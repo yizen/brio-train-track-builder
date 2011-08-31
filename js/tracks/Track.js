@@ -1,6 +1,6 @@
 (function (window) {
 
-    function Track() {
+    function Track() {    	
         this.initialize();
     }
 
@@ -9,6 +9,8 @@
     
     // constructor:
     Track.prototype.initialize = function () {
+    	this.type = "Track";
+
         this.Container_initialize();
         this.connectors = new Array();
         this.previousCoord = new Point2D(0, 0);
@@ -127,6 +129,47 @@
     		this.selected = value;
     		this.makeShape();
     	}
+    }
+    
+    Track.prototype.getPoints = function( pathName ) {
+    	var points = new Array();
+    	
+    	for (var connector in this.connectors) {
+    		for (var path in this.connectors[connector].paths) {
+    			if ( (pathName === undefined) || (pathName == this.connectors[connector].paths[path].name)){
+    				
+    				var segment = this.connectors[connector].paths[path].segment;
+    				var target  = this.connectors[connector].paths[path].target;
+    				var startPoint = this.connectors[connector].getCenter();
+    				var endPoint   = target.getCenter();
+    				
+    				var discreetPath = new Path();
+    				
+    				if (segment.type == "BEZIER") {
+    					discreetPath.addBezier([ 	startPoint,
+    									 			segment.cp1,
+    									 			segment.cp2,
+    									 			endPoint ]);
+    				}
+    				
+    				if (segment.type == "LINE") {
+    					discreetPath.addLine(	startPoint,
+    											endPoint );
+    				
+    				}
+    				
+    				for (var i=0; i<100; i += (100/config.pathPrecision)) {
+    					points.push(discreetPath.atT(i/100));
+    				}
+    			}
+    		}
+    	}
+    	    	    	
+    	return points;
+    }
+    
+    Track.prototype.getAllPoints = function () {
+    	return this.getPoints();
     }
 
     window.Track = Track;

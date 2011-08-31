@@ -64,6 +64,10 @@ function createSampleObjects() {
         objectsArray[i].move((Math.floor(Math.random() * 400)), (Math.floor(Math.random() * 400)));
         objectsArray[i].rotate(Math.floor(Math.random() * 361));
     }
+    
+    var car = new Car();
+    car.move(100,100);
+    stage.addChild(car);
 }
 
 function tick() {
