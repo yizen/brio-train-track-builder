@@ -13,7 +13,6 @@ var Connector = Class.extend({
         this.edge = null;
         
         this.paths = new Array();
-        this.switchPosition = null; //describe the current switch position - value is a path.
 
         this.shape = new Shape();
         this.shapeDraw();
@@ -55,12 +54,7 @@ var Connector = Class.extend({
 
     setRegistrationPoint: function (regX, regY) {
         this.p1.rmoveto(-regX,-regY);
-        this.p2.rmoveto(-regX,-regY);
-        
-         for (var i=0; i<this.paths.length; i++) {  
-        	this.paths[i].segment.moveBy(-regX, -regY);
-        }      			
-
+        this.p2.rmoveto(-regX,-regY);			
         this.shapeDraw();
     },
 
@@ -84,30 +78,16 @@ var Connector = Class.extend({
         this.p2.rmoveto(dx,dy);
 
         this.previous.x = x;
-        this.previous.y = y;
-        
-        for (var i=0; i<this.paths.length; i++) {  
-        	this.paths[i].segment.moveBy(dx,dy);
-        }      			
+        this.previous.y = y;     			
         
         this.shapeDraw();
     },
 
-    rotate: function (angle, pivotPoint, absolute) {
-
-        if (absolute === undefined) absolute = true;
-
-        var pivotAngle = angle;
-        if (absolute) {
-            pivotAngle = angle - this.angle;
-        }
-
-        if (absolute) {
-            this.angle = angle;
-        } else {
-            this.angle += angle;
-        }
-
+    rotate: function (angle, pivotPoint) {
+    
+        var pivotAngle = angle - this.angle;
+        this.angle = angle;
+        
         if (pivotPoint === undefined) {
             console.error("Connector.rotate : pivotPoint undefined");
             return;
@@ -115,10 +95,6 @@ var Connector = Class.extend({
 
         this.p1.rotate(pivotAngle, pivotPoint);
         this.p2.rotate(pivotAngle, pivotPoint);
-        
-        for (var i=0; i<this.paths.length; i++) {  
-        	this.paths[i].segment.rotate(pivotAngle, pivotPoint);
-        } 
 
         this.shapeDraw();
     },
@@ -138,27 +114,6 @@ var Connector = Class.extend({
     connectTo: function(connectorB) {    	
     	this.edge = connectorB;
     	connectorB.edge = this;
-    },
-    
-    createPath: function(pathName, connectorB, segment) {
-    	var p1 = new Object();
-    	p1.name = pathName;
-    	p1.target = connectorB;
-    	p1.segment = segment;
-    	
-    	this.paths.push(p1);
-    	
-  		var p2 = new Object();
-    	p2.name = pathName;
-    	p2.target = this;
-    	p2.segment = segment.clone();
-    	p2.segment.reverse();
-    	
-    	connectorB.paths.push(p2);
-    },
-    
-    isSwitch: function() {
-    	return ((this.paths.length > 1) ? true : false);
     },
     
     getCenter: function() {

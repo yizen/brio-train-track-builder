@@ -22,6 +22,10 @@
         for (var element in this.connectors)	{	
 			this.connectors[element].setRegistrationPoint(this.regX, this.regY);
 		};
+		
+		for (var element in this.segments)	{	
+			this.segments[element].setRegistrationPoint(this.regX, this.regY);
+		};
 
         this.trackShape = new Shape();
         this.trackShape.snapToPixel = true;

@@ -16,10 +16,9 @@
         
         this.connectors.push(cA, cB, cC);
         
-        cA.createPath("main", cB, new Segment( "LINE"));
-        cB.createPath("down", cC, new Segment( "BEZIER", new Point2D(66.5,20), new Point2D(44,88) ));
-        cB.switchPosition = "main";
-
+        this.addSegment(new Segment("LINE", cA, cB));
+		this.addSegment(new Segment("BEZIER", cB, cC, new Point2D(66.5,20), new Point2D(44,88) ));
+        
         //Pivot Point
         this.regX = 80;
         this.regY = 67;
@@ -28,6 +27,10 @@
         
         for (var element in this.connectors)	{	
 			this.connectors[element].setRegistrationPoint(this.regX, this.regY);
+		};
+		
+		for (var element in this.segments)	{	
+			this.segments[element].setRegistrationPoint(this.regX, this.regY);
 		};
 
         this.trackShape = new Shape();

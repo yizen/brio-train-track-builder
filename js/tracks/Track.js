@@ -13,10 +13,10 @@
 
         this.Container_initialize();
         this.connectors = new Array();
-        this.previousCoord = new Point2D(0, 0);
         this.scaleX = this.scaleY = this.scale = 1;
         this.vertex = null;
         this.selected = false;
+        this.segments = new Array();
     }
     
     Track.prototype.getCoord = function() {
@@ -86,6 +86,10 @@
         for (var element in this.connectors) {
             this.connectors[element].move(x, y);
         };  
+        
+        for (var i=0; i<this.segments.length; i++) {  
+        	this.segments[i].move(x,y);
+        } 
     }
     
     Track.prototype.moveBy = function( dx, dy) {
@@ -99,12 +103,18 @@
     	railroad.selection.move(dx, dy);
     }
 
-    Track.prototype.rotate = function (angle) { //relative by default
-        this.rotation = angle;
+    Track.prototype.rotate = function (angle) { 
+    	this.rotation = angle;
+        
         var pivotPoint = new Point2D(this.x, this.y);
+        
         for (var element in this.connectors) {
             this.connectors[element].rotate(angle, pivotPoint);
         };
+              
+        for (var i=0; i<this.segments.length; i++) {  
+        	this.segments[i].rotate(angle, pivotPoint);
+        } 
     }
     
     Track.prototype.getFillColor = function() {
@@ -131,45 +141,40 @@
     	}
     }
     
-    Track.prototype.getPoints = function( pathName ) {
+    Track.prototype.addSegment = function (segment) {
+    	this.segments.push(segment);
+    }
+    
+    Track.prototype.getAllPoints = function( pathName ) {
     	var points = new Array();
     	
-    	for (var connector in this.connectors) {
-    		for (var path in this.connectors[connector].paths) {
-    			if ( (pathName === undefined) || (pathName == this.connectors[connector].paths[path].name)){
+    	for (var segmentIndex in this.segments) {
+    		var segment = this.segments[segmentIndex];
+    		
+    		var startPoint = segment.connectorA.getCenter();
+    		var endPoint   = segment.connectorB.getCenter();
     				
-    				var segment = this.connectors[connector].paths[path].segment;
-    				var target  = this.connectors[connector].paths[path].target;
-    				var startPoint = this.connectors[connector].getCenter();
-    				var endPoint   = target.getCenter();
+    		var discreetPath = new Path();
     				
-    				var discreetPath = new Path();
+    		if (segment.type == "BEZIER") {
+    			discreetPath.addBezier([ 	startPoint,
+    									 	segment.cp1,
+    									 	segment.cp2,
+    									 	endPoint ]);
+    		}
     				
-    				if (segment.type == "BEZIER") {
-    					discreetPath.addBezier([ 	startPoint,
-    									 			segment.cp1,
-    									 			segment.cp2,
-    									 			endPoint ]);
-    				}
+    		if (segment.type == "LINE") {
+    			discreetPath.addLine(	startPoint,
+    									endPoint );
     				
-    				if (segment.type == "LINE") {
-    					discreetPath.addLine(	startPoint,
-    											endPoint );
+    		}
     				
-    				}
-    				
-    				for (var i=0; i<100; i += (100/config.pathPrecision)) {
-    					points.push(discreetPath.atT(i/100));
-    				}
-    			}
+    		for (var i=0; i<100; i += (100/config.pathPrecision)) {
+    			points.push(discreetPath.atT(i/100));
     		}
     	}
     	    	    	
     	return points;
-    }
-    
-    Track.prototype.getAllPoints = function () {
-    	return this.getPoints();
     }
 
     window.Track = Track;

@@ -14,7 +14,7 @@
 		var cB = new Connector("MALE", 90, 40, 90, 0);
         this.connectors.push( cA, cB );
         
-        cA.createPath("main", cB, new Segment( "LINE"));
+        this.addSegment(new Segment("LINE", cA, cB));
 
         //Pivot Point
         this.regX = 50;
@@ -25,7 +25,11 @@
         for (var element in this.connectors)	{	
 			this.connectors[element].setRegistrationPoint(this.regX, this.regY);
 		};
-
+		
+		for (var element in this.segments)	{	
+			this.segments[element].setRegistrationPoint(this.regX, this.regY);
+		};
+		
         this.trackShape = new Shape();
         this.trackShape.snapToPixel = true;
 
