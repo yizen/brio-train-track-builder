@@ -68,6 +68,7 @@
     	this.x = x;
     	this.y = y;
     	
+    	//FIXME : we should move all objects
     	railroad.moveAllTracks(dx, dy);
     }
     

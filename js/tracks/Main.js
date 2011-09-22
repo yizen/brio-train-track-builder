@@ -7,7 +7,6 @@ var update = true;
 
 var railroad;
 
-
 function init() {
     //associate the canvas with the stage
     canvas = document.getElementById("trackCanvas");
@@ -35,7 +34,7 @@ function init() {
 
     stage.addChild(backgroundGrid);
     stage.addChild(mapView);
-
+    
     railroad = new Railroad();
 }
 

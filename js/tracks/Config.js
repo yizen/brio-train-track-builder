@@ -25,5 +25,8 @@ colors.mapViewViewport = "rgba(11,154,211,0.4)";
 
 colors.carMagnetPoint = "#993399";
 
+colors.arrow = "#204665";
+colors.arrowHover = "#F1F3AE";
+
 var config = new Object();
 config.pathPrecision = 10; //Discreetization of bezier and line paths, ranging from 1 to 100;

@@ -170,7 +170,9 @@
     		}
     				
     		for (var i=0; i<100; i += (100/config.pathPrecision)) {
-    			points.push(discreetPath.atT(i/100));
+    			var p = discreetPath.atT(i/100);
+    			p.segment = segment;
+    			points.push(p);
     		}
     	}
     	    	    	

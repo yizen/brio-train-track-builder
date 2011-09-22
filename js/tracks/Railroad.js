@@ -22,6 +22,13 @@ var Railroad = Class.extend({
         
         this.rotationDial = new RotationDial();
  		stage.addChild(this.rotationDial);
+ 		
+ 		//Arrows to change train direction
+    	this.forwardArrow  = new Arrow();
+		this.backwardArrow = new Arrow();
+	
+    	stage.addChild(this.forwardArrow);
+		stage.addChild(this.backwardArrow);
     },
 	
 	/**
