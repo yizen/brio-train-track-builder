@@ -10,8 +10,8 @@
     StraightTrack.prototype.initialize = function () {
         this.Track_initialize();
 
-		var cA = new Connector("FEMALE", 0, 0, 0, 40);
-		var cB = new Connector("MALE", 90, 40, 90, 0);
+		var cA = new Connector(this, "FEMALE", 0, 0, 0, 40);
+		var cB = new Connector(this, "MALE", 90, 40, 90, 0);
         this.connectors.push( cA, cB );
         
         this.addSegment(new Segment("LINE", cA, cB));

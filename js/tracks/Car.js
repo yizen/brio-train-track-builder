@@ -190,45 +190,60 @@
     	
     	if (connector == this.snappedSegment.connectorB) {
     		this.pointsInPath = this.snappedSegment.getPoints(this.pointsInPath);
-    		console.log("To CB "+this.indexInPath+" / "+this.pointsInPath.length);
     	}
     	
     	if (connector == this.snappedSegment.connectorA) {
     		this.pointsInPath = this.snappedSegment.getPoints(this.pointsInPath, true);
     		this.indexInPath = (100/config.pathPrecision) - this.indexInPath ;
-    		console.log("To CA "+this.indexInPath+" / "+this.pointsInPath.length);
     	}
     	
     	this.moving = true;
+    	this.makeShape();
      }
     
    	Car.prototype.tick = function() {
    		if (!this.moving) return;
-   		var c = this;
-   		carIntervalId = window.setInterval(c.step(), 3000);
+		//   	var c = this;
+		//   	carIntervalId = window.setInterval(c.step(), config.speed);
+		this.step();
    	}
 	
 	Car.prototype.step = function() {
+		console.log("CURRENT STEP :"+this.indexInPath);
 		if (this.indexInPath >= (100/config.pathPrecision)-1) {
-			console.log("STOP STEP @"+this.indexInPath);
 			this.moving = false;
-			clearInterval(carIntervalId);
+			console.log("END OF TRACK");
+			//window.clearInterval(carIntervalId);
 			this.snappedPoint = new Point2D(this.x, this.y);
 			this.snappedPosition = this.indexInPath;
-			this.makeShape();
-			return;
+			
+			if (this.targetConnector.edge != null) {
+				console.log("MOVING ON TO TRACK "+this.targetConnector.edge.track.id);
+				this.requestNextTrack();
+			} else {
+				console.log("NOWHERE ELSE TO GO : STOP");
+				this.makeShape();
+			}
+		} else {
+			this.indexInPath++;		
+			this.move(this.pointsInPath[this.indexInPath].x, this.pointsInPath[this.indexInPath].y);
 		}
-		
-		this.indexInPath++;
-		
-		console.log("STEP "+this.indexInPath+" WILL STOP @ "+ 100/config.pathPrecision);
-		this.move(this.pointsInPath[this.indexInPath].x, this.pointsInPath[this.indexInPath].y);
 	}
 	
-	Car.prototype.changeTrack = function() {
-		if (this.targetConnector.edge == null) {
-			console.log("NOT CONNECTED");
-			return;
+	Car.prototype.requestNextTrack = function() {
+		var targetTrack = this.targetConnector.edge.track;
+		this.snappedSegment  = targetTrack.getSegmentTo( this.targetConnector.edge);
+		
+		if (this.targetConnector.edge == this.snappedSegment.connectorA) {
+			console.log("GOING TO CONNECTOR A");
+			this.snappedPosition = 0;
+			this.start( this.snappedSegment.connectorB );
+		}
+		
+		if (this.targetConnector.edge == this.snappedSegment.connectorB) {
+			console.log("GOING TO CONNECTOR B");
+			this.snappedPosition = (100/config.pathPrecision);
+			this.start( this.snappedSegment.connectorA );
 		}
 	}
 	

@@ -10,8 +10,8 @@
     CurvedTrack.prototype.initialize = function () {
         this.Track_initialize();
 
-        var cA = new Connector("MALE", 0, 36.7, 28, 65);
-        var cB = new Connector("FEMALE", 148, 65, 176, 37);
+        var cA = new Connector(this, "MALE", 0, 36.7, 28, 65);
+        var cB = new Connector(this, "FEMALE", 148, 65, 176, 37);
 		
 		this.connectors.push( cA );
         this.connectors.push( cB );

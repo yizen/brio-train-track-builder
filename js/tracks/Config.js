@@ -1,5 +1,5 @@
 var debug = new Object();
-debug.showids 	= false; 
+debug.showids 	= true; 
 debug.magnetism	= false;
 debug.connector	= false;
 debug.snapTo	= false;
@@ -23,7 +23,7 @@ colors.mapViewBackground = "rgba(255,255,255,0.4)";
 colors.mapViewViewport = "rgba(11,154,211,0.4)";
 
 colors.carMagnetPoint = "#993399";
-colors.carMoving = "#FFFFFF";
+colors.carMoving = "#FF00FF";
 
 colors.arrow = "#204665";
 colors.arrowHover = "#F1F3AE";
@@ -31,6 +31,7 @@ colors.arrowHover = "#F1F3AE";
 var config = new Object();
 config.pathPrecision = 10; //Discreetization of bezier and line paths, ranging from 1 to 100;
 config.maxFPS = 30;
+config.speed = 3000;
 
 config.influenceRadiusMultiplier = 2.3;
 config.influenceRadiusForConnectors = 4;

@@ -1,6 +1,7 @@
 var Connector = Class.extend({
 
-    init: function (type, x1, y1, x2, y2) {
+    init: function (track, type, x1, y1, x2, y2) {
+        this.track = track;
         this.type = type;
 
         this.p1 = new Point2D(x1, y1);

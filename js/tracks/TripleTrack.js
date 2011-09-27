@@ -10,9 +10,9 @@
     TripleTrack.prototype.initialize = function () {
         this.Track_initialize();
 
-        cA = new Connector("FEMALE", 0, 0, 0, 40);
-        cB = new Connector("MALE", 150, 40, 150, 0);
-        cC = new Connector("MALE", 25, 125, 65, 125);
+        cA = new Connector(this, "FEMALE", 0, 0, 0, 40);
+        cB = new Connector(this, "MALE", 150, 40, 150, 0);
+        cC = new Connector(this, "MALE", 25, 125, 65, 125);
         
         this.connectors.push(cA, cB, cC);
         

@@ -145,6 +145,13 @@
     	this.segments.push(segment);
     }
     
+    Track.prototype.getSegmentTo = function(connector) {
+    	for (var i=0; i<this.segments.length; i++) {  
+    		if (this.segments[i].connectorA == connector) return this.segments[i];
+    		if (this.segments[i].connectorB == connector) return this.segments[i];
+      	} 
+    }
+    
     Track.prototype.getAllPoints = function(  ) {    	
     	var points = new Array();
     	for (var segmentIndex in this.segments) {
