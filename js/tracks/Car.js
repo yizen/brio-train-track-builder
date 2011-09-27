@@ -7,7 +7,7 @@
     }
 
     Car.prototype = new Container();
-    Car.prototype.Container_initialize = Car.prototype.initialize; //unique to avoid overiding base class
+    Car.prototype.Container_initialize = Car.prototype.initialize; //unique to avoid overriding base class
     // constructor:
     Car.prototype.initialize = function () {
         this.Container_initialize();
@@ -70,10 +70,14 @@
 			if (!draggedCar.snapped) return;
 						
 			//init arrows
-			railroad.forwardArrow.targetConnector = draggedCar.snappedSegment.connectorA;
+			railroad.forwardArrow.targetConnector  = draggedCar.snappedSegment.connectorA;
 			railroad.backwardArrow.targetConnector = draggedCar.snappedSegment.connectorB;
-			railroad.forwardArrow.car = draggedCar;
+			railroad.forwardArrow.car  = draggedCar;
 			railroad.backwardArrow.car = draggedCar;
+			
+			//TODO : Check if we're at the beginning or the end of a track, 
+			//       and if this is the case evaluate if we have another track connected
+			//       or if we're pointing to the void
 			
 			//display arrows
 			railroad.forwardArrow.x  = draggedCar.x;
@@ -189,13 +193,17 @@
     	this.targetConnector = connector;
     	
     	if (connector == this.snappedSegment.connectorB) {
+    		console.log("STARTED : GOING TO CONNECTOR B");
     		this.pointsInPath = this.snappedSegment.getPoints(this.pointsInPath);
     	}
     	
     	if (connector == this.snappedSegment.connectorA) {
+    		console.log("STARTED : GOING TO CONNECTOR A");
     		this.pointsInPath = this.snappedSegment.getPoints(this.pointsInPath, true);
     		this.indexInPath = (100/config.pathPrecision) - this.indexInPath ;
     	}
+    	
+    	console.log("------- "+this.indexInPath+" --------");
     	
     	this.moving = true;
     	this.makeShape();
@@ -209,19 +217,27 @@
    	}
 	
 	Car.prototype.step = function() {
-		console.log("CURRENT STEP :"+this.indexInPath);
+		console.log("CURRENT STEP :"+this.indexInPath+" ON TRACK NUMBER "+this.targetConnector.track.id);
 		if (this.indexInPath >= (100/config.pathPrecision)-1) {
 			this.moving = false;
 			console.log("END OF TRACK");
 			//window.clearInterval(carIntervalId);
 			this.snappedPoint = new Point2D(this.x, this.y);
-			this.snappedPosition = this.indexInPath;
 			
 			if (this.targetConnector.edge != null) {
 				console.log("MOVING ON TO TRACK "+this.targetConnector.edge.track.id);
 				this.requestNextTrack();
 			} else {
 				console.log("NOWHERE ELSE TO GO : STOP");
+				console.log("-------------------------");
+				
+				//FIXME : this confusing : we need to isolate the "end of movement" and "snapping" logic.
+				if (this.targetConnector == this.snappedSegment.connectorA) {	
+					this.snappedPosition = 0;
+				} else {
+					this.snappedPosition = 10;
+				}
+				
 				this.makeShape();
 			}
 		} else {
@@ -235,13 +251,13 @@
 		this.snappedSegment  = targetTrack.getSegmentTo( this.targetConnector.edge);
 		
 		if (this.targetConnector.edge == this.snappedSegment.connectorA) {
-			console.log("GOING TO CONNECTOR A");
+			console.log("CONNECTION : GOING TO CONNECTOR B OF TRACK "+this.targetConnector.edge.track.id);
 			this.snappedPosition = 0;
 			this.start( this.snappedSegment.connectorB );
 		}
 		
 		if (this.targetConnector.edge == this.snappedSegment.connectorB) {
-			console.log("GOING TO CONNECTOR B");
+			console.log("CONNECTION : GOING TO CONNECTOR A OF TRACK "+this.targetConnector.edge.track.id);
 			this.snappedPosition = (100/config.pathPrecision);
 			this.start( this.snappedSegment.connectorA );
 		}
