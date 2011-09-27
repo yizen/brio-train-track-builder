@@ -5,7 +5,7 @@
     }
 
     Track.prototype = new Container();
-    Track.prototype.Container_initialize = Track.prototype.initialize; //unique to avoid overiding base class
+    Track.prototype.Container_initialize = Track.prototype.initialize; //unique to avoid overriding base class
     
     // constructor:
     Track.prototype.initialize = function () {
@@ -145,37 +145,13 @@
     	this.segments.push(segment);
     }
     
-    Track.prototype.getAllPoints = function( pathName ) {
+    Track.prototype.getAllPoints = function(  ) {    	
     	var points = new Array();
-    	
     	for (var segmentIndex in this.segments) {
     		var segment = this.segments[segmentIndex];
     		
-    		var startPoint = segment.connectorA.getCenter();
-    		var endPoint   = segment.connectorB.getCenter();
-    				
-    		var discreetPath = new Path();
-    				
-    		if (segment.type == "BEZIER") {
-    			discreetPath.addBezier([ 	startPoint,
-    									 	segment.cp1,
-    									 	segment.cp2,
-    									 	endPoint ]);
-    		}
-    				
-    		if (segment.type == "LINE") {
-    			discreetPath.addLine(	startPoint,
-    									endPoint );
-    				
-    		}
-    				
-    		for (var i=0; i<100; i += (100/config.pathPrecision)) {
-    			var p = discreetPath.atT(i/100);
-    			p.segment = segment;
-    			points.push(p);
-    		}
-    	}
-    	    	    	
+    		points = segment.getPoints(points);
+    	}    	    	
     	return points;
     }
 

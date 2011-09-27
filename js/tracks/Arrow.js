@@ -15,22 +15,29 @@
 		this.visible = false;	
 		this.currentColor = colors.arrow;	
 		this.makeShape();
+		this.car = null;
+		this.targetConnector = null;
 	}
 	
 	Arrow.prototype.show = function() {	
 		topmost = stage.getNumChildren();
     	stage.addChildAt(this, topmost);
+    	this.alpha = 0.8;
 		this.visible = true;
 		setDirty();
 	}
 	
 	Arrow.prototype.hide = function () {
 		this.visible = false;
+		this.car = null;
+		this.targetConnector = null;
 		setDirty();
 	}
 	
 	Arrow.prototype.onClick = function (evt) {
-		console.log("ARROW CLICKED");
+		railroad.hideArrows();
+		this.car.start(this.targetConnector);
+		setDirty();
 	}
 	
 	Arrow.prototype.onMouseOver = function() {

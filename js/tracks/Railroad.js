@@ -184,7 +184,7 @@ var Railroad = Class.extend({
                         this.debugView.graphics.beginFill("rgba(255,237,0,0.1)").drawCircle(
                         	trackInSelection.getCoord().x, 
                         	trackInSelection.getCoord().y, 
-                        	trackInSelection.influence * influenceRadiusMultiplier);
+                        	trackInSelection.influence * config.influenceRadiusMultiplier);
                     }
 
                     //Do our two influence zone intersects ?
@@ -192,13 +192,13 @@ var Railroad = Class.extend({
                     var distanceToCenter = candidateTrack.getCoord().distanceFrom(trackInSelection.getCoord());
 
                     //Are we in the influence area ?
-                    if ((distanceToCenter < ((candidateTrack.influence + trackInSelection.influence)) * influenceRadiusMultiplier)) {
+                    if ((distanceToCenter < ((candidateTrack.influence + trackInSelection.influence)) * config.influenceRadiusMultiplier)) {
 
                         if (debug.magnetism) {
                             this.debugView.graphics.beginFill("rgba(0,0,0,0.1)").drawCircle(
                             	candidateTrack.getCoord().x, 
                             	candidateTrack.getCoord().y, 
-                            	candidateTrack.influence * influenceRadiusMultiplier);
+                            	candidateTrack.influence * config.influenceRadiusMultiplier);
                         }
 
                         neighbours.push(candidateTrack);
@@ -317,7 +317,7 @@ var Railroad = Class.extend({
 		
 		this.redirectTickerToStage(true);
 		
-        tween = Tween.get(this.dragGestureConnection.sourceTrack).to({
+        var tween = Tween.get(this.dragGestureConnection.sourceTrack).to({
             x: sourceCoord.x,
             y: sourceCoord.y,
             rotation: newSourceRotation
@@ -415,8 +415,8 @@ var Railroad = Class.extend({
 	                    for (var targetConnector in target.connectors) {
 	                        if (source.connectors[sourceConnector].match(target.connectors[targetConnector])) {
 	                            if (
-	                            		source.connectors[sourceConnector].p1.closeTo(target.connectors[targetConnector].p2, influenceRadiusForConnectors) || 
-	                            		source.connectors[sourceConnector].p1.closeTo(target.connectors[targetConnector].p1, influenceRadiusForConnectors)) {
+	                            		source.connectors[sourceConnector].p1.closeTo(target.connectors[targetConnector].p2, config.influenceRadiusForConnectors) || 
+	                            		source.connectors[sourceConnector].p1.closeTo(target.connectors[targetConnector].p1, config.influenceRadiusForConnectors)) {
 	                                //Match !
 	                                railroad.connect(source.connectors[sourceConnector], target.connectors[targetConnector], source, target);
 	                            }
@@ -485,6 +485,15 @@ var Railroad = Class.extend({
    	
    	hideRotationDial: function() {
    		this.rotationDial.hide();
+   	},
+   	
+   	hideArrows: function() {
+   		
+   		this.redirectTickerToStage(true);
+
+   		var tween1 = Tween.get(this.forwardArrow).to({ alpha: 0 }, 300).call(this.forwardArrow.hide, [true], this); 
+   		var tween2 = Tween.get(this.backwardArrow).to({ alpha: 0 }, 300).call(this.backwardArrow.hide, [true], this)
+   		.call(this.redirectTickerToStage, [false], this);; 
    	},
    	
    	redirectTickerToStage: function( value ) {

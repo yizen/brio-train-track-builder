@@ -15,7 +15,7 @@
     }
 
     MapView.prototype = new Container();
-    MapView.prototype.Container_initialize = MapView.prototype.initialize; //unique to avoid overiding base class
+    MapView.prototype.Container_initialize = MapView.prototype.initialize; //unique to avoid overriding base class
     // constructor:
     MapView.prototype.initialize = function () {
         this.Container_initialize();

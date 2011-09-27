@@ -12,8 +12,6 @@ var Connector = Class.extend({
 
         this.edge = null;
         
-        this.paths = new Array();
-
         this.shape = new Shape();
         this.shapeDraw();
 

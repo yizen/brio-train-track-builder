@@ -9,7 +9,7 @@
     }
 
     Grid.prototype = new Shape();
-    Grid.prototype.Shape_initialize = Grid.prototype.initialize; //unique to avoid overiding base class
+    Grid.prototype.Shape_initialize = Grid.prototype.initialize; //unique to avoid overriding base class
     // constructor:
     Grid.prototype.initialize = function () {
         this.Shape_initialize();
@@ -76,13 +76,13 @@
     	var g = this.graphics;
 		
 		g.clear();
-		g.beginFill("#0b9ad3");
+		g.beginFill(colors.gridBackground);
 		g.rect(0,0,this.gridWidth,this.gridHeight);
 		
 		for(var i=0; i<this.gridWidth/10; i++) {
 			g.setStrokeStyle(1);
 			
-			( i%5 ) ? color="#21a2d6" : color="#33aada";
+			( i%5 ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
 
         	g.beginStroke(color);
         	g.moveTo(i*20,0).lineTo(i*20,this.gridHeight);
@@ -91,7 +91,7 @@
 		for (var j=0; j< this.gridHeight / 20; j++) {
 			g.setStrokeStyle(1);
 			
-			( j%5 ) ? color="#21a2d6" : color="#33aada";
+			( j%5 ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
 
         	g.beginStroke(color);
         	g.moveTo(0,j*20).lineTo(this.gridWidth,j*20);
@@ -102,7 +102,7 @@
     
     Grid.prototype.absolutizePoint = function (point) {
     	var newPoint = new Point2D();
-    	//FIXME : remove dependancy from global backgroundGrid
+    	//FIXME : remove dependency from global backgroundGrid
     	newPoint.x = point.x - this.x + this.regX;
     	newPoint.y = point.y - this.y + this.regY;
     	

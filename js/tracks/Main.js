@@ -25,7 +25,7 @@ function init() {
     backgroundGrid.x = canvasWidth/2 ;
     backgroundGrid.y = canvasHeight/2;
     
-    mapView = new MapView(backgroundGrid, mapViewZoomLevel);
+    mapView = new MapView(backgroundGrid, config.mapViewZoomLevel);
     
     //mapView.height = 100;
     //mapView.width  = 200;
@@ -91,7 +91,7 @@ $(function () {
     createSampleObjects();
 
     Ticker.addListener(window);
-    Ticker.setFPS(maxFPS);
+    Ticker.setFPS(config.maxFPS);
     
     $(window).jkey('backspace',Keys.deleteSelection);
 });
