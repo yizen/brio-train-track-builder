@@ -200,8 +200,7 @@
     	}
     	
     	this.moving = true;
-    	this.
-    }
+     }
     
    	Car.prototype.tick = function() {
    		if (!this.moving) return;
@@ -230,7 +229,7 @@
 		if (this.targetConnector.edge == null) {
 			console.log("NOT CONNECTED");
 			return;
-		}	
+		}
 	}
 	
     window.Car = Car;
