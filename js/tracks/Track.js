@@ -17,6 +17,7 @@
         this.vertex = null;
         this.selected = false;
         this.segments = new Array();
+        this.switches = new Array();
     }
     
     Track.prototype.getCoord = function() {
@@ -146,10 +147,32 @@
     }
     
     Track.prototype.getSegmentTo = function(connector) {
-    	for (var i=0; i<this.segments.length; i++) {  
-    		if (this.segments[i].connectorA == connector) return this.segments[i];
-    		if (this.segments[i].connectorB == connector) return this.segments[i];
-      	} 
+    	var possibleSegments = new Array();
+   	
+    	for (var i=0; i<this.segments.length; i++) {
+    		if ((this.segments[i].connectorA == connector)||(this.segments[i].connectorB == connector)){
+    			possibleSegments.push(this.segments[i]);
+    		}
+      	}
+      	
+      	if (possibleSegments.length == 0) {
+      		console.error("Track.prototype.getSegmentTo : connector without any segment");
+      		return; 
+      	}
+      	
+      	//Not a switch
+		if (possibleSegments.length == 1) {
+			return possibleSegments[0]; 
+		} 
+		     	
+      	//If we have multiple segments, we need to check the switch position
+      	var currentSwitchConnectorTarget = this.switches[connector].getCurrentTarget();
+      
+      	for (var j=0; j<possibleSegments.length; j++) {
+      		if (possibleSegments[j].hasConnectors(connector,currentSwitchConnectorTarget)) return possibleSegments[j];
+      	}
+      	
+      	console.error("Track.prototype.getSegmentTo : segment not found");
     }
     
     Track.prototype.getAllPoints = function(  ) {    	
@@ -161,6 +184,11 @@
     	}    	    	
     	return points;
     }
+    
+    Track.prototype.addSwitch = function( source, connectorsArray, position ) {
+    	this.switches[ source ] = new Switch( connectorsArray, position );
+    }
+    
 
     window.Track = Track;
 }(window));

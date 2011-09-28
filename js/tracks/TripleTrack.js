@@ -6,7 +6,7 @@
 
     TripleTrack.prototype = new Track();
 
-    TripleTrack.prototype.Track_initialize = TripleTrack.prototype.initialize; //unique to avoid overiding base class
+    TripleTrack.prototype.Track_initialize = TripleTrack.prototype.initialize; //unique to avoid overriding base class
     TripleTrack.prototype.initialize = function () {
         this.Track_initialize();
 
@@ -18,6 +18,8 @@
         
         this.addSegment(new Segment("LINE", cA, cB));
 		this.addSegment(new Segment("BEZIER", cB, cC, new Point2D(66.5,20), new Point2D(44,88) ));
+		
+		this.addSwitch(cB, [cA, cC], 0);
         
         //Pivot Point
         this.regX = 80;
@@ -98,7 +100,12 @@
         h.drawCircle(this.regX, this.regY, 4);
 
         setDirty();
+    },
+    
+    TripleTrack.prototype.onDoubleClick = function(evt) {
+    	this.switches[cB].switch();
     }
+    	
 
     window.TripleTrack = TripleTrack;
 }(window));

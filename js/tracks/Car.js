@@ -188,6 +188,7 @@
     		return;
     	}
     	
+    	console.log("STARTING @ SNAPPED POSITION :"+this.snappedPosition);
     	this.pointsInPath = new Array();
     	this.indexInPath  = this.snappedPosition;
     	this.targetConnector = connector;
@@ -200,7 +201,7 @@
     	if (connector == this.snappedSegment.connectorA) {
     		console.log("STARTED : GOING TO CONNECTOR A");
     		this.pointsInPath = this.snappedSegment.getPoints(this.pointsInPath, true);
-    		this.indexInPath = (100/config.pathPrecision) - this.indexInPath ;
+    		this.indexInPath = config.pathPrecision - this.indexInPath ;
     	}
     	
     	console.log("------- "+this.indexInPath+" --------");
@@ -218,7 +219,7 @@
 	
 	Car.prototype.step = function() {
 		console.log("CURRENT STEP :"+this.indexInPath+" ON TRACK NUMBER "+this.targetConnector.track.id);
-		if (this.indexInPath >= (100/config.pathPrecision)-1) {
+		if (this.indexInPath >= config.pathPrecision-1) {
 			this.moving = false;
 			console.log("END OF TRACK");
 			//window.clearInterval(carIntervalId);
@@ -235,7 +236,7 @@
 				if (this.targetConnector == this.snappedSegment.connectorA) {	
 					this.snappedPosition = 0;
 				} else {
-					this.snappedPosition = 10;
+					this.snappedPosition = config.pathPrecision;
 				}
 				
 				this.makeShape();
@@ -258,7 +259,7 @@
 		
 		if (this.targetConnector.edge == this.snappedSegment.connectorB) {
 			console.log("CONNECTION : GOING TO CONNECTOR A OF TRACK "+this.targetConnector.edge.track.id);
-			this.snappedPosition = (100/config.pathPrecision);
+			this.snappedPosition = config.pathPrecision;
 			this.start( this.snappedSegment.connectorA );
 		}
 	}

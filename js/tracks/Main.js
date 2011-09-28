@@ -67,6 +67,10 @@ function createSampleObjects() {
     var car = new Car();
     car.move(100,100);
     stage.addChild(car);
+    
+    var car2 = new Car();
+    car2.move(200,100);
+    stage.addChild(car2);
 }
 
 function tick() {

@@ -73,6 +73,12 @@ Segment.prototype.rotate = function(angle, pivotPoint) {
 	this.cp2.rotate(pivotAngle, pivotPoint);
 };
 
+Segment.prototype.hasConnectors = function(c1, c2) {
+	if ((c1 == this.connectorA) && (c2 == this.connectorB)) return true;
+	if ((c2 == this.connectorA) && (c1 == this.connectorB)) return true;
+	return false;
+};
+
 Segment.prototype.getPoints = function(points, reverse) {
 
 	if (points === undefined) var points = new Array();
