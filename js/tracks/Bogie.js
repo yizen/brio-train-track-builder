@@ -1,22 +1,22 @@
 (function (window) {
 
-    function Car() {
-    	this.type = "Car";
+    function Bogie() {
+    	this.type = "Bogie";
     
     	this.initialize();
     }
 
-    Car.prototype = new Container();
-    Car.prototype.Container_initialize = Car.prototype.initialize; //unique to avoid overriding base class
+    Bogie.prototype = new Container();
+    Bogie.prototype.Container_initialize = Bogie.prototype.initialize; //unique to avoid overriding base class
     // constructor:
-    Car.prototype.initialize = function () {
+    Bogie.prototype.initialize = function () {
         this.Container_initialize();
 
-        this.car = new Shape();
-        this.car.snapToPixel = true;
+        this.bogie = new Shape();
+        this.bogie.snapToPixel = true;
         
         this.makeShape();
-        this.addChild(this.car);
+        this.addChild(this.bogie);
         
         this.snappedPoint = new Point2D();
  		this.snappedSegment = new Object();
@@ -28,12 +28,12 @@
 		this.moving = false;
     }
 
-    Car.prototype.makeShape = function () {
-        var g = this.car.graphics;
+    Bogie.prototype.makeShape = function () {
+        var g = this.bogie.graphics;
 
         g.clear();
-        this.moving ? g.beginFill(colors.carMoving) : g.beginFill(colors.carMagnetPoint);
-        g.drawCircle(0, 0, 20);
+        this.moving ? g.beginFill(colors.bogieMoving) : g.beginFill(colors.bogieMagnetPoint);
+        g.drawCircle(0, 0, 10);
         g.endFill();
         
         if (this.snapped) {
@@ -45,7 +45,7 @@
         setDirty();
     }
     
-    Car.prototype.onPress = function (evt) { 
+    Bogie.prototype.onPress = function (evt) { 
     
     	railroad.hideRotationDial();
     
@@ -57,41 +57,41 @@
             y: this.y - evt.stageY
         };
         
-        var draggedCar = this; //The dragged element.
+        var draggedBogie = this; //The dragged element.
           
 		evt.onMouseMove = function (ev) {
         	x = ev.stageX + offset.x;
             y = ev.stageY + offset.y;
             
-            draggedCar.moveWithMagnetism(x,y);
+            draggedBogie.moveWithMagnetism(x,y);
         };
 		
 		evt.onMouseUp = function (ev) {
-			if (!draggedCar.snapped) return;
+			if (!draggedBogie.snapped) return;
 						
 			//init arrows
-			railroad.forwardArrow.targetConnector  = draggedCar.snappedSegment.connectorA;
-			railroad.backwardArrow.targetConnector = draggedCar.snappedSegment.connectorB;
-			railroad.forwardArrow.car  = draggedCar;
-			railroad.backwardArrow.car = draggedCar;
+			railroad.forwardArrow.targetConnector  = draggedBogie.snappedSegment.connectorA;
+			railroad.backwardArrow.targetConnector = draggedBogie.snappedSegment.connectorB;
+			railroad.forwardArrow.bogie  = draggedBogie;
+			railroad.backwardArrow.bogie = draggedBogie;
 			
 			//TODO : Check if we're at the beginning or the end of a track, 
 			//       and if this is the case evaluate if we have another track connected
 			//       or if we're pointing to the void
 			
 			//display arrows
-			railroad.forwardArrow.x  = draggedCar.x;
-			railroad.backwardArrow.x = draggedCar.x;
+			railroad.forwardArrow.x  = draggedBogie.x;
+			railroad.backwardArrow.x = draggedBogie.x;
 			
-			railroad.forwardArrow.y  = draggedCar.y-40;
-			railroad.backwardArrow.y = draggedCar.y-40;
+			railroad.forwardArrow.y  = draggedBogie.y-40;
+			railroad.backwardArrow.y = draggedBogie.y-40;
 			
 			//Calculate direction
 			var forwardTarget  = railroad.forwardArrow.targetConnector.getCenter();
 			var backwardTarget = railroad.backwardArrow.targetConnector.getCenter();
 			
 			var forwardAngle = railroad.forwardArrow.getAngle(
-				new Point2D(draggedCar.x, draggedCar.y), 
+				new Point2D(draggedBogie.x, draggedBogie.y), 
 				new Point2D(railroad.forwardArrow.x, railroad.forwardArrow.y),
 				new Point2D(forwardTarget.x, forwardTarget.y)
 			);
@@ -100,14 +100,14 @@
 			railroad.forwardArrow.rotation = forwardAngle - 180;
 			
 			var newForwardArrowPosition = new Point2D(railroad.forwardArrow.x, railroad.forwardArrow.y);
-			newForwardArrowPosition.rotate(railroad.forwardArrow.rotation, new Point2D(draggedCar.x, draggedCar.y));
+			newForwardArrowPosition.rotate(railroad.forwardArrow.rotation, new Point2D(draggedBogie.x, draggedBogie.y));
 			
 			railroad.forwardArrow.x = newForwardArrowPosition.x;
 			railroad.forwardArrow.y = newForwardArrowPosition.y;
 			
 			
 			var backwardAngle = railroad.backwardArrow.getAngle(
-				new Point2D(draggedCar.x, draggedCar.y), 
+				new Point2D(draggedBogie.x, draggedBogie.y), 
 				new Point2D(railroad.backwardArrow.x, railroad.backwardArrow.y),
 				new Point2D(backwardTarget.x, backwardTarget.y)
 			);
@@ -116,7 +116,7 @@
 			railroad.backwardArrow.rotation = backwardAngle - 180;
 			
 			var newBackwardArrowPosition = new Point2D(railroad.backwardArrow.x, railroad.backwardArrow.y);
-			newBackwardArrowPosition.rotate(railroad.backwardArrow.rotation, new Point2D(draggedCar.x, draggedCar.y));
+			newBackwardArrowPosition.rotate(railroad.backwardArrow.rotation, new Point2D(draggedBogie.x, draggedBogie.y));
 			
 			railroad.backwardArrow.x = newBackwardArrowPosition.x;
 			railroad.backwardArrow.y = newBackwardArrowPosition.y;
@@ -128,18 +128,18 @@
 		};
 	}
 	
-	Car.prototype.move = function(x,y) {
+	Bogie.prototype.move = function(x,y) {
 		//this.makeShape();
 		this.x = x;
 		this.y = y;
 		setDirty();		
 	}
 	
-	Car.prototype.moveBy = function( dx, dy) {
+	Bogie.prototype.moveBy = function( dx, dy) {
     	this.move(this.x + dx, this.y + dy);
     }
     
-    Car.prototype.moveWithMagnetism = function(x,y) {
+    Bogie.prototype.moveWithMagnetism = function(x,y) {
     	this.snapped = false;
     
     	var targetPoint = new Object();
@@ -178,13 +178,14 @@
     		
     	}
     	
-    	this.move(targetPoint.point.x,targetPoint.point.y);
+    	//this.move(targetPoint.point.x,targetPoint.point.y);
     	this.makeShape();
+    	return(targetPoint);
     }
     
-    Car.prototype.start = function(connector) {
+    Bogie.prototype.start = function(connector) {
     	if (!this.snapped) {
-    		console.error("Car.prototype.start : CAR NOT SNAPPED CANNOT START");
+    		console.error("Bogie.prototype.start : Bogie NOT SNAPPED CANNOT START");
     		return;
     	}
     	
@@ -210,19 +211,19 @@
     	this.makeShape();
      }
     
-   	Car.prototype.tick = function() {
+   	Bogie.prototype.tick = function() {
    		if (!this.moving) return;
 		//   	var c = this;
-		//   	carIntervalId = window.setInterval(c.step(), config.speed);
+		//   	BogieIntervalId = window.setInterval(c.step(), config.speed);
 		this.step();
    	}
 	
-	Car.prototype.step = function() {
+	Bogie.prototype.step = function() {
 		console.log("CURRENT STEP :"+this.indexInPath+" ON TRACK NUMBER "+this.targetConnector.track.id);
 		if (this.indexInPath >= config.pathPrecision-1) {
 			this.moving = false;
 			console.log("END OF TRACK");
-			//window.clearInterval(carIntervalId);
+			//window.clearInterval(BogieIntervalId);
 			this.snappedPoint = new Point2D(this.x, this.y);
 			
 			if (this.targetConnector.edge != null) {
@@ -247,7 +248,7 @@
 		}
 	}
 	
-	Car.prototype.requestNextTrack = function() {
+	Bogie.prototype.requestNextTrack = function() {
 		var targetTrack = this.targetConnector.edge.track;
 		this.snappedSegment  = targetTrack.getSegmentTo( this.targetConnector.edge);
 		
@@ -264,5 +265,5 @@
 		}
 	}
 	
-    window.Car = Car;
+    window.Bogie = Bogie;
 }(window));

@@ -15,7 +15,7 @@
 		this.visible = false;	
 		this.currentColor = colors.arrow;	
 		this.makeShape();
-		this.car = null;
+		this.bogie = null;
 		this.targetConnector = null;
 	}
 	
@@ -29,14 +29,14 @@
 	
 	Arrow.prototype.hide = function () {
 		this.visible = false;
-		this.car = null;
+		this.bogie = null;
 		this.targetConnector = null;
 		setDirty();
 	}
 	
 	Arrow.prototype.onClick = function (evt) {
 		railroad.hideArrows();
-		this.car.start(this.targetConnector);
+		this.bogie.start(this.targetConnector);
 		setDirty();
 	}
 	

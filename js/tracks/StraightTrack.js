@@ -62,7 +62,6 @@
         g.setStrokeStyle(3);
         g.beginStroke(this.getStrokeColor());
         g.beginFill(this.getFillColor());
-        //g.drawRect(0, 0, 100, 40);
 		g.moveTo(100, 20.0)
       		.bezierCurveTo(100, 14.6, 95.4, 10.2, 90.0, 10.1)
       		.lineTo(90.0, 0.0)

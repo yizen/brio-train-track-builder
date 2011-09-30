@@ -20,8 +20,11 @@ colors.gridSecondaryLine = "#33aada";
 colors.mapViewBackground = "rgba(255,255,255,0.4)";
 colors.mapViewViewport = "rgba(11,154,211,0.4)";
 
-colors.carMagnetPoint = "#993399";
-colors.carMoving = "#FF00FF";
+colors.bogieMagnetPoint = "#993399";
+colors.bogieMoving = "#FF00FF";
+
+colors.carriageFill = "rgba(175,71,95,0.5)";
+colors.carriageStroke = "#FFFFFF";
 
 colors.arrow = "#204665";
 colors.arrowHover = "#F1F3AE";

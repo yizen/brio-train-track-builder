@@ -488,7 +488,6 @@ var Railroad = Class.extend({
    	},
    	
    	hideArrows: function() {
-   		
    		this.redirectTickerToStage(true);
 
    		var tween1 = Tween.get(this.forwardArrow).to({ alpha: 0 }, 300).call(this.forwardArrow.hide, [true], this); 
