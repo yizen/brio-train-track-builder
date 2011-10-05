@@ -39,7 +39,7 @@
 	
 	RotationDial.prototype.onPress = function (evt) {
 		
-		this.redirectTickerToStage(true);
+		redirectTickerToStage(true);
 		
 		var origX = evt.stageX;
         var origY = evt.stageY;
@@ -83,7 +83,7 @@
 		};
 		
 		evt.onMouseUp = function (evt) {
-			dial.redirectTickerToStage(false);
+			redirectTickerToStage(false);
 			setDirty();
 		};
 	}
@@ -191,15 +191,5 @@
         return (Math.atan2(By, Bx) - Math.atan2(Ay, Ax)) / (Math.PI * 2 / 360);
     }
     
-    RotationDial.prototype.redirectTickerToStage = function( value ) {
-   		if (value) {
-   			Ticker.removeListener(window);	
-    		Ticker.addListener(stage);
-   		} else {
-   			Ticker.removeListener(stage);	
-    		Ticker.addListener(window);
-   		}
-   	}
-
 	window.RotationDial = RotationDial;
 }(window));

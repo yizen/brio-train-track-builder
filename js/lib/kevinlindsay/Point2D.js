@@ -418,6 +418,8 @@ Point2D.prototype.swap = function(that) {
 
 
 /*
+ * Additions by Olivier Grenet
+ *
  * Rotate
  *
 */
@@ -435,6 +437,9 @@ Point2D.prototype.rotate = function(degreeAngle, pivotPoint) {
     this.y = yy + pivotPoint.y;
 };
 
+/*
+ * Close To
+ */
 Point2D.prototype.closeTo = function(that, margin) {
     return ( Math.abs(this.x - that.x) < margin && Math.abs(this.y - that.y) < margin );
 };

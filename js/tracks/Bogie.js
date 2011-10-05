@@ -35,13 +35,7 @@
         this.moving ? g.beginFill(colors.bogieMoving) : g.beginFill(colors.bogieMagnetPoint);
         g.drawCircle(0, 0, 10);
         g.endFill();
-        
-        if (this.snapped) {
-        	g.beginFill("#FF00FF");
-        	g.drawCircle(this.snappedPoint.x- this.x, this.snappedPoint.y-this.y, 2);
-        	g.endFill();
-        }
-        
+
         setDirty();
     }
     
@@ -139,12 +133,13 @@
     	this.move(this.x + dx, this.y + dy);
     }
     
-    Bogie.prototype.moveWithMagnetism = function(x,y) {
+    Bogie.prototype.moveWithMagnetism = function(x,y) {    	
     	this.snapped = false;
     
     	var targetPoint = new Object();
     	targetPoint.distance = Number.MAX_VALUE;
     	targetPoint.point = new Point2D(x,y);
+    	targetPoint.snapped = false;
     	
     	var objectsUnderPoint = stage.getObjectsUnderPoint(x,y);
     	
@@ -168,6 +163,9 @@
     				if (targetPoint.distance > calculatedDistance) {
     					targetPoint.distance = calculatedDistance;
     					targetPoint.point = candidatePoint;
+    					targetPoint.segment = points[p].segment;
+    					targetPoint.snapped = true;
+    					
     					this.snapped = true;
     					this.snappedPoint = candidatePoint;
     					this.snappedSegment = points[p].segment;
@@ -175,7 +173,6 @@
     				}
     			}
     		}
-    		
     	}
     	
     	//this.move(targetPoint.point.x,targetPoint.point.y);

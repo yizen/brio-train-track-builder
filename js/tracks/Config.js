@@ -20,7 +20,7 @@ colors.gridSecondaryLine = "#33aada";
 colors.mapViewBackground = "rgba(255,255,255,0.4)";
 colors.mapViewViewport = "rgba(11,154,211,0.4)";
 
-colors.bogieMagnetPoint = "#993399";
+colors.bogieMagnetPoint = "rgba(132,119,123,0.7)";
 colors.bogieMoving = "#FF00FF";
 
 colors.carriageFill = "rgba(175,71,95,0.5)";

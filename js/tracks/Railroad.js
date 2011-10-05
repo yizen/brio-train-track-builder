@@ -315,7 +315,7 @@ var Railroad = Class.extend({
         console.log("New Source rotation ="+newSourceRotation);          	
         */    
 		
-		this.redirectTickerToStage(true);
+		redirectTickerToStage(true);
 		
         var tween = Tween.get(this.dragGestureConnection.sourceTrack).to({
             x: sourceCoord.x,
@@ -328,7 +328,7 @@ var Railroad = Class.extend({
         		.call(this.reconnectConnectorsWithinNeighbourhood, this.selection, this)
         		.call(this.extendSelection, [this.dragGestureConnection.sourceTrack], this)
         		.call(this.showRotationDial, [this.selection], this)
-        		.call(this.redirectTickerToStage, [false], this);          
+        		.call(redirectTickerToStage, [false]);          
     },
     
     snapSelectionAlong: function(sourceTrack, dx,dy, rotation, pivot) {
@@ -488,21 +488,10 @@ var Railroad = Class.extend({
    	},
    	
    	hideArrows: function() {
-   		this.redirectTickerToStage(true);
+   		redirectTickerToStage(true);
 
    		var tween1 = Tween.get(this.forwardArrow).to({ alpha: 0 }, 300).call(this.forwardArrow.hide, [true], this); 
    		var tween2 = Tween.get(this.backwardArrow).to({ alpha: 0 }, 300).call(this.backwardArrow.hide, [true], this)
-   		.call(this.redirectTickerToStage, [false], this);; 
-   	},
-   	
-   	redirectTickerToStage: function( value ) {
-   		if (value) {
-   			Ticker.removeListener(window);	
-    		Ticker.addListener(stage);
-   		} else {
-   			Ticker.removeListener(stage);	
-    		Ticker.addListener(window);
-   		}
-   	}
-   	
+   		.call(redirectTickerToStage, [false]);; 
+   	}   	
 });

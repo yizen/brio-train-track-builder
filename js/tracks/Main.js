@@ -61,7 +61,7 @@ function createSampleObjects() {
         railroad.addTrack(objectsArray[i]);
 
         objectsArray[i].move((Math.floor(Math.random() * 400)), (Math.floor(Math.random() * 400)));
-        objectsArray[i].rotate(Math.floor(Math.random() * 361));
+        //objectsArray[i].rotate(Math.floor(Math.random() * 361));
     }
     
     var carriage = new Carriage();
@@ -89,6 +89,16 @@ function tick() {
 
 function setDirty() {
     update = true;
+}
+
+function redirectTickerToStage ( value ) {
+	if (value) {
+		Ticker.removeListener(window);	
+		Ticker.addListener(stage);
+	} else {
+		Ticker.removeListener(stage);	
+		Ticker.addListener(window);
+	}
 }
 
 

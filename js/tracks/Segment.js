@@ -30,6 +30,14 @@ function Segment(type, connectorA, connectorB, cp1, cp2) {
 	}
 };
 
+Segment.prototype.getStartPoint = function() {
+	return this.connectorA.getCenter();
+}
+
+Segment.prototype.getEndPoint = function() {
+	return this.connectorB.getCenter();
+} 
+
 Segment.prototype.setRegistrationPoint = function (regX, regY) {
 
 	if (this.type == "LINE") return;
