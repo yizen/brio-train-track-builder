@@ -43,12 +43,6 @@
         this.addChild(this.carriage);
         
         this.snapped = false;
-        this.originalAngle = 0;
-        
-        //debug
-        this.cp = new Array();
-        this.r = 0;
-        this.c = new Point2D();
     }
 
     Carriage.prototype.makeShape = function () {
@@ -59,18 +53,7 @@
         g.beginStroke(colors.carriageStroke);
         g.beginFill(colors.carriageFill);
         g.drawRect(0, 0, 100, 30);
-        
-        for (var p in this.cp) {
-        	g.beginFill("rgba(181,9,13,0.5)").endStroke();
-        	g.drawCircle(this.cp[p].x - this.x, this.cp[p].y - this.y, 6);
-        }
-                
-        if (this.r > 0) {
-        	g.endFill().beginStroke("#62B71E");
-        	g.drawCircle(this.c.x - this.x, this.c.y - this.y ,this.r);
-        
-        }
-               
+         
         setDirty();
     }
        Carriage.prototype.onPress = function (evt) { 
@@ -79,20 +62,12 @@
     	railroad.forwardArrow.hide();
 		railroad.backwardArrow.hide();
 		
-		this.originalAngle = this.rotation;
-		
-
     	var offset = {
             x: this.x - evt.stageX,
             y: this.y - evt.stageY
         };
         
         var draggedCarriage = this; //The dragged element.
-        
-        //DEBUG
-        draggedCarriage.cp = new Array();
-        draggedCarriage.r = 0;
-        draggedCarriage.c = new Point2D();
           
 		evt.onMouseMove = function (ev) {
         	x = ev.stageX + offset.x;
@@ -113,9 +88,6 @@
 					draggedCarriage.x+draggedCarriage.bogieBackdx,
 					draggedCarriage.y+draggedCarriage.bogieBackdy) );
 				
-				draggedCarriage.r = r;
-				draggedCarriage.c = c;
-				
 				//Get intersection between the segment and the circle describing the radius of the 
 				if (draggedCarriage.bogieFrontMagnetism.segment.type == "LINE") {
 					var a1 = draggedCarriage.bogieFrontMagnetism.segment.getStartPoint();
@@ -129,8 +101,8 @@
 				
 				if (draggedCarriage.bogieFrontMagnetism.segment.type == "BEZIER") {
 					var p1 = draggedCarriage.bogieFrontMagnetism.segment.getStartPoint();
-					var p2 = draggedCarriage.bogieFrontMagnetism.segment.cp1;
-					var p3 = draggedCarriage.bogieFrontMagnetism.segment.cp2;
+					var p2 = draggedCarriage.bogieFrontMagnetism.segment.cp1.clone();
+					var p3 = draggedCarriage.bogieFrontMagnetism.segment.cp2.clone();
 					var p4 = draggedCarriage.bogieFrontMagnetism.segment.getEndPoint();
 					
 					
@@ -142,26 +114,48 @@
 					var candidatePoints = Intersection.intersectBezier3Circle(p1, p2, p3, p4, c, r);
 				}
 				
-				if (candidatePoints.status = "Intersection") {
-					draggedCarriage.cp = candidatePoints.points;
-					var possibleRotation = draggedCarriage.getAngle(
-							candidatePoints.points[0],
-							new Point2D(draggedCarriage.x+draggedCarriage.bogieBackdx,
-										draggedCarriage.y+draggedCarriage.bogieBackdy));
-										
-					possibleRotation = possibleRotation - draggedCarriage.originalAngle;
-					draggedCarriage.originalAngle = draggedCarriage.rotation;
-										
-					console.log(possibleRotation);
-					draggedCarriage.makeShape();
+				if ((candidatePoints.status = "Intersection")&&(candidatePoints.points.length >0)) {
+					//TODO : Find the "best" snapping point for the back of the carriage
 					
-					/*
+					var underScrutinyPoint = new Point2D();
+					var electedPoint = null;
+	
+					for (var p in candidatePoints.points) {
+						
+						underScrutinyPoint.x = candidatePoints.points[p].x;
+						underScrutinyPoint.y = candidatePoints.points[p].y;
+						/*
+						if (underScrutinyPoint.closeTo (new Point2D(draggedCarriage.x+draggedCarriage.bogieBackdx,
+																	draggedCarriage.y+draggedCarriage.bogieBackdy), 5)) {
+							//remove point
+							var idx = candidatePoints.points.indexOf(candidatePoints.points[p]); // Find the index
+							if(idx!=-1) candidatePoints.points.splice(idx, 1); // Remove it if really found!
+						} else {
+							electedPoint = underScrutinyPoint.clone();
+						}
+						*/
+						electedPoint =  underScrutinyPoint.clone();
+					}	
+					
+					draggedCarriage.cp = candidatePoints.points;
+					
+					if (electedPoint) {
+						var previousPositionPoint = new Point2D(draggedCarriage.x+draggedCarriage.bogieBackdx,
+						draggedCarriage.y+draggedCarriage.bogieBackdy);
+						
+						var pivotPoint = new Point2D(draggedCarriage.x+draggedCarriage.bogieFrontdx,
+						draggedCarriage.y+draggedCarriage.bogieFrontdy);
+						
+						var possibleRotation = pivotPoint.getAngle(previousPositionPoint,electedPoint);
+																					
+					}
+					draggedCarriage.makeShape();
+				
 					redirectTickerToStage(true);
 					
-					var tween = Tween.get(draggedCarriage).to({rotation: possibleRotation-180-draggedCarriage.originalAngle}, 400, Transition.ease.out(Transition.bounce)).call(redirectTickerToStage,[false]);
-					*/
+					//FIXME : why do  we have to add 180 ?
+					var tween = Tween.get(draggedCarriage).to({rotation: possibleRotation + 180}, 400, Transition.ease.out(Transition.bounce)).call(redirectTickerToStage,[false]);
 				};
-			
 			}
 		};
 	}
@@ -176,10 +170,7 @@
     	this.move(this.x + dx, this.y + dy);
     }
     
-    Carriage.prototype.moveWithMagnetism = function(x,y) {
-    
-    	console.log("x="+x+" -- y="+y);
-    	
+    Carriage.prototype.moveWithMagnetism = function(x,y) {    	
     	this.bogieFrontMagnetism = null;
     	this.bogieFrontMagnetism = this.bogieFront.moveWithMagnetism(
     		x  , 
@@ -197,44 +188,7 @@
     
    	Carriage.prototype.tick = function() {
    		
-   	}
-   	
-   	Carriage.prototype.getAngle = function (origin, target) {
-   		
-		//Create Vectors
-		var vectorA = new Object;
-		vectorA.p1 = new Point2D(this.x, this.y);
-		vectorA.p2 = new Point2D(origin.x, origin.y);
-		
-		var vectorB = new Object;
-		vectorB.p1 = new Point2D(this.x, this.y);
-		vectorB.p2 = new Point2D(target.x, target.y);
-	
-        // Make reference line a vector
-        var Ax = vectorA.p2.x - vectorA.p1.x;
-        var Ay = vectorA.p2.y - vectorA.p1.y;
-
-        var Bx = vectorB.p1.x - vectorB.p2.x;
-        var By = vectorB.p1.y - vectorB.p2.y;
-
-        // Get the vector length
-        var Alen = Math.sqrt(Ax * Ax + Ay * Ay);
-        var Blen = Math.sqrt(Bx * Bx + By * By);
-
-        // Make unit length
-        // To work the coordinate system with an origin in the lower left rather than upper left corner
-        // negate the y coords by adding a unary minus to rdy and dy in the division below.
-        Ax = Ax / Alen;
-        Ay = Ay / Alen;
-        Bx = Bx / Blen;
-        By = By / Blen;
-
-        // Dot product and convert to degrees
-        // To leave in radians just do: return ( Math.acos ( rdx * dx + rdy * dy ) );
-        //return ( Math.acos ( rdx * dx + rdy * dy ) / 6.28 * 360 );	
-        return (Math.atan2(By, Bx) - Math.atan2(Ay, Ax)) / (Math.PI * 2 / 360);
-    }
-   	
+   	}   	
    		
     window.Carriage = Carriage;
 }(window));

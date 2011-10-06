@@ -444,4 +444,39 @@ Point2D.prototype.closeTo = function(that, margin) {
     return ( Math.abs(this.x - that.x) < margin && Math.abs(this.y - that.y) < margin );
 };
 
+Point2D.prototype.getAngle = function (origin, target) {
+   		
+		//Create Vectors
+		var vectorA = new Object;
+		vectorA.p1 = new Point2D(this.x, this.y);
+		vectorA.p2 = new Point2D(origin.x, origin.y);
+		
+		var vectorB = new Object;
+		vectorB.p1 = new Point2D(this.x, this.y);
+		vectorB.p2 = new Point2D(target.x, target.y);
+	
+        // Make reference line a vector
+        var Ax = vectorA.p2.x - vectorA.p1.x;
+        var Ay = vectorA.p2.y - vectorA.p1.y;
+
+        var Bx = vectorB.p1.x - vectorB.p2.x;
+        var By = vectorB.p1.y - vectorB.p2.y;
+
+        // Get the vector length
+        var Alen = Math.sqrt(Ax * Ax + Ay * Ay);
+        var Blen = Math.sqrt(Bx * Bx + By * By);
+
+        // Make unit length
+        // To work the coordinate system with an origin in the lower left rather than upper left corner
+        // negate the y coords by adding a unary minus to rdy and dy in the division below.
+        Ax = Ax / Alen;
+        Ay = Ay / Alen;
+        Bx = Bx / Blen;
+        By = By / Blen;
+
+        // Dot product and convert to degrees
+        // To leave in radians just do: return ( Math.acos ( rdx * dx + rdy * dy ) );
+        //return ( Math.acos ( rdx * dx + rdy * dy ) / 6.28 * 360 );	
+        return (Math.atan2(By, Bx) - Math.atan2(Ay, Ax)) / (Math.PI * 2 / 360);
+   };
  
