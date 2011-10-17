@@ -1,10 +1,20 @@
 (function (window) {
 
-    function Grid( gridWidth, gridHeight ) {
+    function Grid( gridWidth, gridHeight, visibleWidth, visibleHeight ) {
     	this.type="Grid";
     	
 	    this.gridWidth = gridWidth;
         this.gridHeight = gridHeight;
+        
+        this.visibleWidth  = visibleWidth;
+        this.visibleHeight = visibleHeight;
+        
+        this.dx = this.visibleWidth/2;
+        this.dy = this.visibleHeight/2;
+ 		
+ 		this.absoluteX = 0;
+ 		this.absoluteY = 0;
+ 		
         this.initialize();
     }
 
@@ -15,26 +25,29 @@
         this.Shape_initialize();
         this.snapToPixel = true;
 
-        this.regX = this.gridWidth/2;
-        this.regY = this.gridHeight/2;
+        this.regX = this.visibleWidth/2;
+        this.regY = this.visibleHeight/2;
         
-        this.height = this.gridHeight;
-        this.width  = this.gridWidth;
+        this.width  = this.visibleWidth;
+        this.height = this.visibleHeight;
 
         this.makeShape();
         this.clickWasADrag = false;
     }
 
     Grid.prototype.onPress = function (evt) {
-
+		
 		railroad.hideRotationDial();
 		
+		this.dx = this.visibleWidth/2;
+        this.dy = this.visibleHeight/2;
+
         var offset = {
-            x: this.x - evt.stageX,
-            y: this.y - evt.stageY
+            x: this.dx - evt.stageX,
+            y: this.dy - evt.stageY
         };
 
-        var obj = this;
+        var grid = this;
         this.clickWasADrag = false;
         // add a handler to the event object's onMouseMove callback
         // this will be active until the user releases the mouse button:
@@ -42,14 +55,14 @@
             var x = ev.stageX + offset.x;
             var y = ev.stageY + offset.y;
             
-            obj.move(x, y);
-            obj.clickWasADrag = true;
+            grid.move(x, y);
+            grid.clickWasADrag = true;
             // indicate that the stage should be updated on the next tick:
             setDirty();
         };
         
         evt.onMouseUp = function (ev) {
-        	if (!obj.clickWasADrag){
+        	if (!grid.clickWasADrag){
     			//clear selection
         		railroad.selection.reset();
         	}
@@ -57,19 +70,20 @@
     }
 
     Grid.prototype.move = function( x, y ){
-
-    	if (this.regX - x < 0) return;
-    	if (this.regY - y < 0) return;
-
+    	var displaceX = x - this.dx;
+    	var displaceY = y - this.dy;
+ 
+     	this.dx = x;
+    	this.dy = y;
     	
-    	var dx = x - this.x;
-    	var dy = y - this.y;
-    	    
-    	this.x = x;
-    	this.y = y;
-    	
+    	this.absoluteX += displaceX;
+    	this.absoluteY += displaceY;
+    	    	
+    	this.x = this.regX + this.absoluteX%200;
+    	this.y = this.regY + this.absoluteY%200;
+
     	//FIXME : we should move all objects
-    	railroad.moveAllTracks(dx, dy);
+    	railroad.moveAllTracks(displaceX, displaceY);
     }
     
     Grid.prototype.makeShape = function() {
@@ -77,34 +91,46 @@
 		
 		g.clear();
 		g.beginFill(colors.gridBackground);
-		g.rect(0,0,this.gridWidth,this.gridHeight);
+		g.rect(-200,-200,this.gridWidth + 200,this.gridHeight + 200);
 		
-		for(var i=0; i<this.gridWidth/10; i++) {
+		for(var i=-20; i<20+ this.gridWidth/10; i++) {
 			g.setStrokeStyle(1);
 			
 			( i%5 ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
 
         	g.beginStroke(color);
-        	g.moveTo(i*20,0).lineTo(i*20,this.gridHeight);
+        	g.moveTo(i*20,-200).lineTo(i*20,this.gridHeight);
 		}
 		
-		for (var j=0; j< this.gridHeight / 20; j++) {
+		for (var j=-20; j< this.gridHeight/10; j++) {
 			g.setStrokeStyle(1);
 			
 			( j%5 ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
 
         	g.beginStroke(color);
-        	g.moveTo(0,j*20).lineTo(this.gridWidth,j*20);
+        	g.moveTo(-200,j*20).lineTo(this.gridWidth,j*20);
 		}
 		
-		this.cache(0,0,this.gridWidth, this.gridHeight);		
+		this.cache(-200,-200,this.gridWidth + 200, this.gridHeight + 200);
     }
     
-    Grid.prototype.absolutizePoint = function (point) {
+    Grid.prototype.resetView = function() {
+    	this.dx = this.visibleWidth/2;
+        this.dy = this.visibleHeight/2;
+
+    	this.move(this.dx-this.absoluteX,this.dy-this.absoluteY);
+    	setDirty();    
+    }
+    
+    Grid.prototype.onDoubleClick = function(ev) {
+    	this.resetView();
+   	}
+   	
+   	Grid.prototype.absolutizePoint = function (point) {
     	var newPoint = new Point2D();
-    	//FIXME : remove dependency from global backgroundGrid
-    	newPoint.x = point.x - this.x + this.regX;
-    	newPoint.y = point.y - this.y + this.regY;
+
+    	newPoint.x = point.x - this.absoluteX; 
+    	newPoint.y = point.y - this.absoluteY;
     	
     	return newPoint;
     }
