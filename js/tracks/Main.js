@@ -6,6 +6,7 @@ var mapView;
 var update = true;
 
 var railroad;
+var carriage = new Carriage();
 
 function init() {
     //associate the canvas with the stage
@@ -61,21 +62,22 @@ function createSampleObjects() {
         railroad.addTrack(objectsArray[i]);
 
         objectsArray[i].move((Math.floor(Math.random() * 400)), (Math.floor(Math.random() * 400)));
-        //objectsArray[i].rotate(Math.floor(Math.random() * 361));
+        objectsArray[i].rotate(Math.floor(Math.random() * 361));
     }
     
-    var carriage = new Carriage();
     carriage.move(100,100);
     stage.addChild(carriage);
-    
-    /*
-    var bogie2 = new Bogie();
-    bogie2.move(200,100);
-    stage.addChild(bogie2);
-    */
+
 }
 
 function tick() {
+    
+    if (carriage) {
+    	if (carriage.moving) {
+			carriage.tick();
+    	}
+    }
+    
     // this set makes it so the stage only re-renders when an event handler indicates a change has happened.
     if (update) {
         update = false; // only update once
@@ -110,4 +112,5 @@ $(function () {
     Ticker.setFPS(config.maxFPS);
     
     $(window).jkey('backspace',Keys.deleteSelection);
+    $(window).jkey('space', Keys.stopTrain);
 });

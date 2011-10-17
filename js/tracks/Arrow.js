@@ -15,7 +15,7 @@
 		this.visible = false;	
 		this.currentColor = colors.arrow;	
 		this.makeShape();
-		this.bogie = null;
+		this.carriage = null;
 		this.targetConnector = null;
 	}
 	
@@ -29,14 +29,14 @@
 	
 	Arrow.prototype.hide = function () {
 		this.visible = false;
-		this.bogie = null;
+		this.carriage = null;
 		this.targetConnector = null;
 		setDirty();
 	}
 	
 	Arrow.prototype.onClick = function (evt) {
 		railroad.hideArrows();
-		this.bogie.start(this.targetConnector);
+		this.carriage.start(this.targetConnector);
 		setDirty();
 	}
 	
@@ -57,8 +57,11 @@
 		this.regY = 6;
 		
 		this.graphics.clear();
-		this.graphics.setStrokeStyle(8,"round").beginStroke(this.currentColor);
-		this.graphics.moveTo(6,0).lineTo(12,12).moveTo(12,12).lineTo(0,12).moveTo(0,12).lineTo(6,0);
+		this.graphics.setStrokeStyle(1,"round").beginStroke(this.currentColor).beginFill(this.currentColor);
+		this.graphics.moveTo(6,0).lineTo(12,12).lineTo(0,12).lineTo(6,0);
+		
+		//this.graphics.setStrokeStyle(6,"round").beginStroke(this.currentColor);
+		//this.graphics.moveTo(6,0).lineTo(12,12).moveTo(12,12).lineTo(0,12).moveTo(0,12).lineTo(6,0);
 		this.graphics.endFill();
 
 		setDirty();
