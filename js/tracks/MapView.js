@@ -1,62 +1,80 @@
 (function (window) {
 
-    function MapView(originalGrid, zoomFactor) {
+    function MapView(originalGrid, zoomFactor, width, height) {
     	this.type = "MapView";
     
     	this.zoomFactor = zoomFactor;
-    
-        this.width  = originalGrid.width  * zoomFactor;
-        this.height = originalGrid.height * zoomFactor;
-        
-        this.gridWidth  = originalGrid.width;
-        this.gridHeight = originalGrid.height;
 
-        this.initialize();
+    	this.gridWidth  = originalGrid.width;
+        this.gridHeight = originalGrid.height;
+        
+        this.originalGrid = originalGrid;
+    
+        this.width  = width;
+        this.height = height;
+        
+        this.x = this.gridWidth  - this.width / 2 - 20;
+    	this.y = this.gridHeight - this.height /2 - 20;
+    	
+		this.rectangleMask = new Object;
+    	this.rectangleMask.x = -this.width/2;
+    	this.rectangleMask.y = -this.height/2;
+    	this.rectangleMask.width  = this.width;
+    	this.rectangleMask.height = this.height;
+		
+		this.initialize();
     }
 
-    MapView.prototype = new Container();
-    MapView.prototype.Container_initialize = MapView.prototype.initialize; //unique to avoid overriding base class
+    MapView.prototype = new SimpleMaskContainer();
+    MapView.prototype.SimpleMaskContainer_initialize = MapView.prototype.initialize; //unique to avoid overriding base class
     // constructor:
     MapView.prototype.initialize = function () {
-        this.Container_initialize();
+        this.SimpleMaskContainer_initialize();
+        
+        this.background = new Shape();
+        this.background.snapToPixel = true;
+        this.background.width = this.width;
+        this.background.height = this.height;
+        this.background.regX = this.width / 2;
+        this.background.regY = this.height / 2;
 
         this.map = new Shape();
-
         this.map.snapToPixel = true;
-        
+       
         this.map.scaleX = this.zoomFactor;
         this.map.scaleY = this.zoomFactor;
         
-        this.map.height = this.height;
-        this.map.width = this.width;
+        this.map.width  = this.gridWidth;
+        this.map.height = this.gridHeight;
         
-        this.map.regX   = this.width / 2;
-        this.map.regY   = this.height / 2
+        this.map.regX   = this.map.width / 2;
+        this.map.regY   = this.map.height / 2
 
+		this.addChild(this.background);
         this.addChild(this.map);
     }
 
     MapView.prototype.makeShape = function () {
+    
+    	var h = this.background.graphics;
+    	h.clear();
+    	h.beginFill(colors.mapViewBackground);
+        h.rect(0, 0, this.width , this.height).endFill();
+        
         var g = this.map.graphics;
-
         g.clear();
-        g.beginFill(colors.mapViewBackground).setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
-        g.rect(0, 0, this.width / this.zoomFactor, this.height / this.zoomFactor).endFill();
-
+        
         for (var track in railroad.tracks) {
             this.drawPath(railroad.tracks[track], g);
         }
         
-        g.endFill();
+        g.beginFill(colors.mapViewViewport).setStrokeStyle(1 / this.zoomFactor).beginStroke("#000");
         
-        g.beginFill(colors.mapViewViewport).setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
+        var x = -this.originalGrid.absoluteX;
+        var y = -this.originalGrid.absoluteY;
         
-        //TODO : remove dependancy to global backgroundGrid
-        var x = backgroundGrid.width/2 - backgroundGrid.x;
-        var y = backgroundGrid.height/2 - backgroundGrid.y;
-        
-        var height = window.innerHeight;
-        var width  = window.innerWidth;
+        var height = this.gridHeight;
+        var width  = this.gridWidth;
 
         g.rect(x,y,width,height);
         g.endFill();

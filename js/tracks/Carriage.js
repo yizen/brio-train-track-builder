@@ -92,7 +92,6 @@
 					
 					var newRotation = draggedCarriage.getRotationToBackBogie(electedPoint);	
 																								
-					console.log("New Rotation ="+newRotation);
 					draggedCarriage.makeShape();
 					
 					draggedCarriage.showArrows();

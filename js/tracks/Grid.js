@@ -1,16 +1,16 @@
 (function (window) {
 
-    function Grid( gridWidth, gridHeight, visibleWidth, visibleHeight ) {
+    function Grid( visibleWidth, visibleHeight ) {
     	this.type="Grid";
-    	
-	    this.gridWidth = gridWidth;
-        this.gridHeight = gridHeight;
-        
+       
         this.visibleWidth  = visibleWidth;
         this.visibleHeight = visibleHeight;
         
         this.dx = this.visibleWidth/2;
         this.dy = this.visibleHeight/2;
+        
+        this.width  = this.visibleWidth;
+        this.height = this.visibleHeight;
  		
  		this.absoluteX = 0;
  		this.absoluteY = 0;
@@ -27,10 +27,7 @@
 
         this.regX = this.visibleWidth/2;
         this.regY = this.visibleHeight/2;
-        
-        this.width  = this.visibleWidth;
-        this.height = this.visibleHeight;
-
+               
         this.makeShape();
         this.clickWasADrag = false;
     }
@@ -91,27 +88,27 @@
 		
 		g.clear();
 		g.beginFill(colors.gridBackground);
-		g.rect(-200,-200,this.gridWidth + 200,this.gridHeight + 200);
+		g.rect(-200,-200,this.width + 4200,this.height + 400);
 		
-		for(var i=-20; i<20+ this.gridWidth/10; i++) {
+		for(var i=-20; i<20+ this.visibleWidth/10; i++) {
 			g.setStrokeStyle(1);
 			
 			( i%5 ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
 
         	g.beginStroke(color);
-        	g.moveTo(i*20,-200).lineTo(i*20,this.gridHeight);
+        	g.moveTo(i*20,-200).lineTo(i*20,this.visibleHeight);
 		}
 		
-		for (var j=-20; j< this.gridHeight/10; j++) {
+		for (var j=-20; j< 20+this.visibleHeight/10; j++) {
 			g.setStrokeStyle(1);
 			
 			( j%5 ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
 
         	g.beginStroke(color);
-        	g.moveTo(-200,j*20).lineTo(this.gridWidth,j*20);
+        	g.moveTo(-200,j*20).lineTo(this.visibleWidth,j*20);
 		}
 		
-		this.cache(-200,-200,this.gridWidth + 200, this.gridHeight + 200);
+		this.cache(-200,-200,this.visibleWidth + 200, this.visibleHeight + 200);
     }
     
     Grid.prototype.resetView = function() {

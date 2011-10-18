@@ -22,16 +22,13 @@ function init() {
     stage.enableMouseOver();
     stage.snapToPixelEnabled = true;
 
-    backgroundGrid = new Grid(5000, 5000, canvasWidth, canvasHeight);
+    backgroundGrid = new Grid(canvasWidth, canvasHeight);
     
     backgroundGrid.x = canvasWidth/2 ;
     backgroundGrid.y = canvasHeight/2;
     
-    mapView = new MapView(backgroundGrid, config.mapViewZoomLevel);
+    mapView = new MapView(backgroundGrid, config.mapViewZoomLevel, 300, 250);
     
-    mapView.x = canvasWidth  - mapView.width;
-    mapView.y = canvasHeight - mapView.height;
-
     stage.addChild(backgroundGrid);
     stage.addChild(mapView);
     
