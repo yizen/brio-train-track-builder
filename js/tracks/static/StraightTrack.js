@@ -4,11 +4,11 @@
         this.initialize();
     }
 
-    StraightTrack.prototype = new Track();
+    StraightTrack.prototype = new StaticTrack();
 
-    StraightTrack.prototype.Track_initialize = StraightTrack.prototype.initialize; //unique to avoid overiding base class
+    StraightTrack.prototype.StaticTrack_initialize = StraightTrack.prototype.initialize; //unique to avoid overiding base class
     StraightTrack.prototype.initialize = function () {
-        this.Track_initialize();
+        this.StaticTrack_initialize();
 
 		var cA = new Connector(this, "FEMALE", 0, 0, 0, 40);
 		var cB = new Connector(this, "MALE", 90, 40, 90, 0);

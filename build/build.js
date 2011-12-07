@@ -70,12 +70,11 @@ var SOURCE_FILES = [
 	"../js/tracks/RotationDial.js",
 	
 	"../js/tracks/Railroad.js",
-
-	"../js/tracks/Track.js",
 	
-	"../js/tracks/StraightTrack.js",
-	"../js/tracks/CurvedTrack.js",
-	"../js/tracks/TripleTrack.js",
+	"../js/tracks/static/StaticTrack.js",
+	"../js/tracks/static/StraightTrack.js",
+	"../js/tracks/static/CurvedTrack.js",
+	"../js/tracks/static/TripleTrack.js",
 	
 	"../js/tracks/Bogie.js",
 	"../js/tracks/Carriage.js",

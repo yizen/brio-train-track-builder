@@ -1,14 +1,14 @@
 (function (window) {
 
-    function Track() {    	
+    function StaticTrack() {    	
         this.initialize();
     }
 
-    Track.prototype = new Container();
-    Track.prototype.Container_initialize = Track.prototype.initialize; //unique to avoid overriding base class
+    StaticTrack.prototype = new Container();
+    StaticTrack.prototype.Container_initialize = StaticTrack.prototype.initialize; //unique to avoid overriding base class
     
     // constructor:
-    Track.prototype.initialize = function () {
+    StaticTrack.prototype.initialize = function () {
     	this.type = "Track";
 
         this.Container_initialize();
@@ -20,11 +20,11 @@
         this.switches = new Array();
     }
     
-    Track.prototype.getCoord = function() {
+    StaticTrack.prototype.getCoord = function() {
     	return new Point2D(this.x, this.y);
     }
 
-    Track.prototype.onPress = function (evt) {
+    StaticTrack.prototype.onPress = function (evt) {
     
         var offset = {
             x: this.x - evt.stageX,
@@ -72,15 +72,15 @@
         }
     }
 
-    Track.prototype.onMouseOver = function () {
+    StaticTrack.prototype.onMouseOver = function () {
         setDirty();
     }
 
-    Track.prototype.onMouseOut = function () {
+    StaticTrack.prototype.onMouseOut = function () {
         setDirty();
     }
 
-    Track.prototype.move = function (x, y) {
+    StaticTrack.prototype.move = function (x, y) {
 		this.x = x;
         this.y = y;
 	
@@ -93,18 +93,18 @@
         } 
     }
     
-    Track.prototype.moveBy = function( dx, dy) {
+    StaticTrack.prototype.moveBy = function( dx, dy) {
     	this.move(this.x + dx, this.y + dy);
     }
     
-    Track.prototype.moveWithSelection = function(x,y) {
+    StaticTrack.prototype.moveWithSelection = function(x,y) {
     	var dx = x - this.x;
     	var dy = y - this.y;
     	
     	railroad.selection.move(dx, dy);
     }
 
-    Track.prototype.rotate = function (angle) { 
+    StaticTrack.prototype.rotate = function (angle) { 
     	this.rotation = angle;
         
         var pivotPoint = new Point2D(this.x, this.y);
@@ -118,35 +118,35 @@
         } 
     }
     
-    Track.prototype.getFillColor = function() {
+    StaticTrack.prototype.getFillColor = function() {
     	if (this.selected) 				return colors.defaultSelectedTrackFill;
     	if (this.color === undefined) 	return colors.defaultTrackFill;
     	return this.color;
     }
     
-    Track.prototype.getStrokeColor = function() {
+    StaticTrack.prototype.getStrokeColor = function() {
     	if (this.selected) 				return colors.defaultSelectedTrackStroke;
     	return colors.defaultTrackStroke;
     }
     
-    Track.prototype.resetConnections = function() {
+    StaticTrack.prototype.resetConnections = function() {
     	for (var element in this.connectors) {
     		this.connectors[element].resetConnection();
     	}  
     }
     
-    Track.prototype.setSelection = function(value) {
+    StaticTrack.prototype.setSelection = function(value) {
     	if (value != this.selected) {
     		this.selected = value;
     		this.makeShape();
     	}
     }
     
-    Track.prototype.addSegment = function (segment) {
+    StaticTrack.prototype.addSegment = function (segment) {
     	this.segments.push(segment);
     }
     
-    Track.prototype.getSegmentTo = function(connector) {
+    StaticTrack.prototype.getSegmentTo = function(connector) {
     	var possibleSegments = new Array();
    	
     	for (var i=0; i<this.segments.length; i++) {
@@ -156,7 +156,7 @@
       	}
       	
       	if (possibleSegments.length == 0) {
-      		console.error("Track.prototype.getSegmentTo : connector without any segment");
+      		console.error("StaticTrack.prototype.getSegmentTo : connector without any segment");
       		return; 
       	}
       	
@@ -172,10 +172,10 @@
       		if (possibleSegments[j].hasConnectors(connector,currentSwitchConnectorTarget)) return possibleSegments[j];
       	}
       	
-      	console.error("Track.prototype.getSegmentTo : segment not found");
+      	console.error("StaticTrack.prototype.getSegmentTo : segment not found");
     }
     
-    Track.prototype.getAllPoints = function(  ) {    	
+    StaticTrack.prototype.getAllPoints = function(  ) {    	
     	var points = new Array();
     	for (var segmentIndex in this.segments) {
     		var segment = this.segments[segmentIndex];
@@ -185,10 +185,10 @@
     	return points;
     }
     
-    Track.prototype.addSwitch = function( source, connectorsArray, position ) {
+    StaticTrack.prototype.addSwitch = function( source, connectorsArray, position ) {
     	this.switches[ source ] = new Switch( connectorsArray, position );
     }
     
 
-    window.Track = Track;
+    window.StaticTrack = StaticTrack;
 }(window));

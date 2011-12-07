@@ -4,11 +4,11 @@
         this.initialize();
     }
 
-    TripleTrack.prototype = new Track();
+    TripleTrack.prototype = new StaticTrack();
 
-    TripleTrack.prototype.Track_initialize = TripleTrack.prototype.initialize; //unique to avoid overriding base class
+    TripleTrack.prototype.StaticTrack_initialize = TripleTrack.prototype.initialize; //unique to avoid overriding base class
     TripleTrack.prototype.initialize = function () {
-        this.Track_initialize();
+        this.StaticTrack_initialize();
 
         cA = new Connector(this, "FEMALE", 0, 0, 0, 40);
         cB = new Connector(this, "MALE", 150, 40, 150, 0);

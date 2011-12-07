@@ -4,11 +4,11 @@
         this.initialize();
     }
 
-    CurvedTrack.prototype = new Track();
+    CurvedTrack.prototype = new StaticTrack();
 
-    CurvedTrack.prototype.Track_initialize = CurvedTrack.prototype.initialize; //unique to avoid overiding base class
+    CurvedTrack.prototype.StaticTrack_initialize = CurvedTrack.prototype.initialize; //unique to avoid overiding base class
     CurvedTrack.prototype.initialize = function () {
-        this.Track_initialize();
+        this.StaticTrack_initialize();
 
         var cA = new Connector(this, "MALE", 0, 36.7, 28, 65);
         var cB = new Connector(this, "FEMALE", 148, 65, 176, 37);
