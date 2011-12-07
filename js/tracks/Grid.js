@@ -6,11 +6,8 @@
         this.visibleWidth  = visibleWidth;
         this.visibleHeight = visibleHeight;
         
-        this.dx = this.visibleWidth/2;
-        this.dy = this.visibleHeight/2;
-        
-        this.width  = this.visibleWidth;
-        this.height = this.visibleHeight;
+        this.width  = this.visibleWidth + (2 * config.gridMain);
+        this.height = this.visibleHeight+ (2 * config.gridMain);
  		
  		this.absoluteX = 0;
  		this.absoluteY = 0;
@@ -25,8 +22,11 @@
         this.Shape_initialize();
         this.snapToPixel = true;
 
-        this.regX = this.visibleWidth/2;
-        this.regY = this.visibleHeight/2;
+        this.regX = this.width/2;
+        this.regY = this.height/2;
+        
+        this.x = -config.gridMain;
+        this.y = -config.gridMain;
                
         this.makeShape();
         this.clickWasADrag = false;
@@ -36,12 +36,12 @@
 		
 		railroad.hideRotationDial();
 		
-		this.dx = this.visibleWidth/2;
-        this.dy = this.visibleHeight/2;
-
+		this.dx = this.x;
+        this.dy = this.y;
+				
         var offset = {
-            x: this.dx - evt.stageX,
-            y: this.dy - evt.stageY
+            x: this.x - evt.stageX,
+            y: this.y - evt.stageY
         };
 
         var grid = this;
@@ -67,20 +67,23 @@
     }
 
     Grid.prototype.move = function( x, y ){
+
     	var displaceX = x - this.dx;
     	var displaceY = y - this.dy;
- 
+    	 
      	this.dx = x;
     	this.dy = y;
     	
     	this.absoluteX += displaceX;
     	this.absoluteY += displaceY;
-    	    	
-    	this.x = this.regX + this.absoluteX%200;
-    	this.y = this.regY + this.absoluteY%200;
-
+    	
     	//FIXME : we should move all objects
     	railroad.moveAllTracks(displaceX, displaceY);
+    	
+    	
+    	this.x = this.absoluteX % config.gridMain + this.regX - config.gridMain;
+    	this.y = this.absoluteY % config.gridMain + this.regY - config.gridMain; 
+    	
     }
     
     Grid.prototype.makeShape = function() {
@@ -88,27 +91,29 @@
 		
 		g.clear();
 		g.beginFill(colors.gridBackground);
-		g.rect(-200,-200,this.width + 4200,this.height + 400);
+		//Set the main rectangle
+		g.rect(0,0,this.width,this.height);
 		
-		for(var i=-20; i<20+ this.visibleWidth/10; i++) {
+		//Vertical grid
+		for(var i= 0; i< this.width; i += (config.gridMain / config.gridSecondary)) {
 			g.setStrokeStyle(1);
 			
-			( i%5 ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
+			( i % config.gridMain ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
 
         	g.beginStroke(color);
-        	g.moveTo(i*20,-200).lineTo(i*20,this.visibleHeight);
+        	g.moveTo( i, 0 ).lineTo( i, this.height);
 		}
 		
-		for (var j=-20; j< 20+this.visibleHeight/10; j++) {
+		for(var j= 0; j < this.height; j += (config.gridMain / config.gridSecondary)) {
 			g.setStrokeStyle(1);
 			
-			( j%5 ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
+			( j % config.gridMain ) ? color=colors.gridMainLine : color=colors.gridSecondaryLine;
 
         	g.beginStroke(color);
-        	g.moveTo(-200,j*20).lineTo(this.visibleWidth,j*20);
+        	g.moveTo( 0, j ).lineTo( this.width, j);
 		}
-		
-		this.cache(-200,-200,this.visibleWidth + 200, this.visibleHeight + 200);
+				
+		this.cache(0,0,this.width, this.height);
     }
     
     Grid.prototype.resetView = function() {

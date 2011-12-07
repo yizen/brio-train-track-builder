@@ -5,8 +5,8 @@
     
     	this.zoomFactor = zoomFactor;
 
-    	this.gridWidth  = originalGrid.width;
-        this.gridHeight = originalGrid.height;
+    	this.gridWidth  = originalGrid.visibleWidth;
+        this.gridHeight = originalGrid.visibleHeight;
         
         this.originalGrid = originalGrid;
     
@@ -15,7 +15,7 @@
         
         this.x = this.gridWidth  - this.width / 2 - 20;
     	this.y = this.gridHeight - this.height /2 - 20;
-    	
+    	    	
 		this.rectangleMask = new Object;
     	this.rectangleMask.x = -this.width/2;
     	this.rectangleMask.y = -this.height/2;
