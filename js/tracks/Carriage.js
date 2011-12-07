@@ -98,7 +98,7 @@
 					setDirty();
 					
 					redirectTickerToStage(true);
-					var tween = Tween.get(draggedCarriage).to({rotation: newRotation}, 600, Transition.ease.out(Transition.bounce)).call(redirectTickerToStage,[false]);
+					var tween = Tween.get(draggedCarriage).to({rotation: newRotation}, 600, Ease.bounceOut).call(redirectTickerToStage,[false]);
 				}
 			}
 		}

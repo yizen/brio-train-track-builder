@@ -37,7 +37,7 @@ function init() {
 
 function createSampleObjects() {
 
-    var maxObjects = 5;
+    var maxObjects = 10;
     var objectsArray = new Array();
     var rnd = 0;
     for (var i = 0; i < maxObjects; i++) {

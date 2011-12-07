@@ -103,7 +103,7 @@
     },
     
     TripleTrack.prototype.onDoubleClick = function(evt) {
-    	this.switches[cB].switch();
+    	this.switches[cB].change();
     }
     	
 

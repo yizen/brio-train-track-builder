@@ -1,0 +1,26 @@
+-FIXME = drag de la gris sur la droite
+-FIXME = main.js : dépendance sur carriage (tick)
+-FIXME = Keys.js : dépendance sur carriage (stop)
+-FIXME = normalisation des points sur courbes de bezier
+-FIXME = carriage : décalage sur cercle
+-FIXME = carriage : renversement aléatoires
+-FIXME = erreurs sur certains tracés
+-FIXME = raccord post drop de la pièce magnetisée
+-FIXME = système de build des javascripts
+
+-TODO = Feux
+-TODO = Timetables
+-TODO = Gares
+-TODO = Wagons
+-TODO = Design aiguillages, fenêtre de gestion aiguillages
+-TODO = Ponts, Z-index
+-TODO = Collisions carriage
+-TODO = Collisions layout Tracks
+-TODO = Calcul longueur
+-TODO = Track reversibles
+-TODO = Sauvegarde, restore
+-TODO = AutoLayout
+-TODO = Shadows
+-TODO = Preview des maps en 3D http://graphicriver.net/theme_previews/408305-map-creator-action?index=3
+-TODO = Feedback look (% pièces posses, longueur totale)
+

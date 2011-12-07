@@ -1,0 +1,2 @@
+./build.js --tasks=BUILDSOURCE -o tracks.js
+

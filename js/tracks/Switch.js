@@ -19,7 +19,7 @@ Switch.prototype.getCurrentTarget = function() {
 	return this.targetConnectors[this.position];
 };
 
-Switch.prototype.switch = function() {
+Switch.prototype.change = function() {
 	this.position ++;
 	
 	if (this.position > this.targetConnectors.length-1) this.position = 0;
