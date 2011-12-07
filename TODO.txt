@@ -6,7 +6,6 @@
 -FIXME = carriage : renversement aléatoires
 -FIXME = erreurs sur certains tracés
 -FIXME = raccord post drop de la pièce magnetisée
--FIXME = système de build des javascripts
 
 -TODO = Feux
 -TODO = Timetables
