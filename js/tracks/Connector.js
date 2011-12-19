@@ -1,11 +1,12 @@
 var Connector = Class.extend({
 
-    init: function (track, type, x1, y1, x2, y2) {
+    init: function (track, type, p1, p2) {
         this.track = track;
+                
         this.type = type;
 
-        this.p1 = new Point2D(x1, y1);
-        this.p2 = new Point2D(x2, y2);
+        this.p1 = new Point2D(parseFloat(p1.x), parseFloat(p1.y));
+        this.p2 = new Point2D(parseFloat(p2.x), parseFloat(p2.y));
 
         this.previous = new Point2D(0, 0);
 

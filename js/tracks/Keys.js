@@ -22,7 +22,6 @@ var Keys = (function() {
     },
     
     stopTrain: function() {
-    	console.log("-------------- STOP BY SPACE -----------------");
     	carriage.stop();
     }
 

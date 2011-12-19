@@ -1,4 +1,3 @@
--FIXME = drag de la gris sur la droite
 -FIXME = main.js : dépendance sur carriage (tick)
 -FIXME = Keys.js : dépendance sur carriage (stop)
 -FIXME = normalisation des points sur courbes de bezier
@@ -7,19 +6,23 @@
 -FIXME = erreurs sur certains tracés
 -FIXME = raccord post drop de la pièce magnetisée
 
--TODO = Feux
+-TODO = Pieces Library
+-TODO = Track naming
+-TODO = Save, restore tracks
+-TODO = Traffic lights
 -TODO = Timetables
--TODO = Gares
+-TODO = Stations
 -TODO = Wagons
--TODO = Design aiguillages, fenêtre de gestion aiguillages
--TODO = Ponts, Z-index
+-TODO = Switches
+-TODO = Bridges, Z-index
 -TODO = Collisions carriage
 -TODO = Collisions layout Tracks
--TODO = Calcul longueur
 -TODO = Track reversibles
--TODO = Sauvegarde, restore
 -TODO = AutoLayout
 -TODO = Shadows
--TODO = Preview des maps en 3D http://graphicriver.net/theme_previews/408305-map-creator-action?index=3
--TODO = Feedback look (% pièces posses, longueur totale)
+-TODO = Preview 3D maps http://graphicriver.net/theme_previews/408305-map-creator-action?index=3
+-TODO = Feedback look (% of game box pieces used, total length)
+-TODO = Remove dependency on Base.js
+-TODO = Move all config options to a global static object
+-TODO = Create a proper MVC version, moving out Railroad view actions and creating a single singleton for the model.
 

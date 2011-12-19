@@ -7,6 +7,7 @@ var update = true;
 
 var railroad;
 var carriage = new Carriage();
+var library = new Library();
 
 function init() {
     //associate the canvas with the stage
@@ -45,13 +46,13 @@ function createSampleObjects() {
 
        switch (rnd) {
        	case 0:
-       		objectsArray[i] = new StraightTrack();
+       		objectsArray[i] = new Track("StraightTrack");
        		break;
        	case 1:
-            objectsArray[i] = new CurvedTrack();
+       		objectsArray[i] = new Track("StraightTrack");
             break;
         case 2:
-        	objectsArray[i] = new TripleTrack();
+       		objectsArray[i] = new Track("StraightTrack");
             break;
         }
 
