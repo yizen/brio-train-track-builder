@@ -20,6 +20,7 @@
         this.selected = false;
         this.segments = new Array();
         this.switches = new Array();
+        this.renderingContext = config.defaultTemplate;
         
         //Connectors
         for (var connectorNumber in this.config.connectors) {
@@ -71,6 +72,12 @@
         }
 
         this.makeShape();
+    }
+    
+    Track.prototype.setRenderingContext = function(context) {
+    	this.renderingContext = context;
+    	this.makeShape();
+    
     }
     
     Track.prototype.getCoord = function() {
@@ -178,6 +185,7 @@
     
     Track.prototype.getFillColor = function() {
     	if (this.selected) 				return colors.defaultSelectedTrackFill;
+    	if (this.renderingContext ==  config.smallTemplate) return colors.smallTemplateTrackFill;
     	if (this.color === undefined) 	return colors.defaultTrackFill;
     	return this.color;
     }
@@ -185,6 +193,11 @@
     Track.prototype.getStrokeColor = function() {
     	if (this.selected) 				return colors.defaultSelectedTrackStroke;
     	return colors.defaultTrackStroke;
+    }
+    
+    
+    Track.prototype.getStrokeWidth = function() {
+    	return config.defaultTrackStroke;
     }
     
     Track.prototype.resetConnections = function() {
@@ -248,7 +261,7 @@
     }
     
     Track.prototype.makeShape = function () {
-       //Track Shape
+		//Track Shape
         var g = this.trackShape.graphics;
         g.clear();
         
@@ -268,7 +281,7 @@
         			g.moveTo(operation.x, operation.y);
         			break;
         		case "startStroke":
-        			g.setStrokeStyle(config.defaultTrackStroke)
+        			g.setStrokeStyle(this.getStrokeWidth());
         			g.beginStroke(this.getStrokeColor());
         			break;
         		case "startFill":

@@ -8,6 +8,7 @@ var update = true;
 var railroad;
 var carriage = new Carriage();
 var library = new Library();
+var tracksDrawer = new TracksDrawer();
 
 function init() {
     //associate the canvas with the stage
@@ -32,6 +33,10 @@ function init() {
     
     stage.addChild(backgroundGrid);
     stage.addChild(mapView);
+    
+    stage.addChild(tracksDrawer);
+    tracksDrawer.addTemplate("StraightTrack");
+
     
     railroad = new Railroad();
 }
@@ -63,8 +68,7 @@ function createSampleObjects() {
     }
     
     carriage.move(100,100);
-    stage.addChild(carriage);
-
+    stage.addChild(carriage);    
 }
 
 function tick() {
@@ -103,7 +107,7 @@ function redirectTickerToStage ( value ) {
 
 $(function () {
     init();
-    createSampleObjects();
+    //createSampleObjects();
 
     Ticker.addListener(window);
     Ticker.setFPS(config.maxFPS);

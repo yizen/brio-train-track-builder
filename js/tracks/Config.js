@@ -15,6 +15,8 @@ colors.defaultTrackStroke = "#A0998A";
 colors.defaultSelectedTrackFill = "#FCF688";
 colors.defaultSelectedTrackStroke = "#A0998A";
 
+colors.smallTemplateTrackFill = "#A0998A";
+
 colors.defaultDialTickStoke = "rgba(0,0,0,0.2)";
 
 colors.gridBackground = "#0b9ad3";
@@ -31,6 +33,8 @@ colors.carriageStroke = "#FFFFFF";
 
 colors.arrow = "#204665";
 colors.arrowHover = "#F1F3AE";
+
+colors.tracksDrawerFill = "rgba(255,255,255,0.4)";
 
 /*
  * CONFIG : global configuration options
@@ -50,7 +54,10 @@ config.mapViewZoomLevel = 0.20;
 config.gridMain = 200; // width / height of grid divisions in pixels
 config.gridSecondary = 5; // number of divisions of the main grid.
 
+config.defaultTemplate = "defaultTemplate";
 config.defaultTrackStroke = 3;
+
+config.smallTemplate = "smallTemplate";
 
 
 config.useDefaultLibrary = true;
