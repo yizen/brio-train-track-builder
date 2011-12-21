@@ -23,6 +23,10 @@ var Keys = (function() {
     
     stopTrain: function() {
     	carriage.stop();
+    },
+    
+    undo: function() {
+    	railroad.restore();
     }
 
     //this is a 'privileged' function - it can access the internal private vars

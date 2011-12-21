@@ -38,7 +38,7 @@
 	}
 	
 	RotationDial.prototype.onPress = function (evt) {
-		
+		railroad.save();
 		redirectTickerToStage(true);
 		
 		var origX = evt.stageX;
@@ -51,6 +51,7 @@
         var predefinedAngle = 20;
        
 		evt.onMouseMove = function (evt) {
+			
             angle = dial.getAngle(new Point2D(origX, origY),new Point2D(evt.stageX,evt.stageY));
             
             //FIXME : something must be wrong somewhere, we shouldn't have to substract 180.

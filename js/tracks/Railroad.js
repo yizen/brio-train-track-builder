@@ -246,7 +246,7 @@ var Railroad = Class.extend({
 	* @method endMagnetism
 	**/
     endDrag: function () {
-    	    
+       	    
         this.gizmo.clear();
 
         if (debug.magnetism || debug.snapTo) {
@@ -328,7 +328,7 @@ var Railroad = Class.extend({
         		.call(this.reconnectConnectorsWithinNeighbourhood, this.selection, this)
         		.call(this.extendSelection, [this.dragGestureConnection.sourceTrack], this)
         		.call(this.showRotationDial, [this.selection], this)
-        		.call(redirectTickerToStage, [false]);          
+        		.call(redirectTickerToStage, [false]);  
     },
     
     snapSelectionAlong: function(sourceTrack, dx,dy, rotation, pivot) {
@@ -493,5 +493,41 @@ var Railroad = Class.extend({
    		var tween1 = Tween.get(this.forwardArrow).to({ alpha: 0 }, 300).call(this.forwardArrow.hide, [true], this); 
    		var tween2 = Tween.get(this.backwardArrow).to({ alpha: 0 }, 300).call(this.backwardArrow.hide, [true], this)
    		.call(redirectTickerToStage, [false]);; 
-   	}   	
+   	},
+   	
+   	save: function() {
+   	
+   		var serializedRailroad = new Array();
+   		
+		for (var savedTrackIndex in this.tracks) {        			
+        	var savedTrack = this.tracks[savedTrackIndex];
+        	serializedRailroad.push (savedTrack.serialize());
+        }
+        
+        localStorage.setObject('railroad', serializedRailroad);
+   	},
+   	
+   	restore: function() {
+   	
+   		var allTracks = new Array();
+   	
+   		for (var trackIndex in this.tracks) {        			
+        	allTracks.push(this.tracks[trackIndex]);
+        }
+        
+        for (var i=allTracks.length; i>0; i--) {
+        	this.removeTrack(allTracks[i-1]);
+        }
+
+        railroad.selection.clear();
+        
+        var previousRailroad = localStorage.getObject('railroad');
+        
+        for (var trackIndex in previousRailroad) {
+        	var addedTrack = new Track(previousRailroad[trackIndex].name);
+        	addedTrack.move(previousRailroad[trackIndex].x, previousRailroad[trackIndex].y);
+        	addedTrack.rotate(previousRailroad[trackIndex].rotation);
+        	railroad.addTrack(addedTrack);
+        }
+   	} 	
 });

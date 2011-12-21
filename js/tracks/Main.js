@@ -40,7 +40,6 @@ function init() {
     tracksDrawer.addTemplate("LargeCurvedTrack");
     tracksDrawer.addTemplate("CurvedSwitchingTrack");
 
-
     
     railroad = new Railroad();
 }
@@ -118,4 +117,5 @@ $(function () {
     
     $(window).jkey('backspace',Keys.deleteSelection);
     $(window).jkey('space', Keys.stopTrain);
+    $(window).jkey('ctrl+z', Keys.undo);
 });

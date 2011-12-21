@@ -117,6 +117,8 @@
 
     Track.prototype.onPress = function (evt) {
     
+    	railroad.save();
+    
         var offset = {
             x: this.x - evt.stageX,
             y: this.y - evt.stageY
@@ -323,6 +325,17 @@
         	}
         }
         setDirty();
+    }
+    
+    Track.prototype.serialize = function () {
+    	var serialized = new Object();
+    	
+    	serialized.x = this.x;
+    	serialized.y = this.y;
+    	serialized.name = this.config.name;
+    	serialized.rotation = this.rotation;
+    	
+    	return serialized;
     }
 
     window.Track = Track;
