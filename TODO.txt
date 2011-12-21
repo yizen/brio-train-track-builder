@@ -1,10 +1,10 @@
+-FIXME = Reconnect all tracks not working properly. Should be called also after UNDO.
 -FIXME = main.js : dépendance sur carriage (tick)
 -FIXME = Keys.js : dépendance sur carriage (stop)
 -FIXME = normalisation des points sur courbes de bezier
 -FIXME = carriage : décalage sur cercle
 -FIXME = carriage : renversement aléatoires
 -FIXME = erreurs sur certains tracés
--FIXME = raccord post drop de la pièce magnetisée
 -FIXME = le rotation dial ne conserve pas l'angle original
 
 -TODO = Railroad naming (flip side from mapview)
@@ -20,7 +20,7 @@
 -TODO = Track reversibles
 -TODO = AutoLayout
 -TODO = Shadows
--TODO = Undo / Redo
+-TODO = Unlimited levels of Undo / Redo
 -TODO = Preview 3D maps http://graphicriver.net/theme_previews/408305-map-creator-action?index=3
 -TODO = Feedback look (% of game box pieces used, total length)
 -TODO = Remove dependency on Base.js

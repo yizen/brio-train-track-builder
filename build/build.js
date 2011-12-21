@@ -56,6 +56,9 @@ var SOURCE_FILES = [
 	"../js/lib/kevinlindsay/Intersection.js",
 
 	/*  APP LIBS */
+	
+	"../js/tracks/Storage.js",
+
 	"../js/tracks/Config.js",
 	"../js/tracks/Library.js",
 	"../js/tracks/Track.js",
