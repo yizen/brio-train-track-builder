@@ -38,6 +38,8 @@ function init() {
     
     tracksDrawer.addTemplate("ShortStraightTrack");
     tracksDrawer.addTemplate("LargeCurvedTrack");
+    tracksDrawer.addTemplate("CurvedSwitchingTrack");
+
 
     
     railroad = new Railroad();

@@ -36,16 +36,14 @@
     
     TracksDrawer.prototype.makeShape = function() {
     
-        var lastChildx = 20;
-        var childWidth = 40;    
+        var lastChildx = 60;
+        var childWidth = 100;    
         
         //Don't display the drawer for empty drawers
     	if (this.templates.length == 0) return;
     	
     	for (var i in this.templates) {
     		
-    		lastChildx += childWidth;
-
     		var child = new Track(this.templates[i]);
     		
     		child.setRenderingContext(config.smallTemplate);
@@ -55,9 +53,9 @@
     			var newTrack = new Track(this.config.name);
     			railroad.addTrack(newTrack);
     			
-    			newTrack.x = lastChildx;
-    			newTrack.y = 20;
-    			
+    			newTrack.x = evt.stageX;
+    			newTrack.y = evt.stageY;
+    			    			
     			newTrack.onPress(evt);	      
     		}
     		
@@ -67,13 +65,18 @@
     		this.addChild(child);
     		
     		child.x = lastChildx;
-    		child.y = 20;
+    		child.y = 45;
+    		lastChildx += childWidth;
     	}
     	
     	var g = this.drawerShape.graphics;
         g.clear();
         g.beginFill(colors.tracksDrawerFill);
-        g.rect(0,0,lastChildx + 100, 50);
+        g.rect(0,0,lastChildx - childWidth + 80, 90);
+        
+        
+        this.x = 20;
+    	this.y = backgroundGrid.visibleHeight - 120;
     }
     
     window.TracksDrawer = TracksDrawer;

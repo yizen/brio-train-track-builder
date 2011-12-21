@@ -31,6 +31,18 @@
         	this.connectors[this.config.connectors[connectorNumber].name] = connector;
         }
         
+        //Switches
+        for (var switchNumber in this.config.switches) {
+        
+        	var switchesConnectorArray = new Array();
+        	
+        	for (var switchesConnectorNumber in this.config.switches[switchNumber].connectorsArray) {
+        		switchesConnectorArray.push(this.connectors[this.config.switches[switchNumber].connectorsArray[switchesConnectorNumber]]);
+        	}
+        	
+        	this.addSwitch( this.config.switches[switchNumber].source, switchesConnectorArray, parseInt(this.config.switches[switchNumber].position));  
+        }
+        
         //Segments
         for (var segmentNumber in this.config.segments) {
         	

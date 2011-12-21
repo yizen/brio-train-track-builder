@@ -60,6 +60,9 @@ var SOURCE_FILES = [
 	"../js/tracks/Library.js",
 	"../js/tracks/Track.js",
 	
+	"../js/tracks/TracksDrawer.js",
+
+	
 	"../js/tracks/Segment.js",
 
 	"../js/tracks/Connector.js",
