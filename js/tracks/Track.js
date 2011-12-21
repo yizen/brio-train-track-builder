@@ -33,10 +33,29 @@
         
         //Segments
         for (var segmentNumber in this.config.segments) {
-        	 this.addSegment( new Segment(
+        	
+        	var p1 = undefined;
+        	var p2 = undefined;
+        	
+        	if (this.config.segments[segmentNumber].cp1) {
+        	
+        		p1 = new Point2D(   parseFloat(this.config.segments[segmentNumber].cp1.x),
+        	 						parseFloat(this.config.segments[segmentNumber].cp1.y));
+        	}
+        	
+        	if (this.config.segments[segmentNumber].cp2) {
+        	 						
+				p2 = new Point2D(   parseFloat(this.config.segments[segmentNumber].cp2.x),
+        	 						parseFloat(this.config.segments[segmentNumber].cp2.y));        	 						
+        	}
+        	
+        	this.addSegment( new Segment(
         	 	this.config.segments[segmentNumber].type,
         	 	this.connectors[this.config.segments[segmentNumber].connectorA],
-        	 	this.connectors[this.config.segments[segmentNumber].connectorB] ));
+        	 	this.connectors[this.config.segments[segmentNumber].connectorB],
+        	 	p1,
+        	 	p2
+        	 	 ));
         }
         
 

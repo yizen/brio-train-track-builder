@@ -52,7 +52,7 @@
     		
     		child.onPress = function (evt) {
     		
-    			var newTrack = new Track("StraightTrack");
+    			var newTrack = new Track(this.config.name);
     			railroad.addTrack(newTrack);
     			
     			newTrack.x = lastChildx;

@@ -35,7 +35,9 @@ function init() {
     stage.addChild(mapView);
     
     stage.addChild(tracksDrawer);
-    tracksDrawer.addTemplate("StraightTrack");
+    
+    tracksDrawer.addTemplate("ShortStraightTrack");
+    tracksDrawer.addTemplate("LargeCurvedTrack");
 
     
     railroad = new Railroad();
@@ -51,13 +53,13 @@ function createSampleObjects() {
 
        switch (rnd) {
        	case 0:
-       		objectsArray[i] = new Track("StraightTrack");
+       		objectsArray[i] = new Track("ShortStraightTrack");
        		break;
        	case 1:
-       		objectsArray[i] = new Track("StraightTrack");
+       		objectsArray[i] = new Track("ShortStraightTrack");
             break;
         case 2:
-       		objectsArray[i] = new Track("StraightTrack");
+       		objectsArray[i] = new Track("ShortStraightTrack");
             break;
         }
 
