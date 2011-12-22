@@ -1,133 +1,133 @@
 (function (window) {
 
-    function MapView(originalGrid, zoomFactor, width, height) {
-    	this.type = "MapView";
-    
-    	this.zoomFactor = zoomFactor;
+	function MapView(originalGrid, zoomFactor, width, height) {
+		this.type = "MapView";
+	
+		this.zoomFactor = zoomFactor;
 
-    	this.gridWidth  = originalGrid.visibleWidth;
-        this.gridHeight = originalGrid.visibleHeight;
-        
-        this.originalGrid = originalGrid;
-    
-        this.width  = width;
-        this.height = height;
-        
-        this.x = this.gridWidth  - this.width / 2 - 20;
-    	this.y = this.gridHeight - this.height /2 - 20;
-    	    	
+		this.gridWidth	 = originalGrid.visibleWidth;
+		this.gridHeight = originalGrid.visibleHeight;
+		
+		this.originalGrid = originalGrid;
+	
+		this.width	= width;
+		this.height = height;
+		
+		this.x = this.gridWidth	 - this.width / 2 - 20;
+		this.y = this.gridHeight - this.height /2 - 20;
+			 	
 		this.rectangleMask = new Object;
-    	this.rectangleMask.x = -this.width/2;
-    	this.rectangleMask.y = -this.height/2;
-    	this.rectangleMask.width  = this.width;
-    	this.rectangleMask.height = this.height;
+		this.rectangleMask.x = -this.width/2;
+		this.rectangleMask.y = -this.height/2;
+		this.rectangleMask.width  = this.width;
+		this.rectangleMask.height = this.height;
 		
 		this.initialize();
-    }
+	}
 
-    MapView.prototype = new SimpleMaskContainer();
-    MapView.prototype.SimpleMaskContainer_initialize = MapView.prototype.initialize; //unique to avoid overriding base class
-    // constructor:
-    MapView.prototype.initialize = function () {
-        this.SimpleMaskContainer_initialize();
-        
-        this.background = new Shape();
-        this.background.snapToPixel = true;
-        this.background.width = this.width;
-        this.background.height = this.height;
-        this.background.regX = this.width / 2;
-        this.background.regY = this.height / 2;
+	MapView.prototype = new SimpleMaskContainer();
+	MapView.prototype.SimpleMaskContainer_initialize = MapView.prototype.initialize; //unique to avoid overriding base class
+	// constructor:
+	MapView.prototype.initialize = function () {
+		this.SimpleMaskContainer_initialize();
+		
+		this.background = new Shape();
+		this.background.snapToPixel = true;
+		this.background.width = this.width;
+		this.background.height = this.height;
+		this.background.regX = this.width / 2;
+		this.background.regY = this.height / 2;
 
-        this.map = new Shape();
-        this.map.snapToPixel = true;
-       
-        this.map.scaleX = this.zoomFactor;
-        this.map.scaleY = this.zoomFactor;
-        
-        this.map.width  = this.gridWidth;
-        this.map.height = this.gridHeight;
-        
-        this.map.regX   = this.map.width / 2;
-        this.map.regY   = this.map.height / 2
+		this.map = new Shape();
+		this.map.snapToPixel = true;
+	   
+		this.map.scaleX = this.zoomFactor;
+		this.map.scaleY = this.zoomFactor;
+		
+		this.map.width	= this.gridWidth;
+		this.map.height = this.gridHeight;
+		
+		this.map.regX	= this.map.width / 2;
+		this.map.regY	= this.map.height / 2
 
 		this.addChild(this.background);
-        this.addChild(this.map);
-    }
+		this.addChild(this.map);
+	}
 
-    MapView.prototype.makeShape = function () {
-    
-    	var h = this.background.graphics;
-    	h.clear();
-    	h.beginFill(colors.mapViewBackground);
-        h.rect(0, 0, this.width , this.height).endFill();
-        
-        var g = this.map.graphics;
-        g.clear();
-        
-        for (var track in railroad.tracks) {
-            this.drawPath(railroad.tracks[track], g);
-        }
-        
-        g.beginFill(colors.mapViewViewport).setStrokeStyle(1 / this.zoomFactor).beginStroke("#000");
-        
-        var x = -this.originalGrid.absoluteX;
-        var y = -this.originalGrid.absoluteY;
-        
-        var height = this.gridHeight;
-        var width  = this.gridWidth;
+	MapView.prototype.makeShape = function () {
+	
+		var h = this.background.graphics;
+		h.clear();
+		h.beginFill(colors.mapViewBackground);
+		h.rect(0, 0, this.width , this.height).endFill();
+		
+		var g = this.map.graphics;
+		g.clear();
+		
+		for (var track in railroad.tracks) {
+			this.drawPath(railroad.tracks[track], g);
+		}
+		
+		g.beginFill(colors.mapViewViewport).setStrokeStyle(1 / this.zoomFactor).beginStroke("#000");
+		
+		var x = -this.originalGrid.absoluteX;
+		var y = -this.originalGrid.absoluteY;
+		
+		var height = this.gridHeight;
+		var width  = this.gridWidth;
 
-        g.rect(x,y,width,height);
-        g.endFill();
-    }
-    
-    MapView.prototype.refresh = function() {
-    	this.makeShape();
-    }
+		g.rect(x,y,width,height);
+		g.endFill();
+	}
+	
+	MapView.prototype.refresh = function() {
+		this.makeShape();
+	}
 
-    MapView.prototype.drawPath = function (track, graphics) {
+	MapView.prototype.drawPath = function (track, graphics) {
 
-        for (var segmentIndex in track.segments) {
-        	var c1 = backgroundGrid.absolutizePoint ( track.segments[segmentIndex].connectorA.getCenter() );
-            var c2 = backgroundGrid.absolutizePoint ( track.segments[segmentIndex].connectorB.getCenter() );
+		for (var segmentIndex in track.segments) {
+			var c1 = backgroundGrid.absolutizePoint ( track.segments[segmentIndex].connectorA.getCenter() );
+			var c2 = backgroundGrid.absolutizePoint ( track.segments[segmentIndex].connectorB.getCenter() );
 
-            graphics.endFill().setStrokeStyle(5/this.zoomFactor).beginStroke("#000");
+			graphics.endFill().setStrokeStyle(5/this.zoomFactor).beginStroke("#000");
 
-            if (track.segments[segmentIndex].type == "LINE") {
-            	graphics.moveTo(c1.x, c1.y).lineTo(c2.x, c2.y).closePath();
-            } else {
+			if (track.segments[segmentIndex].type == "LINE") {
+				graphics.moveTo(c1.x, c1.y).lineTo(c2.x, c2.y).closePath();
+			} else {
 				cp1 = backgroundGrid.absolutizePoint ( track.segments[segmentIndex].cp1 );
-                cp2 = backgroundGrid.absolutizePoint ( track.segments[segmentIndex].cp2 );
+				cp2 = backgroundGrid.absolutizePoint ( track.segments[segmentIndex].cp2 );
 
-                graphics.moveTo(c1.x, c1.y).bezierCurveTo(
-	                    cp1.x, 
-	                    cp1.y, 
-	                    cp2.x, 
-	                    cp2.y, 
-	                    c2.x, 
-	                    c2.y);
-            }
+				graphics.moveTo(c1.x, c1.y).bezierCurveTo(
+						 cp1.x, 
+						 cp1.y, 
+						 cp2.x, 
+						 cp2.y, 
+						 c2.x, 
+						 c2.y);
+			}
 		}
 		
 		for (var connector in track.connectors) {
-            //Draw connectors
-            graphics.endFill().setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
-            
-            var p1 = backgroundGrid.absolutizePoint ( track.connectors[connector].p1 );
-            var p2 = backgroundGrid.absolutizePoint ( track.connectors[connector].p2 );
+			//Draw connectors
+			graphics.endFill().setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
+			
+			var p1 = backgroundGrid.absolutizePoint ( track.connectors[connector].p1 );
+			var p2 = backgroundGrid.absolutizePoint ( track.connectors[connector].p2 );
 
-            graphics.moveTo(p1.x, p1.y).lineTo(p2.x, p2.y).closePath();
-        }
-    }
-    
-    MapView.prototype.onPress = function (evt) {       
+			graphics.moveTo(p1.x, p1.y).lineTo(p2.x, p2.y).closePath();
+		}
+	}
+	
+	MapView.prototype.onPress = function (evt) {	   
 		evt.onMouseMove = function (evt) {
-        		
-        };
+				
+		};
 		
 		evt.onMouseUp = function (evt) {
 					
 		};
 	}
 
-    window.MapView = MapView;
+	window.MapView = MapView;
 }(window));

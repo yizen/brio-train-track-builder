@@ -84,7 +84,7 @@ LIBRARY.data =
 				{
 					"name" : "cA",
 					"type" : "FEMALE",
-					"p1"   : {
+					"p1"	: {
 						"x" : "0",
 						"y" : "0"
 					},
@@ -96,7 +96,7 @@ LIBRARY.data =
 				{
 					"name" : "cB",
 					"type" : "MALE",
-					"p1"   : {
+					"p1"	: {
 						"x" : "90",
 						"y" : "40"
 					},
@@ -209,7 +209,7 @@ LIBRARY.data =
 				{
 					"name" : "cA",
 					"type" : "MALE",
-					"p1"   : {
+					"p1"	: {
 						"x" : "0",
 						"y" : "36.7"
 					},
@@ -221,7 +221,7 @@ LIBRARY.data =
 				{
 					"name" : "cB",
 					"type" : "FEMALE",
-					"p1"   : {
+					"p1"	: {
 						"x" : "148",
 						"y" : "65"
 					},
@@ -393,7 +393,7 @@ LIBRARY.data =
 				{
 					"name" : "cA",
 					"type" : "FEMALE",
-					"p1"   : {
+					"p1"	: {
 						"x" : "0",
 						"y" : "0"
 					},
@@ -405,7 +405,7 @@ LIBRARY.data =
 				{
 					"name" : "cB",
 					"type" : "MALE",
-					"p1"   : {
+					"p1"	: {
 						"x" : "150",
 						"y" : "40"
 					},
@@ -417,7 +417,7 @@ LIBRARY.data =
 				{
 					"name" : "cC",
 					"type" : "MALE",
-					"p1"   : {
+					"p1"	: {
 						"x" : "25",
 						"y" : "125"
 					},

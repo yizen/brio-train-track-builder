@@ -1,4 +1,4 @@
-var Keys = (function() {
+var Keys = (function () {
   //these are only accessible internally
   /*
   var privateVar = 'this is private';
@@ -7,33 +7,32 @@ var Keys = (function() {
   };
   */
 
-  return {
-    //these can be accessed externally
-    //publicVar: 'this is public',
+	return {
+		//these can be accessed externally
+		//publicVar: 'this is public',
+		deleteSelection: function () {
+			if (railroad.selection.length == 0) return;
 
-    deleteSelection: function() {
-    	if (railroad.selection.length == 0) return;
-    	
-    	for (var i=0; i<railroad.selection.length; i++) {    	
-            railroad.removeTrack(railroad.selection[i]);
-        }
-        
-        railroad.selection.clear();
-    },
-    
-    stopTrain: function() {
-    	carriage.stop();
-    },
-    
-    undo: function() {
-    	railroad.restore();
-    }
+			for (var i = 0; i < railroad.selection.length; i++) {
+				railroad.removeTrack(railroad.selection[i]);
+			}
 
-    //this is a 'privileged' function - it can access the internal private vars
-    /*
+			railroad.selection.clear();
+		},
+
+		stopTrain: function () {
+			carriage.stop();
+		},
+
+		undo: function () {
+			railroad.restore();
+		}
+
+		//this is a 'privileged' function - it can access the internal private vars
+	/*
     myFunction: function() {
       return privateVar;
     }
     */
-  };
+	};
 })();

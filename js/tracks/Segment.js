@@ -42,11 +42,11 @@ Segment.prototype.setRegistrationPoint = function (regX, regY) {
 
 	if (this.type == "LINE") return;
 	
-    this.cp1.rmoveto(-regX,-regY);
-    this.cp2.rmoveto(-regX,-regY);
-    
-    this.previousPoint.x = 0;
-    this.previousPoint.y = 0;		
+	this.cp1.rmoveto(-regX,-regY);
+	this.cp2.rmoveto(-regX,-regY);
+	
+	this.previousPoint.x = 0;
+	this.previousPoint.y = 0;		
 };
 
 Segment.prototype.moveBy = function(dx,dy) {
@@ -75,7 +75,7 @@ Segment.prototype.rotate = function(angle, pivotPoint) {
 	if (this.type == "LINE") return;
 	
 	var pivotAngle = angle - this.angle;
-    this.angle = angle;
+	this.angle = angle;
 
 	this.cp1.rotate(pivotAngle, pivotPoint);
 	this.cp2.rotate(pivotAngle, pivotPoint);
@@ -91,45 +91,45 @@ Segment.prototype.getPoints = function(points, reverse) {
 
 	if (points === undefined) var points = new Array();
 	if (reverse === undefined) var reverse = false;
-    
-    var startPoint = new Point2D();
-    var endPoint   = new Point2D(); 
-    var cp1 = new Point2D();
-    var cp2 = new Point2D();
+	
+	var startPoint = new Point2D();
+	var endPoint   = new Point2D(); 
+	var cp1 = new Point2D();
+	var cp2 = new Point2D();
 
 	if (!reverse) {
 		startPoint = this.connectorA.getCenter();
-		endPoint   = this.connectorB.getCenter();
+		endPoint	 = this.connectorB.getCenter();
 		cp1 = this.cp1;
 		cp2 = this.cp2;
 	} else {
 		startPoint = this.connectorB.getCenter();
-		endPoint   = this.connectorA.getCenter();
+		endPoint	 = this.connectorA.getCenter();
 		cp1 = this.cp2;
 		cp2 = this.cp1;
 	}
 	
-    var discreetPath = new Path();
-    				
-    if (this.type == "BEZIER") {
-    	discreetPath.addBezier([ 	startPoint,
-    								cp1,
-    								cp2,
-    								endPoint ]);
-    }
-    				
-    if (this.type == "LINE") {
-    	discreetPath.addLine(	startPoint,
-    							endPoint );
-    				
-    }
-    				
-    for (var i=0; i<100; i += (100/config.pathPrecision)) {
-    	var p = discreetPath.atT(i/100);
-    	p.segment = this;
-    	p.position = config.pathPrecision * i/100 ;
-    	points.push(p);
-    }
-    	    	    	
-    return points;
+	var discreetPath = new Path();
+					
+	if (this.type == "BEZIER") {
+		discreetPath.addBezier([ 	startPoint,
+									cp1,
+									cp2,
+									endPoint ]);
+	}
+					
+	if (this.type == "LINE") {
+		discreetPath.addLine(	startPoint,
+								endPoint );
+					
+	}
+					
+	for (var i=0; i<100; i += (100/config.pathPrecision)) {
+		var p = discreetPath.atT(i/100);
+		p.segment = this;
+		p.position = config.pathPrecision * i/100 ;
+		points.push(p);
+	}
+			 		  	
+	return points;
 }
