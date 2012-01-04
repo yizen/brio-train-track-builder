@@ -39,6 +39,8 @@
 	
 	RotationDial.prototype.onPress = function (evt) {
 		railroad.save();
+		railroad.hideMeasure();
+		
 		redirectTickerToStage(true);
 		
 		var origX = evt.stageX;
@@ -85,6 +87,7 @@
 		
 		evt.onMouseUp = function (evt) {
 			redirectTickerToStage(false);
+			railroad.showMeasure();
 			setDirty();
 		};
 	}

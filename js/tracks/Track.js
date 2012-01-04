@@ -116,9 +116,10 @@
 	}
 
 	Track.prototype.onPress = function (evt) {
-	
-		railroad.save();
-	
+		if (!evt.doNoSave) {
+			railroad.save();
+		}
+		
 		var offset = {
 			x: this.x - evt.stageX,
 			y: this.y - evt.stageY
@@ -146,8 +147,9 @@
 		// add a handler to the event object's onMouseMove callback
 		// this will be active until the user releases the mouse button:
 		evt.onMouseMove = function (ev) {
-			
+
 			railroad.hideRotationDial();
+			railroad.hideMeasure();
 		
 			x = ev.stageX + offset.x;
 			y = ev.stageY + offset.y;
@@ -161,6 +163,7 @@
 		};
 		
 		evt.onMouseUp = function (ev) {
+			railroad.showMeasure();
 			railroad.endDrag();
 		}
 	}

@@ -164,7 +164,7 @@ var Railroad = Class.extend({
 	
 		//Fix an odd behaviour when in some cases a selection with a length of one is passed directy as an object.
 		if (!(selection instanceof Array)) {
-			n_selection=new Selection(); 
+			var n_selection=new Selection(); 
 			n_selection.add(selection); 
 			selection = n_selection;
 		}
@@ -256,6 +256,7 @@ var Railroad = Class.extend({
 		//We're dropping out of magnetism range
 		if (this.dragGestureConnection.status == false) {
 			//this.dragGestureConnection.sourceConnector.edge = null; //FIXME : why ?
+			this.refresh();
 			return;
 		}
 
@@ -280,8 +281,8 @@ var Railroad = Class.extend({
 			this.debugView.graphics.beginFill("rgba(255,255,255,0.5)").drawCircle(connectPoint.target.x, connectPoint.target.y, 10);
 		}
 
-		dx = connectPoint.target.x - connectPoint.source.x;
-		dy = connectPoint.target.y - connectPoint.source.y;
+		var dx = connectPoint.target.x - connectPoint.source.x;
+		var dy = connectPoint.target.y - connectPoint.source.y;
 
 		if (debug.snapTo) {
 			this.debugView.graphics.beginFill("rgba(255,0,255,0.5)").drawCircle(sourceCoord.x, sourceCoord.y, 20);
@@ -328,6 +329,7 @@ var Railroad = Class.extend({
 				.call(this.reconnectConnectorsWithinNeighbourhood, this.selection, this)
 				.call(this.extendSelection, [this.dragGestureConnection.sourceTrack], this)
 				.call(this.showRotationDial, [this.selection], this)
+				.call(this.refresh)
 				.call(redirectTickerToStage, [false]);  
 	},
 	
@@ -374,7 +376,7 @@ var Railroad = Class.extend({
 			
 			//Reset graph
 			var resetEdges = new Array();
-			neighbours = source.vertex.getNeighbours();
+			var neighbours = source.vertex.getNeighbours();
 
 			for (var n in neighbours) {
 				//Check if the neighbour is itself in the connection
@@ -474,7 +476,7 @@ var Railroad = Class.extend({
 	},
 	
 	showRotationDial: function (selection) {
-		topmost = stage.getNumChildren();
+		var topmost = stage.getNumChildren();
 		stage.addChildAt(this.rotationDial, topmost);
 		
 		this.rotationDial.selection = selection;
@@ -492,11 +494,11 @@ var Railroad = Class.extend({
 
    		var tween1 = Tween.get(this.forwardArrow).to({ alpha: 0 }, 300).call(this.forwardArrow.hide, [true], this); 
    		var tween2 = Tween.get(this.backwardArrow).to({ alpha: 0 }, 300).call(this.backwardArrow.hide, [true], this)
-   		.call(redirectTickerToStage, [false]);; 
+   					      .call(redirectTickerToStage, [false]);; 
    	},
    	
    	save: function() {
-   	
+
    		var serializedRailroad = new Array();
    		
 		for (var savedTrackIndex in this.tracks) {					
@@ -504,7 +506,7 @@ var Railroad = Class.extend({
 			serializedRailroad.push (savedTrack.serialize());
 		}
 		
-		localStorage.setObject('railroad', serializedRailroad);
+		sessionStorage.setObject('railroad', serializedRailroad);
    	},
    	
    	restore: function() {
@@ -521,7 +523,7 @@ var Railroad = Class.extend({
 
 		railroad.selection.clear();
 		
-		var previousRailroad = localStorage.getObject('railroad');
+		var previousRailroad = sessionStorage.getObject('railroad');
 		
 		for (var trackIndex in previousRailroad) {
 			var addedTrack = new Track(previousRailroad[trackIndex].name);
@@ -529,5 +531,49 @@ var Railroad = Class.extend({
 			addedTrack.rotate(previousRailroad[trackIndex].rotation);
 			railroad.addTrack(addedTrack);
 		}
-   	} 	
+   	},
+   	
+   	measure: function() {
+   		
+   		var allPoints = new Array();
+   		
+   		var xMin = Number.MAX_VALUE;
+   		var xMax = Number.MIN_VALUE;
+   		
+   		var yMin = Number.MAX_VALUE;
+   		var yMax = Number.MIN_VALUE;
+   		
+   		
+   		for (var trackIndex in this.tracks) {
+   			var points = this.tracks[trackIndex].getAllPoints();
+   			allPoints = allPoints.concat(points);
+   		}
+   		
+   		for (var pointsIndex in allPoints) {
+   			xMin = Math.min(allPoints[pointsIndex].x, xMin);
+   			xMax = Math.max(allPoints[pointsIndex].x, xMax);
+   			
+   			yMin = Math.min(allPoints[pointsIndex].y, yMin);
+   			yMax = Math.max(allPoints[pointsIndex].y, yMax);
+   		}
+   		
+   		return { "xMin": xMin, "xMax": xMax, "yMin" : yMin, "yMax" : yMax }		
+   	},
+   	
+   	showMeasure: function() {
+   		measure.refresh();
+   		measure.visible = true;
+   		setDirty();
+   	},
+   	
+   	hideMeasure: function() {
+   		measure.visible = false;
+   		setDirty();
+   	},
+   	
+   	refresh: function() {
+		measure.refresh();
+   	}
+   	
+   		
 });

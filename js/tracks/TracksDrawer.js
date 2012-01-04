@@ -56,6 +56,8 @@
 				newTrack.x = evt.stageX;
 				newTrack.y = evt.stageY;
 					   			
+				evt.doNoSave = true;	   			
+					   			
 				newTrack.onPress(evt);			
 			}
 			
@@ -71,10 +73,20 @@
 		
 		var g = this.drawerShape.graphics;
 		g.clear();
-		g.beginFill(colors.tracksDrawerFill);
-		g.rect(0,0,lastChildx - childWidth + 80, 90);
 		
+		var width = lastChildx - childWidth + 80;
+		var height = 90;
+		/*
+		g.beginLinearGradientStroke ( ["#181818","#363636","#181818" ] , [0, 0.5, 1] , 0 , 0 , width , 1 );
+		g.setStrokeStyle(1);
+		g.moveTo(0,0);
+		g.lineTo(width,0);
 		
+		g.endStroke();
+		g.beginRadialGradientFill(["#202020", "#101010"], [0, 1], width/2,0,0,  width/2,0, width);
+		g.rect(0,1,width,height);
+		*/
+				
 		this.x = 20;
 		this.y = backgroundGrid.visibleHeight - 120;
 	}

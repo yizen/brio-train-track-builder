@@ -8,3 +8,7 @@ Storage.prototype.getObject = function(key) {
 	var value = this.getItem(key);
 	return value && JSON.parse(value);
 }
+
+Storage.prototype.resetObject = function(key) {
+	this.removeItem(key);
+}

@@ -64,6 +64,7 @@ var SOURCE_FILES = [
 	"../js/tracks/Track.js",
 	
 	"../js/tracks/TracksDrawer.js",
+	"../js/tracks/Measure.js",
 
 	
 	"../js/tracks/Segment.js",

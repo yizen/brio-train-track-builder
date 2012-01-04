@@ -35,6 +35,7 @@
 	Grid.prototype.onPress = function (evt) {
 
 		railroad.hideRotationDial();
+		railroad.hideMeasure();
 
 		this.dx = this.x;
 		this.dy = this.y;
@@ -59,6 +60,10 @@
 		};
 
 		evt.onMouseUp = function (ev) {
+			railroad.showMeasure();
+			railroad.refresh();
+			setDirty();
+
 			if (!grid.clickWasADrag) {
 				//clear selection
 				railroad.selection.reset();

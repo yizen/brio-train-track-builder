@@ -9,6 +9,7 @@ var railroad;
 var carriage = new Carriage();
 var library = new Library();
 var tracksDrawer = new TracksDrawer();
+var measure = new Measure();
 
 function init() {
 	//associate the canvas with the stage
@@ -35,6 +36,7 @@ function init() {
 	stage.addChild(mapView);
 
 	stage.addChild(tracksDrawer);
+	stage.addChild(measure);
 
 	tracksDrawer.addTemplate("ShortStraightTrack");
 	tracksDrawer.addTemplate("LargeCurvedTrack");
@@ -42,6 +44,7 @@ function init() {
 
 
 	railroad = new Railroad();
+	sessionStorage.resetObject('railroad');
 }
 
 function createSampleObjects() {
