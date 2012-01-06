@@ -573,6 +573,8 @@ var Railroad = Class.extend({
    	
    	refresh: function() {
 		measure.refresh();
+		
+		if ((typeof mapView !== "undefined") && (mapView !== null)) mapView.refresh();
    	}
    	
    		
