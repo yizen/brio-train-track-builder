@@ -37,7 +37,9 @@
 	TracksDrawer.prototype.makeShape = function() {
 	
 		var lastChildx = 60;
-		var childWidth = 100;	 
+		var childWidth = 100;
+		
+		this.removeAllChildren();	 
 		
 		//Don't display the drawer for empty drawers
 		if (this.templates.length == 0) return;
