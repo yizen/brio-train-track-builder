@@ -11,6 +11,7 @@ var library = new Library();
 var tracksDrawer = new TracksDrawer();
 var measure = new Measure();
 
+
 function init() {
 	//associate the canvas with the stage
 	canvas = document.getElementById("trackCanvas");
@@ -41,7 +42,6 @@ function init() {
 	tracksDrawer.addTemplate("ShortStraightTrack");
 	tracksDrawer.addTemplate("LargeCurvedTrack");
 	tracksDrawer.addTemplate("CurvedSwitchingTrack");
-
 
 	railroad = new Railroad();
 	sessionStorage.resetObject('railroad');

@@ -22,12 +22,32 @@
 		this.switches = new Array();
 		this.renderingContext = config.defaultTemplate;
 		
+		this.isHovered = false;
+		this.isDragged = false;
+		
+		this.flipButtons = new Array();
+		
 		//Connectors
 		for (var connectorNumber in this.config.connectors) {
 			var connector = new Connector(this, this.config.connectors[connectorNumber].type, 
 												this.config.connectors[connectorNumber].p1, 
 												this.config.connectors[connectorNumber].p2);
 												
+			if (this.config.connectors[connectorNumber].isAxisForFlip) {
+				connector.isAxisForFlip = true;
+					var flipButton = new Button("./img/flip.png", "./img/flipHover.png");
+					stage.addChild(flipButton);
+					flipButton.snapToPixel = true;
+					flipButton.connector = connector;
+					flipButton.regX = 10;
+					flipButton.regY = 10;
+					flipButton.onClick = function() {
+						this.hide();
+						this.connector.track.mirror(this.connector);
+					}
+					this.flipButtons.push(flipButton);
+			}		
+							
 			this.connectors[this.config.connectors[connectorNumber].name] = connector;
 		}
 		
@@ -51,7 +71,7 @@
 			
 			if (this.config.segments[segmentNumber].cp1) {
 			
-				p1 = new Point2D(	  parseFloat(this.config.segments[segmentNumber].cp1.x),
+				p1 = new Point2D(	parseFloat(this.config.segments[segmentNumber].cp1.x),
 			 						parseFloat(this.config.segments[segmentNumber].cp1.y));
 			}
 			
@@ -75,15 +95,21 @@
 		this.regX = parseFloat(this.config.regX);
 		this.regY = parseFloat(this.config.regY);
 		
+		//Influence for magnetism
 		this.influence = parseFloat(this.config.influence); //the "magnet" influence radius of the track
 		
+		//Registration point for connectors
 		for (var element in this.connectors)	{	
 			this.connectors[element].setRegistrationPoint(this.regX, this.regY);
 		};
 		
+		//Registration point for segments
 		for (var element in this.segments)	{	
 			this.segments[element].setRegistrationPoint(this.regX, this.regY);
 		};
+		
+		//Graphics (clone)
+		this.graphics = JSON.parse(JSON.stringify(this.config.graphics));
 		
 		this.trackShape = new Shape();
 		this.trackShape.snapToPixel = true;
@@ -108,7 +134,6 @@
 	Track.prototype.setRenderingContext = function(context) {
 		this.renderingContext = context;
 		this.makeShape();
-	
 	}
 	
 	Track.prototype.getCoord = function() {
@@ -143,6 +168,10 @@
 		
 		railroad.showRotationDial( railroad.selection );
 		railroad.startDrag();
+					
+		rootTrack.isDragged = true;
+
+		this.makeShape();
 
 		// add a handler to the event object's onMouseMove callback
 		// this will be active until the user releases the mouse button:
@@ -150,6 +179,7 @@
 
 			railroad.hideRotationDial();
 			railroad.hideMeasure();
+			
 		
 			x = ev.stageX + offset.x;
 			y = ev.stageY + offset.y;
@@ -164,19 +194,21 @@
 		
 		evt.onMouseUp = function (ev) {
 			railroad.showMeasure();
+			rootTrack.isDragged = false;
 			railroad.endDrag();
 		}
 	}
 
 	Track.prototype.onMouseOver = function () {
-		setDirty();
+		this.isHovered = true;
 	}
 
 	Track.prototype.onMouseOut = function () {
-		setDirty();
+		this.isHovered = false;
 	}
 
 	Track.prototype.move = function (x, y) {
+		this.hideFlipButtons();
 		this.x = x;
 		this.y = y;
 	
@@ -220,20 +252,21 @@
 	},
 	
 	Track.prototype.getFillColor = function() {
-		if (this.selected) 				return colors.defaultSelectedTrackFill;
-		if (this.renderingContext ==  config.smallTemplate) return colors.smallTemplateTrackFill;
-		if (this.color === undefined) 	return colors.defaultTrackFill;
+		if (this.renderingContext == config.smallTemplate) return colors.smallTemplateTrackFill;
+		//if (this.isHovered && !this.isDragged)	return colors.hoveredTrackFill;
+		if (this.selected) 				return colors.selectedTrackFill;
+		if (this.color === undefined) 	return colors.trackFill;
 		return this.color;
 	}
 	
 	Track.prototype.getStrokeColor = function() {
-		if (this.selected) 				return colors.defaultSelectedTrackStroke;
-		return colors.defaultTrackStroke;
+		if (this.selected) 				return colors.selectedTrackStroke;
+		return colors.trackStroke;
 	}
 	
 	
 	Track.prototype.getStrokeWidth = function() {
-		return config.defaultTrackStroke;
+		return config.trackStroke;
 	}
 	
 	Track.prototype.resetConnections = function() {
@@ -247,6 +280,8 @@
 			this.selected = value;
 			this.makeShape();
 		}
+		
+		(value == true) ? this.showFlipButtons() : this.hideFlipButtons();
 	}
 	
 	Track.prototype.addSegment = function (segment) {
@@ -301,11 +336,10 @@
 		var g = this.trackShape.graphics;
 		g.clear();
 		
-		
 		var operation;
-		for (var opNumber in this.config.graphics) {
+		for (var opNumber in this.graphics) {
 		
-			operation = this.config.graphics[opNumber];
+			operation = this.graphics[opNumber];
 			switch (operation.op) {
 				case "line":
 					g.lineTo(operation.x, operation.y);
@@ -327,7 +361,137 @@
 					console.error("Track.prototype.makeShape : unknown operation : "+operation.op);
 			}
 		}
+		
 		setDirty();
+	}
+	
+	Track.prototype.showFlipButtons = function() {
+		
+		if (this.isDragged) return;
+		if (this.renderingContext == config.smallTemplate) return;
+			
+		for (var i in this.flipButtons) {
+		
+			//Calculate better position for flip buttons
+			var center = this.flipButtons[i].connector.getCenter();
+			var line   = this.flipButtons[i].connector.p1.getLineTo(this.flipButtons[i].connector.p2);
+			var mirrorLine = this.flipButtons[i].connector.p1.perpendicular(line);
+			
+			var position = center.mirror(mirrorLine);
+			
+			this.flipButtons[i].x = position.x;
+			this.flipButtons[i].y = position.y;
+
+			this.flipButtons[i].show();
+		}
+		setDirty();
+	}
+	
+	Track.prototype.hideFlipButtons = function() {
+		for (var i in this.flipButtons) {
+			this.flipButtons[i].hide();
+		}
+	}
+	
+	Track.prototype.mirror = function(connector) {
+		//Create mirror line
+		var center = connector.getCenter();
+		var line   = connector.p1.getLineTo(connector.p2);		
+		var mirrorLine = center.perpendicular(line);
+		
+		/*
+		// Draw the debug line
+		
+		var pLine = new Point2D();
+		if (pLine.intersect(mirrorLine,{"a":0,"b":1,"c":0})) {
+			var g = this.trackShape.graphics;
+			g.setStrokeStyle(5).beginStroke("#cdcdcd");
+			g.moveTo(center.x -this.x+this.regX, center.y -this.y+this.regY);
+			g.lineTo(pLine.x  -this.x+this.regX, pLine.y  -this.y+this.regY);
+		}
+		
+		if (pLine.intersect(mirrorLine,{"a":0,"b":1,"c":-backgroundGrid.visibleHeight})) {
+			var g = this.trackShape.graphics;
+			g.setStrokeStyle(5).beginStroke("#efefef");
+			g.moveTo(center.x -this.x+this.regX, center.y -this.y+this.regY);
+			g.lineTo(pLine.x  -this.x+this.regX, pLine.y  -this.y+this.regY);
+
+		}
+		*/
+		
+		//Cycle through all key points of the track and mirror it
+		
+		//Connectors
+		for (var connectorNumber in this.connectors) {
+			this.connectors[connectorNumber].p1 = this.connectors[connectorNumber].p1.mirror(mirrorLine);
+			this.connectors[connectorNumber].p2 = this.connectors[connectorNumber].p2.mirror(mirrorLine);
+			
+			var p1prime = new Point2D(this.connectors[connectorNumber].p1.x, this.connectors[connectorNumber].p1.y);
+			
+			this.connectors[connectorNumber].p1 = this.connectors[connectorNumber].p2;
+			this.connectors[connectorNumber].p2 = p1prime;
+			
+		}
+		
+		//Segments
+		for (var segmentNumber in this.segments) {
+			if (this.segments[segmentNumber].type == "BEZIER") {
+				this.segments[segmentNumber].cp1 = this.segments[segmentNumber].cp1.mirror(mirrorLine);
+				this.segments[segmentNumber].cp2 = this.segments[segmentNumber].cp2.mirror(mirrorLine);
+			}
+		}
+		
+		//Outline
+		
+		//Recalculate relative mirror line
+		center = connector.getCenter(true);
+		line   = connector.original.p1.getLineTo(connector.original.p2);		
+		mirrorLine = center.perpendicular(line);
+
+		var operation;
+		for (var opNumber in this.graphics) {
+		
+			operation = this.graphics[opNumber];
+			switch (operation.op) {
+				case "line":
+					var p = new Point2D(operation.x, operation.y);
+					p = p.mirror(mirrorLine);
+					this.graphics[opNumber].x = p.x;
+					this.graphics[opNumber].y = p.y;
+					break;
+					
+				case "bezier":
+					var p = new Point2D(operation.x, operation.y);
+					p  = p.mirror(mirrorLine);
+					this.graphics[opNumber].x = p.x;
+					this.graphics[opNumber].y = p.y;
+					
+					var cp1 = new Point2D(operation.cp1x, operation.cp1y);
+					cp1 = cp1.mirror(mirrorLine);
+					this.graphics[opNumber].cp1x = cp1.x;
+					this.graphics[opNumber].cp1y = cp1.y;
+					
+					var cp2 = new Point2D(operation.cp2x, operation.cp2y);
+					cp2 = cp2.mirror(mirrorLine);
+					this.graphics[opNumber].cp2x = cp2.x;
+					this.graphics[opNumber].cp2y = cp2.y;				
+					break;
+					
+				case "move":
+					var p = new Point2D(operation.x, operation.y);
+					p = p.mirror(mirrorLine);
+					this.graphics[opNumber].x = p.x;
+					this.graphics[opNumber].y = p.y;
+					break;
+					
+				default:
+					break;
+			}
+		}
+		
+		this.makeShape();
+		this.showFlipButtons();
+		railroad.refresh();	
 	}
 	
 	Track.prototype.serialize = function () {
@@ -340,6 +504,28 @@
 		
 		return serialized;
 	}
+	
+    Track.prototype.getBoundingRect = function() {
+        //FIXME : this doesn't take into account the width of the track.
+    	
+    	var xMin = Number.MAX_VALUE;
+   		var xMax = Number.MIN_VALUE;
+   		
+   		var yMin = Number.MAX_VALUE;
+   		var yMax = Number.MIN_VALUE;
+   		
+   		var points = this.getAllPoints();
+   		
+   		for (var pointsIndex in points) {
+   			xMin = Math.min(points[pointsIndex].x, xMin);
+   			xMax = Math.max(points[pointsIndex].x, xMax);
+   			
+   			yMin = Math.min(points[pointsIndex].y, yMin);
+   			yMax = Math.max(points[pointsIndex].y, yMax);
+   		}
+   		
+   		return { "xMin": xMin, "xMax": xMax, "yMin" : yMin, "yMax" : yMax }    	
+    }
 
 	window.Track = Track;
 }(window));

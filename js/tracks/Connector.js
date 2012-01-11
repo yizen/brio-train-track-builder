@@ -7,7 +7,13 @@ var Connector = Class.extend({
 
 		this.p1 = new Point2D(parseFloat(p1.x), parseFloat(p1.y));
 		this.p2 = new Point2D(parseFloat(p2.x), parseFloat(p2.y));
-
+		
+		this.isAxisForFlip = false;
+		
+		this.original = new Object; // will store original values
+		this.original.p1 = this.p1.clone();
+		this.original.p2 = this.p2.clone();
+	
 		this.previous = new Point2D(0, 0);
 
 		this.angle = 0;
@@ -48,6 +54,9 @@ var Connector = Class.extend({
 
 		this.shape.graphics.beginFill("#24734B"); //GREEN
 		this.shape.graphics.drawEllipse(this.p2.x - 5, this.p2.y - 5, 10, 10);
+		
+		this.shape.graphics.beginFill("#112211"); //GREY
+		this.shape.graphics.drawEllipse(this.getCenter().x - 5, this.getCenter().y - 5, 10, 10);
 
 		setDirty();
 	},
@@ -116,8 +125,13 @@ var Connector = Class.extend({
 		connectorB.edge = this;
 	},
 
-	getCenter: function () {
-		return new Point2D((this.p1.x + this.p2.x) / 2, (this.p1.y + this.p2.y) / 2);
+	getCenter: function (original) {
+	
+		if (original === undefined) {
+			return new Point2D((this.p1.x + this.p2.x) / 2, (this.p1.y + this.p2.y) / 2);
+		} else {
+			return new Point2D((this.original.p1.x + this.original.p2.x) / 2, (this.original.p1.y + this.original.p2.y) / 2);
+		}
 	},
 
 	resetConnection: function () {

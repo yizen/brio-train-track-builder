@@ -6,6 +6,7 @@
 -FIXME = carriage : renversement aléatoires
 -FIXME = erreurs sur certains tracés
 -FIXME = le rotation dial ne conserve pas l'angle original
+-FIXME = undo / redo does not take into account track flip
 
 -TODO = Railroad naming (flip side from mapview)
 -TODO = Save, restore tracks
@@ -22,7 +23,7 @@
 -TODO = Shadows
 -TODO = Unlimited levels of Undo / Redo
 -TODO = Preview 3D maps http://graphicriver.net/theme_previews/408305-map-creator-action?index=3
--TODO = Feedback look (% of game box pieces used, total length)
+-TODO = Feedback loop (% of game box pieces used, total length)
 -TODO = Remove dependency on Base.js
 -TODO = Move all config options to a global static object
 -TODO = Create a proper MVC version, moving out Railroad view actions and creating a single singleton for the model.

@@ -156,7 +156,7 @@
 	}
 	
 	RotationDial.prototype.getDialTickColor = function() {
-		return colors.defaultDialTickStoke;
+		return colors.dialTickStoke;
 	}
 	
 	RotationDial.prototype.getAngle = function (origin, target) {

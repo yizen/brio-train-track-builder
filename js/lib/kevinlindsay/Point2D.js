@@ -444,6 +444,9 @@ Point2D.prototype.closeTo = function(that, margin) {
     return ( Math.abs(this.x - that.x) < margin && Math.abs(this.y - that.y) < margin );
 };
 
+/*
+ * Get Angle
+ */
 Point2D.prototype.getAngle = function (origin, target) {
    		
 		//Create Vectors
@@ -478,5 +481,113 @@ Point2D.prototype.getAngle = function (origin, target) {
         // To leave in radians just do: return ( Math.acos ( rdx * dx + rdy * dy ) );
         //return ( Math.acos ( rdx * dx + rdy * dy ) / 6.28 * 360 );	
         return (Math.atan2(By, Bx) - Math.atan2(Ay, Ax)) / (Math.PI * 2 / 360);
-   };
+};
+
+/*
+ * Get Line to
+ */
+Point2D.prototype.getLineTo = function (target) {
+
+		if (this.x == target.x) {
+			var a = 1;
+			var b = 0;
+			var c = -this.x;
+		} else {
+			var a = target.y - this.y;
+        	var b = this.x - target.x;
+        	var c = this.y * target.x - this.x * target.y;
+        }
+        
+        if(a < 0) {
+                a = -a;
+                b = -b;
+                c = -c;
+        }
+        
+        var angle;
+        
+        if(a == 0) {
+        	angle = 0;
+        } 
+        else {
+        	if(b == 0) {
+        		angle =  Math.PI / 2;
+        	} 
+        	else {
+	        	var tan = - a / b;
+	        	if(tan > 0)
+	        	{
+	                angle = Math.atan(tan);
+	        	}
+	        	else
+	        	{
+	                angle = Math.atan(tan) + Math.PI;
+	        	}
+	        }
+        }
+        
+        angle = angle * (180/Math.PI);
+        
+        return ({"a":a, "b":b, "c":c, "angle":angle});
+};
  
+/* 
+ * Mirror / Symmetry 
+ */
+
+Point2D.prototype.mirror = function(line) {
+		var d = line.a * line.a + line.b * line.b;
+        var x = (this.x * (line.b * line.b - line.a * line.a) - 2 * line.a *line.b * this.y - 2 * line.a * line.c) / d;
+        var y = (this.y * (line.a * line.a - line.b * line.b) - 2 * line.a *line.b * this.x - 2 * line.b * line.c) / d;
+        return new Point2D(x,y);
+};
+
+/*
+ * Perpendicular
+ */
+Point2D.prototype.perpendicular = function(line) {
+	var a = line.b;
+	var b = -line.a;
+	var c = line.a * this.y - line.b * this.x;
+
+	var angle;
+        
+    if(a == 0) {
+    	angle = 0;
+    } 
+    else {
+    	if(b == 0) {
+    		angle =  Math.PI / 2;
+    	} 
+    	else {
+        	var tan = - a / b;
+        	if(tan > 0)
+        	{
+                angle = Math.atan(tan);
+        	}
+        	else
+        	{
+                angle = Math.atan(tan) + Math.PI;
+        	}
+        }
+    }
+    
+    angle = angle * (180/Math.PI);
+
+    return ({"a":a, "b":b, "c":c, "angle":angle});
+};
+
+/*
+ * Intersect
+ */
+Point2D.prototype.intersect = function(line0,line1) {
+        var d = line0.a * line1.b - line1.a * line0.b;
+        
+        if(Math.abs(d) <= 0) {
+                return false;
+        } else {
+      		this.x = (line0.b * line1.c - line0.c * line1.b) / d;
+            this.y = (line0.c * line1.a - line0.a * line1.c) / d;
+            return true;
+        }
+}

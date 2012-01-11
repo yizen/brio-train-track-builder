@@ -9,15 +9,17 @@ debug.snapTo	= false;
  */
  
 var colors = new Object();
-colors.defaultTrackFill 	= "#FFFFFF";
-colors.defaultTrackStroke = "#A0998A";
+colors.trackFill 	= "#FFFFFF";
+colors.trackStroke = "#A0998A";
 
-colors.defaultSelectedTrackFill = "#FCF688";
-colors.defaultSelectedTrackStroke = "#A0998A";
+colors.selectedTrackFill = "#FCF688";
+colors.selectedTrackStroke = "#A0998A";
 
-colors.smallTemplateTrackFill = "#A0998A";
+colors.hoveredTrackFill = "#FC0088";
 
-colors.defaultDialTickStoke = "rgba(0,0,0,0.2)";
+colors.smallTemplateTrackFill = "rgba(0,0,0,0.5)";
+
+colors.dialTickStoke = "rgba(0,0,0,0.2)";
 
 colors.gridBackground = "#0b9ad3";
 colors.gridMainLine = "#21a2d6";
@@ -209,6 +211,7 @@ LIBRARY.data =
 				{
 					"name" : "cA",
 					"type" : "MALE",
+					"isAxisForFlip" : "true",
 					"p1"	: {
 						"x" : "0",
 						"y" : "36.7"
@@ -221,6 +224,7 @@ LIBRARY.data =
 				{
 					"name" : "cB",
 					"type" : "FEMALE",
+					"isAxisForFlip" : "true",					
 					"p1"	: {
 						"x" : "148",
 						"y" : "65"
