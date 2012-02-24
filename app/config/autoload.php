@@ -115,7 +115,7 @@ $autoload['model'] = array();
  * SPARKS
  */
  
-$autoload['sparks'] = array('mongodb/0.4.8');
+$autoload['sparks'] = array();
  
 
 /* End of file autoload.php */
