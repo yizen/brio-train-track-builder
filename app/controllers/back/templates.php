@@ -15,26 +15,185 @@ class Templates extends CI_Controller {
 		
 		$tokens = j_token_get_all( $raw );
 
-		$context = "";
+		$state = "START";
+		$expected = "";
+		
+		$graphics = array();
+		$connectors = array();
+		$nextGraphics = array();
+		$nextConnector = array();
+
+		
 		foreach($tokens as $token) {
+		
 			if ($token[0] == J_COMMENT) {
 				//Which context ?
 				if( preg_match("/graphics/",$token[1])) {
-					$context = "graphics";
-					log_message('error', 'GRAPHICS.');
+					$state = "GRAPHICS";
+					//log_message('error', 'GRAPHICS.');
 				}
 				
 				if( preg_match("/connectors/",$token[1])) {
-					$context = "connectors";
-					log_message('error', 'CONNECTORS.');
+					$state = "CONNECTORS";
+					//log_message('error', 'CONNECTORS.');
 				}
 				
 				if( preg_match("/segments/",$token[1])) {
-					$context = "segments";
-					log_message('error', 'SEGMENTS.');
+					$state = "SEGMENTS";
+					//log_message('error', 'SEGMENTS.');
 				}	
 			}
+			
+			if ($token[0] == J_IDENTIFIER) {
+				if ( preg_match("/moveTo/", $token[1])) {
+					$expected = "X";
+					
+					switch ($state) {
+						case "GRAPHICS":
+							$nextGraphics += array("op" => "move");
+							break;
+						case "CONNECTORS":
+							$nextConnector["p1"] = array();
+							$currentConnector = "p1";
+							break;
+						case "SEGMENTS":
+							break;
+					}
+				}
+				if ( preg_match("/lineTo/", $token[1])) {
+					$expected = "X";
+					
+					switch ($state) {
+						case "GRAPHICS":
+							$nextGraphics += array("op" => "line");
+							break;
+						case "CONNECTORS":
+							$nextConnector["p2"] = array();
+							$currentConnector = "p2";
+							break;
+						case "SEGMENTS":
+							break;
+					}
+				}
+				if ( preg_match("/bezierCurveTo/", $token[1])) {
+					$expected = "C1X";
+					
+					switch ($state) {
+						case "GRAPHICS":
+							$nextGraphics += array("op" => "bezier");
+							break;
+						case "CONNECTORS":
+							break;
+						case "SEGMENTS":
+							break;
+					}
+				}
+			}
+			
+			if ($token[0] == J_NUMERIC_LITERAL) {
+				switch ($expected) {
+					case "X" :
+						switch ($state) {
+							case "GRAPHICS":
+								$nextGraphics += array("x" => $token[1]);
+								$expected = "Y";
+								break;
+							case "CONNECTORS":
+								$expected = "Y";
+								$nextConnector[$currentConnector]["x"] = $token[1];
+								break;
+							case "SEGMENTS":
+								break;
+						}
+						
+						break;
+					case "Y" :
+						switch ($state) {
+							case "GRAPHICS":
+								$nextGraphics +=  array("y" => $token[1]);
+								$graphics["graphics"][] = $nextGraphics;
+								$nextGraphics = array();
+								$expected = "";
+								
+								break;
+							case "CONNECTORS":
+								$nextConnector[$currentConnector]["y"] = $token[1];
+								$connectors["connectors"][] = $nextConnector;
+								$nextConnector = array();
+								$expected = "";
+
+								break;
+							case "SEGMENTS":
+								break;
+						}
+
+						break;
+					case "C1X" :
+						switch ($state) {
+							case "GRAPHICS":
+								$nextGraphics += array("cp1x" => $token[1]);
+								$expected = "C1Y";
+								break;
+							case "CONNECTORS":
+								break;
+							case "SEGMENTS":
+								break;
+						}
+						
+						break;
+					case "C1Y" :
+						switch ($state) {
+							case "GRAPHICS":
+								$nextGraphics += array("cp1y" => $token[1]);
+								$expected = "C2X";
+								break;
+							case "CONNECTORS":
+								break;
+							case "SEGMENTS":
+								break;
+						}
+						
+						break;	
+					case "C2X" :
+						switch ($state) {
+							case "GRAPHICS":
+								$nextGraphics += array("cp2x" => $token[1]);
+								$expected = "C2Y";
+								break;
+							case "CONNECTORS":
+								break;
+							case "SEGMENTS":
+								break;
+						}
+						
+						break;	
+					case "C2Y" :
+						switch ($state) {
+							case "GRAPHICS":
+								$nextGraphics += array("cp2y" => $token[1]);
+								$expected = "X";
+								break;
+							case "CONNECTORS":
+								break;
+							case "SEGMENTS":
+								break;
+						}
+						
+						break;					
+					default:
+						break;		
+				}
+			
+			}
 		}
+		
+		
+		$jgraphics = json_encode($graphics);
+		log_message('error', $jgraphics);
+		
+		$jconnectors = json_encode($connectors);
+		log_message('error', $jconnectors);
+
 	}
     
 	public function index($page = 0) {
