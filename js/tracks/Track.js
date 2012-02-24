@@ -25,6 +25,8 @@
 		this.isHovered = false;
 		this.isDragged = false;
 		
+		//this.shadow = new Shadow("rgba(0,0,0,0.7)",0,0,6);
+		
 		this.flipButtons = new Array();
 		
 		//Connectors

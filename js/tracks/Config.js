@@ -397,6 +397,7 @@ LIBRARY.data =
 				{
 					"name" : "cA",
 					"type" : "FEMALE",
+					"isAxisForFlip" : "true",
 					"p1"	: {
 						"x" : "0",
 						"y" : "0"
@@ -409,6 +410,7 @@ LIBRARY.data =
 				{
 					"name" : "cB",
 					"type" : "MALE",
+					"isAxisForFlip" : "true",					
 					"p1"	: {
 						"x" : "150",
 						"y" : "40"
@@ -421,6 +423,7 @@ LIBRARY.data =
 				{
 					"name" : "cC",
 					"type" : "MALE",
+					"isAxisForFlip" : "true",					
 					"p1"	: {
 						"x" : "25",
 						"y" : "125"
