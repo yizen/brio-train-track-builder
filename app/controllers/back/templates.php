@@ -13,6 +13,10 @@ class Templates extends CI_Controller {
     private function parse_illustrator($raw) {
 		$this->load->helper('JTokenizer');
 		
+		if ( preg_match('/(<script.*>)(.*)(<\/script>)/imxsU',$raw, $script)) {
+			$raw = $script[2];
+		}
+		
 		$tokens = j_token_get_all( $raw );
 
 		$state = "START";
@@ -33,9 +37,18 @@ class Templates extends CI_Controller {
 					//log_message('error', 'GRAPHICS.');
 				}
 				
-				if( preg_match("/connectors/",$token[1])) {
+				if( preg_match("/connectors\/(.*)\/(.*)/",$token[1], $results)) {
 					$state = "CONNECTORS";
-					//log_message('error', 'CONNECTORS.');
+					
+					//Flush previous connector
+					if (sizeof($nextConnector)>0)
+						$connectors["connectors"][] = $nextConnector;
+						
+					$nextConnector = array();
+
+					
+					$nextConnector["name"] = $results[1];
+					$nextConnector["type"] = strtoupper($results[2]);
 				}
 				
 				if( preg_match("/segments/",$token[1])) {
@@ -118,10 +131,7 @@ class Templates extends CI_Controller {
 								break;
 							case "CONNECTORS":
 								$nextConnector[$currentConnector]["y"] = $token[1];
-								$connectors["connectors"][] = $nextConnector;
-								$nextConnector = array();
 								$expected = "";
-
 								break;
 							case "SEGMENTS":
 								break;
@@ -183,10 +193,16 @@ class Templates extends CI_Controller {
 					default:
 						break;		
 				}
-			
 			}
 		}
 		
+		//Flush previous graphics
+		if (sizeof($nextGraphics)>0)
+			$graphics["graphics"][] = $nextGraphics;
+			
+		//Flush previous connector
+		if (sizeof($nextConnector)>0)
+			$connectors["connectors"][] = $nextConnector;
 		
 		$jgraphics = json_encode($graphics);
 		log_message('error', $jgraphics);
@@ -194,6 +210,7 @@ class Templates extends CI_Controller {
 		$jconnectors = json_encode($connectors);
 		log_message('error', $jconnectors);
 
+		return ($graphics+$connectors);
 	}
     
 	public function index($page = 0) {
@@ -227,7 +244,14 @@ class Templates extends CI_Controller {
                         anchor('back/templates/display/'.$id, 'View'));
         }
         
-        $table_data['content'] = $this->table->generate();
+        //Generate table if at least one template
+        if ($this->template_model->count_all()>0) {
+        	$table_data['content'] = $this->table->generate();
+        } else {
+        	$table_data['content'] = "";
+        }
+        
+        //Add "New" button
         $table_data['content'].= '<a class="btn btn-small btn-info" href="'.site_url('back/templates/add/').'"><i class="icon-plus icon-white"></i> Add new template</a>';
         
         $layout_data['content'] = $this->load->view('back/templates/list', $table_data, true);
@@ -270,21 +294,23 @@ class Templates extends CI_Controller {
         } 
         else
         {
-            // If the form passed validation
+        	            // If the form passed validation
             $data = array( "name" => $this->input->post('name'),
             			   "vendor" => $this->input->post('vendor'),
             			   "reference" => $this->input->post('reference'),
             			   "regX" => $this->input->post('regX'),
             			   "regY" => $this->input->post('regY'),
             			   "influence" => $this->input->post('influence'));
+			
+			if ($this->input->post('illustrator')) {
+            	$data_illustrator = $this->parse_illustrator($this->input->post('illustrator'));
+            }
 
+			$data += $data_illustrator;
             
             $this->template_model->create($data);	
             
-            if ($this->input->post('illustrator')) {
-            	$this->parse_illustrator($this->input->post('illustrator'));
-            }
-            
+                        
             // Return to the index.
             redirect(site_url('back/templates/'));
         }

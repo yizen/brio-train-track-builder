@@ -28,7 +28,7 @@ class Template_model extends CI_Model {
 	}
 	
 	function update($id, $data) {
-		$this->mongo_db->where('_id', $id)->update($this->collection, $data);
+		$this->mongo_db->where('_id', $id)->set($data)->update($this->collection);
 	}
 	
 	function create($data) {

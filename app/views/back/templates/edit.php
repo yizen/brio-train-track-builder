@@ -65,7 +65,7 @@ text_input("influence", $influence);
 
 echo form_fieldset_close(); 
 
-if (!isset($connectors)) {
+if (isset($connectors)) {
 	echo form_fieldset('Connectors');
 
 	$connectors_type_options = array(

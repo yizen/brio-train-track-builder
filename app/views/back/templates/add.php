@@ -14,7 +14,7 @@ function text_input($name, $value, $label = NULL, $is_text_area = false) {
     	'id'          => $name,
     	'value'       => set_value($name, $value),
     	'style'       => 'input-xlarge',
-    	'rows'		  => '20'
+    	'rows'		  => '5'
     );
     
 	echo '<div class="control-group">';
