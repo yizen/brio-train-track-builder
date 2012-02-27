@@ -62,7 +62,7 @@ config.defaultTrackStroke = 3;
 config.smallTemplate = "smallTemplate";
 
 
-config.useDefaultLibrary = true;
+config.useDefaultLibrary = false; //Use AJAX loaded library
 config.minimumLibraryVersion = 1;
 
 /*

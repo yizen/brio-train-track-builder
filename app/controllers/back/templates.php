@@ -24,8 +24,11 @@ class Templates extends CI_Controller {
 		
 		$graphics = array();
 		$connectors = array();
+		$segments = array();
+		
 		$nextGraphics = array();
 		$nextConnector = array();
+		$nextSegment = array();
 
 		
 		foreach($tokens as $token) {
@@ -34,7 +37,12 @@ class Templates extends CI_Controller {
 				//Which context ?
 				if( preg_match("/graphics/",$token[1])) {
 					$state = "GRAPHICS";
-					//log_message('error', 'GRAPHICS.');
+					//Flush previous graphics
+					if (sizeof($nextGraphics)>0)
+						$graphics["graphics"][] = $nextGraphics;
+						
+					$nextGraphics = array();
+
 				}
 				
 				if( preg_match("/connectors\/(.*)\/(.*)/",$token[1], $results)) {
@@ -46,13 +54,23 @@ class Templates extends CI_Controller {
 						
 					$nextConnector = array();
 
-					
 					$nextConnector["name"] = $results[1];
 					$nextConnector["type"] = strtoupper($results[2]);
 				}
 				
-				if( preg_match("/segments/",$token[1])) {
+				if( preg_match("/segments\/(.*) (.*) (.*)/",$token[1], $results)) {
 					$state = "SEGMENTS";
+					
+					//Flush previous segment
+					if (sizeof($nextSegment)>0)
+						$segments["segments"][] = $nextSegment;
+						
+					$nextSegment = array();
+					
+					$nextSegment["type"] = strtoupper( $results[1] );
+					$nextSegment["connectorA"] = $results[2];
+					$nextSegment["connectorB"] = $results[3];
+					
 					//log_message('error', 'SEGMENTS.');
 				}	
 			}
@@ -101,6 +119,37 @@ class Templates extends CI_Controller {
 							break;
 					}
 				}
+				
+				if ( preg_match("/beginPath/", $token[1])) {
+					$expected = "";
+					
+					switch ($state) {
+						case "GRAPHICS":
+							$nextGraphics += array("op" => "startStroke");
+							$nextGraphics += array("op" => "startFill");
+							break;
+						case "CONNECTORS":
+							break;
+						case "SEGMENTS":
+							break;
+					}
+				}
+				
+				if ( preg_match("/beginPath/", $token[1])) {
+					$expected = "";
+					
+					switch ($state) {
+						case "GRAPHICS":
+							$nextGraphics += array("op" => "startStroke");
+							$nextGraphics += array("op" => "startFill");
+							break;
+						case "CONNECTORS":
+							break;
+						case "SEGMENTS":
+							break;
+					}
+				}
+
 			}
 			
 			if ($token[0] == J_NUMERIC_LITERAL) {
@@ -203,14 +252,20 @@ class Templates extends CI_Controller {
 		//Flush previous connector
 		if (sizeof($nextConnector)>0)
 			$connectors["connectors"][] = $nextConnector;
-		
+			
+		//Flush previous segments
+		if (sizeof($nextSegment)>0)
+			$segments["segments"][] = $nextSegment;
+	
+		/*
 		$jgraphics = json_encode($graphics);
 		log_message('error', $jgraphics);
 		
 		$jconnectors = json_encode($connectors);
 		log_message('error', $jconnectors);
-
-		return ($graphics+$connectors);
+		*/
+		
+		return ($graphics+$connectors+$segments);
 	}
     
 	public function index($page = 0) {
@@ -260,7 +315,7 @@ class Templates extends CI_Controller {
 		
 		$layout_data['pageTitle'] = "Tracks";
 		$layout_data['pageDescription'] = "";
-		$layout_data['nav_bar'] = $this->load->view('back/navigation', $navigation_data, true);
+		$layout_data['nav_bar'] = $this->load->view('back/common/navigation', $navigation_data, true);
 
 		$this->load->view('back/layouts/main', $layout_data);
 
@@ -288,7 +343,7 @@ class Templates extends CI_Controller {
 		
 	     	$layout_data['pageTitle'] = "Tracks";
 	     	$layout_data['pageDescription'] = "";
-	     	$layout_data['nav_bar'] = $this->load->view('back/navigation', $navigation_data, true);
+	     	$layout_data['nav_bar'] = $this->load->view('back/common/navigation', $navigation_data, true);
 
 	     	$this->load->view('back/layouts/main', $layout_data);
         } 
@@ -385,7 +440,7 @@ class Templates extends CI_Controller {
 		
 	     $layout_data['pageTitle'] = "Tracks";
 	     $layout_data['pageDescription'] = "";
-	     $layout_data['nav_bar'] = $this->load->view('back/navigation', $navigation_data, true);
+	     $layout_data['nav_bar'] = $this->load->view('back/common/navigation', $navigation_data, true);
 
 	     $this->load->view('back/layouts/main', $layout_data);
 	}

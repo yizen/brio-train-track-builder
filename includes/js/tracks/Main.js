@@ -39,9 +39,9 @@ function init() {
 	stage.addChild(tracksDrawer);
 	stage.addChild(measure);
 
-	tracksDrawer.addTemplate("ShortStraightTrack");
-	tracksDrawer.addTemplate("LargeCurvedTrack");
-	tracksDrawer.addTemplate("CurvedSwitchingTrack");
+	tracksDrawer.addTemplate("aaaa");
+	//tracksDrawer.addTemplate("LargeCurvedTrack");
+	//tracksDrawer.addTemplate("CurvedSwitchingTrack");
 
 	railroad = new Railroad();
 	sessionStorage.resetObject('railroad');

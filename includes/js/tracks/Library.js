@@ -15,6 +15,22 @@
 
 		if (config.useDefaultLibrary) {
 			this.library = LIBRARY.data;
+		} else {
+		
+			data = new Object;
+			var lib = this;
+			$.ajax({
+  				url: "api/templates",
+  				dataType: 'json',
+  				data: data,
+  				async: false,
+  				success: function(data) { 
+  					lib.library = data;
+  				},
+  				error: function(request,error) {
+  					console.log(error);
+  				}
+			});	
 		}
 
 
