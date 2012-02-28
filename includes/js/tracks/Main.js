@@ -39,7 +39,7 @@ function init() {
 	stage.addChild(tracksDrawer);
 	stage.addChild(measure);
 
-	tracksDrawer.addTemplate("aaaa");
+	tracksDrawer.addTemplate("ShortTrack");
 	//tracksDrawer.addTemplate("LargeCurvedTrack");
 	//tracksDrawer.addTemplate("CurvedSwitchingTrack");
 

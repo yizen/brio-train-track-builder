@@ -70,8 +70,6 @@ class Templates extends CI_Controller {
 					$nextSegment["type"] = strtoupper( $results[1] );
 					$nextSegment["connectorA"] = $results[2];
 					$nextSegment["connectorB"] = $results[3];
-					
-					//log_message('error', 'SEGMENTS.');
 				}	
 			}
 			
@@ -126,7 +124,12 @@ class Templates extends CI_Controller {
 					switch ($state) {
 						case "GRAPHICS":
 							$nextGraphics += array("op" => "startStroke");
+							$graphics["graphics"][] = $nextGraphics;
+							$nextGraphics = array();
+							
 							$nextGraphics += array("op" => "startFill");
+							$graphics["graphics"][] = $nextGraphics;
+							$nextGraphics = array();
 							break;
 						case "CONNECTORS":
 							break;
@@ -134,22 +137,6 @@ class Templates extends CI_Controller {
 							break;
 					}
 				}
-				
-				if ( preg_match("/beginPath/", $token[1])) {
-					$expected = "";
-					
-					switch ($state) {
-						case "GRAPHICS":
-							$nextGraphics += array("op" => "startStroke");
-							$nextGraphics += array("op" => "startFill");
-							break;
-						case "CONNECTORS":
-							break;
-						case "SEGMENTS":
-							break;
-					}
-				}
-
 			}
 			
 			if ($token[0] == J_NUMERIC_LITERAL) {

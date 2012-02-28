@@ -22,8 +22,13 @@ class Api extends CI_Controller {
 		$result = $this->template_model->list_all();
 
 		foreach($result as $entry) {
-			$tracks += $entry;
+			log_message('error', $entry["name"]);
+
+			$tracks[]= $entry;
 		}
+					
+		log_message('error', "--".sizeof($tracks));
+
 		
 		$output["tracks"] = $tracks;
 				
