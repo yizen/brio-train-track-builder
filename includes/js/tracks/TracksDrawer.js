@@ -23,7 +23,14 @@
 		this.makeShape();
 	}
 	
+	TracksDrawer.prototype.initWithLibrary = function (library) {
+		for (var trackNumber in library.library.tracks) {
+			this.addTemplate(library.library.tracks[trackNumber].name);
+		}	
+	}
+	
 	TracksDrawer.prototype.addTemplate = function (trackTypeName) {
+		console.log("initing "+trackTypeName);
 		if (this.templates.indexOf(trackTypeName) != -1) {
 			//Element already exists
 			return;		

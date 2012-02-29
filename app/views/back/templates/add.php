@@ -63,17 +63,6 @@ text_input("vendor", $vendor);
 text_input("reference", $reference);
 
 echo form_fieldset_close(); 
-echo form_fieldset('General Geometry');
-
-if (!isset($regX)) $regX = "0";
-if (!isset($regY)) $regY = "0";
-if (!isset($influence)) $influence = "0";
-
-text_input("regX", $regX);
-text_input("regY", $regY);
-text_input("influence", $influence);
-
-echo form_fieldset_close(); 
 
 echo form_fieldset('Geometry from Illustrator');
 if (!isset($illustrator)) $illustrator = "";

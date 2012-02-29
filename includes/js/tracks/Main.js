@@ -38,8 +38,10 @@ function init() {
 
 	stage.addChild(tracksDrawer);
 	stage.addChild(measure);
-
-	tracksDrawer.addTemplate("ShortTrack");
+	
+	tracksDrawer.initWithLibrary(library);
+	
+	//tracksDrawer.addTemplate("ShortTrack");
 	//tracksDrawer.addTemplate("LargeCurvedTrack");
 	//tracksDrawer.addTemplate("CurvedSwitchingTrack");
 

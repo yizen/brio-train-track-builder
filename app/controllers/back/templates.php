@@ -13,6 +13,27 @@ class Templates extends CI_Controller {
     private function parse_illustrator($raw) {
 		$this->load->helper('JTokenizer');
 		
+		$geo = array();
+		
+		//Get data from the canvas
+		if ( preg_match("/width=\"([0-9]*)\"/", $raw, $match)) {
+			$width_value = $match[1];
+			$width_value = intval($width_value);
+				
+			$geo["regX"] = floor($width_value  / 2);
+		} 
+		
+		if ( preg_match("/height=\"(.*)\"/", $raw, $match)) {
+			$height_value = $match[1];
+			$height_value = intval($height_value);
+		
+			$geo["regY"] = floor($height_value / 2);
+		}	
+		
+		$geo["influence"] = max ($width_value, $height_value);
+	
+		
+		//Isolate the script to parse the geometry using the Javascript tokenizer
 		if ( preg_match('/(<script.*>)(.*)(<\/script>)/imxsU',$raw, $script)) {
 			$raw = $script[2];
 		}
@@ -56,6 +77,8 @@ class Templates extends CI_Controller {
 
 					$nextConnector["name"] = $results[1];
 					$nextConnector["type"] = strtoupper($results[2]);
+					$nextConnector["isAxisForFlip"] = "true";
+
 				}
 				
 				if( preg_match("/segments\/(.*) (.*) (.*)/",$token[1], $results)) {
@@ -66,7 +89,6 @@ class Templates extends CI_Controller {
 						$segments["segments"][] = $nextSegment;
 						
 					$nextSegment = array();
-					
 					$nextSegment["type"] = strtoupper( $results[1] );
 					$nextSegment["connectorA"] = $results[2];
 					$nextSegment["connectorB"] = $results[3];
@@ -183,6 +205,8 @@ class Templates extends CI_Controller {
 							case "CONNECTORS":
 								break;
 							case "SEGMENTS":
+								$nextSegment["cp1"]["x"] = $token[1];
+								$expected = "C1Y";
 								break;
 						}
 						
@@ -196,6 +220,8 @@ class Templates extends CI_Controller {
 							case "CONNECTORS":
 								break;
 							case "SEGMENTS":
+								$nextSegment["cp1"]["y"] = $token[1];
+								$expected = "C2X";
 								break;
 						}
 						
@@ -209,6 +235,8 @@ class Templates extends CI_Controller {
 							case "CONNECTORS":
 								break;
 							case "SEGMENTS":
+								$nextSegment["cp2"]["x"] = $token[1];
+								$expected = "C2Y";
 								break;
 						}
 						
@@ -222,6 +250,8 @@ class Templates extends CI_Controller {
 							case "CONNECTORS":
 								break;
 							case "SEGMENTS":
+								$nextSegment["cp2"]["y"] = $token[1];
+								$expected = "";
 								break;
 						}
 						
@@ -251,8 +281,7 @@ class Templates extends CI_Controller {
 		$jconnectors = json_encode($connectors);
 		log_message('error', $jconnectors);
 		*/
-		
-		return ($graphics+$connectors+$segments);
+		return ($geo+$graphics+$connectors+$segments);
 	}
     
 	public function index($page = 0) {
@@ -336,13 +365,11 @@ class Templates extends CI_Controller {
         } 
         else
         {
-        	            // If the form passed validation
+        	// If the form passed validation
             $data = array( "name" => $this->input->post('name'),
             			   "vendor" => $this->input->post('vendor'),
-            			   "reference" => $this->input->post('reference'),
-            			   "regX" => $this->input->post('regX'),
-            			   "regY" => $this->input->post('regY'),
-            			   "influence" => $this->input->post('influence'));
+            			   "reference" => $this->input->post('reference')
+            			   );
 			
 			if ($this->input->post('illustrator')) {
             	$data_illustrator = $this->parse_illustrator($this->input->post('illustrator'));

@@ -57,13 +57,6 @@ text_input("vendor", $vendor);
 text_input("reference", $reference);
 
 echo form_fieldset_close(); 
-echo form_fieldset('General Geometry');
-
-text_input("regX", $regX);
-text_input("regY", $regY);
-text_input("influence", $influence);
-
-echo form_fieldset_close(); 
 
 if (isset($connectors)) {
 	echo form_fieldset('Connectors');
