@@ -49,7 +49,7 @@ function select_input($name, $options, $value, $label = NULL) {
 echo validation_errors('<div class="alert"><a class="close" data-dismiss="alert">×</a>','</div>'); 
 
 $attributes = array('class' => 'form-horizontal');
-echo form_open('/back/templates/add/', $attributes);
+echo form_open_multipart('/back/templates/add/', $attributes);
 
 echo form_fieldset('Track Infos');
 
@@ -67,6 +67,13 @@ echo form_fieldset_close();
 echo form_fieldset('Geometry from Illustrator');
 if (!isset($illustrator)) $illustrator = "";
 text_input("illustrator", $illustrator, "Illustrator file", true);
+
+echo '<div class="control-group">';
+echo '<label class="control-label" for="userfile">File input</label>';
+echo '<div class="controls">';
+echo '<input class="input-file" id="userfile" name="userfile" type="file">';
+echo '</div>';
+echo '</div>';
 
 echo form_fieldset_close(); 
 

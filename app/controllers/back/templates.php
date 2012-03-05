@@ -343,6 +343,13 @@ class Templates extends CI_Controller {
         // Load Libraries as needed.
         $this->load->library('form_validation');
         
+        //uploads
+        $config['upload_path'] = './uploads/';
+		$config['allowed_types'] = 'html';
+		$config['file_name'] = 'track.html';
+		$config['is_image'] = 0;
+		$this->load->library('upload', $config);
+        
         // Rules Here
         $this->form_validation->set_rules('name', 'Name', 'required');
         
@@ -373,10 +380,18 @@ class Templates extends CI_Controller {
 			
 			if ($this->input->post('illustrator')) {
             	$data_illustrator = $this->parse_illustrator($this->input->post('illustrator'));
+            	$data += $data_illustrator;
+            } else {
+            	if ( ! $this->upload->do_upload()) {
+					$error = array('error' => $this->upload->display_errors());
+				} else {
+					$data_from_file = file_get_contents($config['upload_path'].$config['file_name']);
+            		$data_illustrator = $this->parse_illustrator($data_from_file);
+            		$data += $data_illustrator;
+				}
             }
 
-			$data += $data_illustrator;
-            
+			            
             $this->template_model->create($data);	
             
                         
