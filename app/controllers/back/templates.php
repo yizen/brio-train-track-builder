@@ -348,6 +348,8 @@ class Templates extends CI_Controller {
 		$config['allowed_types'] = 'html';
 		$config['file_name'] = 'track.html';
 		$config['is_image'] = 0;
+		$config['overwrite'] = TRUE;
+
 		$this->load->library('upload', $config);
         
         // Rules Here
