@@ -34,8 +34,8 @@
 			var connector = new Connector(this, this.config.connectors[connectorNumber].type, 
 												this.config.connectors[connectorNumber].p1, 
 												this.config.connectors[connectorNumber].p2);
-												
-			if (this.config.connectors[connectorNumber].isAxisForFlip) {
+
+			if (this.config.connectors[connectorNumber].isAxisForFlip == "true") {
 				connector.isAxisForFlip = true;
 					var flipButton = new Button("includes/img/flip.png", "includes/img/flipHover.png");
 					stage.addChild(flipButton);

@@ -30,7 +30,6 @@
 	}
 	
 	TracksDrawer.prototype.addTemplate = function (trackTypeName) {
-		console.log("initing "+trackTypeName);
 		if (this.templates.indexOf(trackTypeName) != -1) {
 			//Element already exists
 			return;		

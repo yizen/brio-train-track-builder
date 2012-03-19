@@ -5,6 +5,7 @@ class Templates extends CI_Controller {
         
         // Load the URL helper so redirects work.
         $this->load->helper('url');
+        $this->load->library('messages');
 
         // this is used for the CRUD
 		$this->load->model('template_model');
@@ -325,6 +326,9 @@ class Templates extends CI_Controller {
         //Add "New" button
         $table_data['content'].= '<a class="btn btn-small btn-info" href="'.site_url('back/templates/add/').'"><i class="icon-plus icon-white"></i> Add new template</a>';
         
+        $table_data['messages'] = $this->messages->get();
+
+        
         $layout_data['content'] = $this->load->view('back/templates/list', $table_data, true);
 		
 		$navigation_data['activeTab'] = "templates";
@@ -393,9 +397,8 @@ class Templates extends CI_Controller {
 				}
             }
 
-			            
             $this->template_model->create($data);	
-            
+			$this->messages->add("Added a new track, ".$this->input->post('name'), "success");
                         
             // Return to the index.
             redirect(site_url('back/templates/'));
@@ -411,7 +414,7 @@ class Templates extends CI_Controller {
 		if ($this->input->post('update') !== FALSE) {
 			// Rules Here
             $this->form_validation->set_rules('id', 'ID', 'required');
-            $this->form_validation->set_rules('name', 'Name', 'required|max_length[255]');
+            $this->form_validation->set_rules('name', 'Name', 'required|max_length[255]');       
 			
 			// Check to see if form passed validation rules
             if ($this->form_validation->run() == FALSE)
@@ -424,14 +427,13 @@ class Templates extends CI_Controller {
             	$data = array( "name" => $this->input->post('name'),
             				   "vendor" => $this->input->post('vendor'),
             				   "reference" => $this->input->post('reference'),
-            				   "regX" => $this->input->post('regX'),
-            				   "regY" => $this->input->post('regY'),
-            				   "influence" => $this->input->post('influence'),
             				   "connectors" => $this->input->post('connectors'));
             	
             	
             	$this->template_model->update( $id, $data);	
             	
+            	$this->messages->add("Updated the track, ".$this->input->post('name'), "success");
+
                 // We are done updating, return to the index.
                 redirect(site_url('back/templates/'));
             }            
