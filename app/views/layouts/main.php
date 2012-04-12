@@ -15,6 +15,8 @@
       }
     </style>
     <link href="<?= base_url() ?>includes/css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="<?= base_url() ?>includes/css/style.css" rel="stylesheet">
+
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -145,6 +147,8 @@
 	<script src="<? base_url() ?>includes/js/tracks/Switch.js"></script>
 	
 	<script src="<? base_url() ?>includes/js/tracks/Keys.js"></script>
+	<script src="<? base_url() ?>includes/js/tracks/Cursor.js"></script>
+
 	<script src="<? base_url() ?>includes/js/tracks/Main.js"></script>
   </body>
 </html>

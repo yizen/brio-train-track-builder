@@ -192,12 +192,14 @@
 
 			// indicate that the stage should be updated on the next tick:
 			setDirty();
+			Cursor.move();
 		};
 		
 		evt.onMouseUp = function (ev) {
 			railroad.showMeasure();
 			rootTrack.isDragged = false;
 			railroad.endDrag();
+			Cursor.restore();
 		}
 	}
 
@@ -211,6 +213,7 @@
 
 	Track.prototype.move = function (x, y) {
 		this.hideFlipButtons();
+
 		this.x = x;
 		this.y = y;
 	
@@ -235,7 +238,7 @@
 	}
 
 	Track.prototype.rotate = function (angle) { 
-		this.rotation = angle;
+		this.rotation = angle%360;
 		
 		var pivotPoint = new Point2D(this.x, this.y);
 		

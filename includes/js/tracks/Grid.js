@@ -36,6 +36,7 @@
 
 		railroad.hideRotationDial();
 		railroad.hideMeasure();
+		Cursor.move();
 
 		this.dx = this.x;
 		this.dy = this.y;
@@ -62,6 +63,7 @@
 		evt.onMouseUp = function (ev) {
 			railroad.showMeasure();
 			railroad.refresh();
+			Cursor.restore();
 			setDirty();
 
 			if (!grid.clickWasADrag) {
