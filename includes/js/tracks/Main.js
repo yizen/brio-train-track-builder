@@ -115,7 +115,13 @@ function redirectTickerToStage(value) {
 
 $(function () {
 	init();
-	createSampleObjects();
+	
+	if (typeof loadedRailwayId == "undefined") {
+		//If we have no railway to load, throw optionnaly new objects on the canvas.
+		createSampleObjects();
+	} else {
+		railway.load(loadedRailwayId);
+	}
 	
 	Ticker.addListener(window);
 	Ticker.setFPS(config.maxFPS);

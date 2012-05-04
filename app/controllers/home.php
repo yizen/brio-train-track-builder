@@ -27,7 +27,6 @@ class Home extends CI_Controller {
         	$navigation_data['railways'] .= '<li><a href="'.base_url().'railway/'.$id.'">'.$entry['name'].'</a></li>';
         }
 
-		
 		$navigation_data['activeTab'] = "home";
 		
 		$layout_data['pageTitle'] = "Tracks";

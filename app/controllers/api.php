@@ -34,7 +34,6 @@ class Api extends CI_Controller {
     }
 
 	public function railwaysave() {
-		log_message('error', $this->input->post('name'));
 	    $name = $this->input->post('name');
 	   	$tracksArray = $this->input->post('tracksArray');
 	   	
@@ -58,6 +57,9 @@ class Api extends CI_Controller {
 	}
 	
 	public function railwayload() {
+		$id = $this->input->post('id');
+		$query = $this->railway_model->get_by_id($id);
+
 		
 	}
 }

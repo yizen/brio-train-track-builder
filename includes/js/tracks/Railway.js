@@ -532,8 +532,24 @@ var Railway = Class.extend({
    	},
    	
    	load: function(id) {
-   		if (typeof id == "undefined")return;
-
+   		if (typeof id == "undefined") return;
+		
+		var serializedRailwayId = {};
+		serializedRailwayId.id = id;
+		
+		$.ajax({
+  				url: "api/railwayload",
+  				dataType: 'json',
+  				data: serializedRailwayId,
+  				async: false,
+  				type: 'POST',
+  				success: function() { 
+  					console.log("LOAD SUCCESS");
+  				},
+  				error: function(request,error) {
+  					console.log(error);
+  				}
+			});	
    	},
    	
    	restore: function() {

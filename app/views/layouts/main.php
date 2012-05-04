@@ -51,105 +51,105 @@
     </div> <!-- /container -->
     
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="<?= base_url() ?>includes/js/bootstrap.min.js"></script>
+    <script src="<?= base_url() ?>/includes/js/bootstrap.min.js"></script>
     
-    <script src="<? base_url() ?>includes/js/lib/base.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/jquery.jkey-1.1.js"></script>
+    <script src="<?= base_url() ?>/includes/js/lib/base.js"></script>
+	<script src="<?= base_url() ?>/includes/js/lib/jquery.jkey-1.1.js"></script>
 
 	
 	<!-- NODE GRAPH LIBS -->
-	<script src="<? base_url() ?>includes/js/lib/node-graph/edge.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/node-graph/graph.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/node-graph/vertex.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/node-graph/matrices/adjacency.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/node-graph/searches/depthfirstsearch.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/node-graph/searches/dijkstra.js"></script>
+	<script src="<?= base_url() ?>/includes/js/lib/node-graph/edge.js"></script>
+	<script src="<?= base_url() ?>/includes/js/lib/node-graph/graph.js"></script>
+	<script src="<?= base_url() ?>/includes/js/lib/node-graph/vertex.js"></script>
+	<script src="<?= base_url() ?>/includes/js/lib/node-graph/matrices/adjacency.js"></script>
+	<script src="<?= base_url() ?>/includes/js/lib/node-graph/searches/depthfirstsearch.js"></script>
+	<script src="<?= base_url() ?>/includes/js/lib/node-graph/searches/dijkstra.js"></script>
 	
 	<!-- EASELJS LIBS -->
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/utils/UID.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/geom/Matrix2D.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/geom/Point.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/geom/Rectangle.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/events/MouseEvent.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/SpriteSheet.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Shadow.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/DisplayObject.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Container.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Stage.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Bitmap.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/BitmapAnimation.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Graphics.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Shape.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Text.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/filters/Filter.js"></script> 
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/filters/ColorFilter.js"></script> 
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/filters/BoxBlurFilter.js"></script> 
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/filters/ColorMatrixFilter.js"></script> 
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/utils/SpriteSheetUtils.js"></script>
-	<script src="<? base_url() ?>../EaselJS/src/easeljs/utils/Ticker.js"></script>
+	<script src="/EaselJS/src/easeljs/utils/UID.js"></script>
+	<script src="/EaselJS/src/easeljs/geom/Matrix2D.js"></script>
+	<script src="/EaselJS/src/easeljs/geom/Point.js"></script>
+	<script src="/EaselJS/src/easeljs/geom/Rectangle.js"></script>
+	<script src="/EaselJS/src/easeljs/events/MouseEvent.js"></script>
+	<script src="/EaselJS/src/easeljs/display/SpriteSheet.js"></script>
+	<script src="/EaselJS/src/easeljs/display/Shadow.js"></script>
+	<script src="/EaselJS/src/easeljs/display/DisplayObject.js"></script>
+	<script src="/EaselJS/src/easeljs/display/Container.js"></script>
+	<script src="/EaselJS/src/easeljs/display/Stage.js"></script>
+	<script src="/EaselJS/src/easeljs/display/Bitmap.js"></script>
+	<script src="/EaselJS/src/easeljs/display/BitmapAnimation.js"></script>
+	<script src="/EaselJS/src/easeljs/display/Graphics.js"></script>
+	<script src="/EaselJS/src/easeljs/display/Shape.js"></script>
+	<script src="/EaselJS/src/easeljs/display/Text.js"></script>
+	<script src="/EaselJS/src/easeljs/filters/Filter.js"></script> 
+	<script src="/EaselJS/src/easeljs/filters/ColorFilter.js"></script> 
+	<script src="/EaselJS/src/easeljs/filters/BoxBlurFilter.js"></script> 
+	<script src="/EaselJS/src/easeljs/filters/ColorMatrixFilter.js"></script> 
+	<script src="/EaselJS/src/easeljs/utils/SpriteSheetUtils.js"></script>
+	<script src="/EaselJS/src/easeljs/utils/Ticker.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/lib/SimpleMaskContainer.js"></script>
+	<script src="<?= base_url() ?>includes/js/lib/SimpleMaskContainer.js"></script>
 	
 	<!-- Tween JS LIBS -->
-	<script src="<? base_url() ?>../TweenJS/src/tweenjs/Tween.js"></script>
-	<script src="<? base_url() ?>../TweenJS/src/tweenjs/Ease.js"></script>
+	<script src="/TweenJS/src/tweenjs/Tween.js"></script>
+	<script src="/TweenJS/src/tweenjs/Ease.js"></script>
 
 	
 	<!-- BEZIER PATH LIBS -->
-	<script src="<? base_url() ?>includes/js/lib/oliversteele/bezier.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/oliversteele/path.js"></script>
+	<script src="<?= base_url() ?>includes/js/lib/oliversteele/bezier.js"></script>
+	<script src="<?= base_url() ?>includes/js/lib/oliversteele/path.js"></script>
 	
 	<!-- GEOMETRY LIBS -->
-	<script src="<? base_url() ?>includes/js/lib/kevinlindsay/Point2D.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/kevinlindsay/Vector2D.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/kevinlindsay/Polynomial.js"></script>
-	<script src="<? base_url() ?>includes/js/lib/kevinlindsay/Intersection.js"></script>
+	<script src="<?= base_url() ?>includes/js/lib/kevinlindsay/Point2D.js"></script>
+	<script src="<?= base_url() ?>includes/js/lib/kevinlindsay/Vector2D.js"></script>
+	<script src="<?= base_url() ?>includes/js/lib/kevinlindsay/Polynomial.js"></script>
+	<script src="<?= base_url() ?>includes/js/lib/kevinlindsay/Intersection.js"></script>
 
 	<!-- APP LIBS -->
-	<script src="<? base_url() ?>includes/js/tracks/Storage.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Storage.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/Config.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/Library.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Config.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Library.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/Button.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Button.js"></script>
 
 
-	<script src="<? base_url() ?>includes/js/tracks/Track.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Track.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/TracksDrawer.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/TracksDrawer.js"></script>
 
-	<script src="<? base_url() ?>includes/js/tracks/Measure.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Measure.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/Segment.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Segment.js"></script>
 
-	<script src="<? base_url() ?>includes/js/tracks/Connector.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/Grid.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/MapView.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Connector.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Grid.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/MapView.js"></script>
 
-	<script src="<? base_url() ?>includes/js/tracks/Gizmo.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Gizmo.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/Selection.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/RotationDial.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Selection.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/RotationDial.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/Railway.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Railway.js"></script>
 
 	<!-- 
-	<script src="<? base_url() ?>includes/js/tracks/static/StaticTrack.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/static/StraightTrack.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/static/CurvedTrack.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/static/TripleTrack.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/static/StaticTrack.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/static/StraightTrack.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/static/CurvedTrack.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/static/TripleTrack.js"></script>
 	-->
 	
-	<script src="<? base_url() ?>includes/js/tracks/Bogie.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/Carriage.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/Arrow.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Bogie.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Carriage.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Arrow.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/Switch.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Switch.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/Keys.js"></script>
-	<script src="<? base_url() ?>includes/js/tracks/Cursor.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Keys.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Cursor.js"></script>
 
-	<script src="<? base_url() ?>includes/js/tracks/Main.js"></script>
+	<script src="<?= base_url() ?>includes/js/tracks/Main.js"></script>
 	<?php
 	
 	//Are we loading a track ?
