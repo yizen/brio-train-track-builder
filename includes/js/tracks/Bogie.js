@@ -40,10 +40,10 @@
 
 	Bogie.prototype.onPress = function (evt) {
 
-		railroad.hideRotationDial();
+		railway.hideRotationDial();
 
-		railroad.forwardArrow.hide();
-		railroad.backwardArrow.hide();
+		railway.forwardArrow.hide();
+		railway.backwardArrow.hide();
 
 		var offset = {
 			x: this.x - evt.stageX,

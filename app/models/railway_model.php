@@ -1,13 +1,13 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Template_model extends CI_Model {
+class Railway_model extends CI_Model {
 
 	private $collection;
 
 	function __construct() {
 		parent::__construct();
 		
-		$this->collection = "templates";
+		$this->collection = "railways";
 	}
 	
 	function count_all() {
@@ -25,6 +25,10 @@ class Template_model extends CI_Model {
 	
 	function get_by_id($id) {
 		return $this->mongo_db->where('_id', $id)->get($this->collection);
+	}
+	
+	function get_by_name($name) {
+		return $this->mongo_db->where('name', $name)->get($this->collection);
 	}
 	
 	function update($id, $data) {

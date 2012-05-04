@@ -35,7 +35,7 @@
 	}
 
 	Arrow.prototype.onClick = function (evt) {
-		railroad.hideArrows();
+		railway.hideArrows();
 		this.carriage.start(this.targetConnector);
 		setDirty();
 	}

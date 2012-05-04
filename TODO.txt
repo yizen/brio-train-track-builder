@@ -7,7 +7,7 @@
 -FIXME = rotation dial doe not keep previous rotation
 -FIXME = undo / redo does not take into account track flip
 
--TODO = Railroad naming (flip side from mapview)
+-TODO = Railway naming (flip side from mapview)
 -TODO = Save, restore tracks
 -TODO = Traffic lights
 -TODO = Timetables
@@ -25,5 +25,5 @@
 -TODO = Feedback loop (% of game box pieces used, total length)
 -TODO = Remove dependency on Base.js
 -TODO = Move all config options to a global static object
--TODO = Create a proper MVC version, moving out Railroad view actions and creating a single singleton for the model.
+-TODO = Create a proper MVC version, moving out Railway view actions and creating a single singleton for the model.
 -TODO = Export to PDF or SVG

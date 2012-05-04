@@ -64,8 +64,8 @@
 		var g = this.map.graphics;
 		g.clear();
 		
-		for (var track in railroad.tracks) {
-			this.drawPath(railroad.tracks[track], g);
+		for (var track in railway.tracks) {
+			this.drawPath(railway.tracks[track], g);
 		}
 		
 		g.beginFill(colors.mapViewViewport).setStrokeStyle(1 / this.zoomFactor).beginStroke("#000");

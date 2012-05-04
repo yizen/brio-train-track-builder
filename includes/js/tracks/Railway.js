@@ -1,17 +1,17 @@
 /**
-* A Railroad represent the visual layout and connections between tracks
-* @class Railroad
+* A Railway represent the visual layout and connections between tracks
+* @class Railway
 * @extends Class
 * @constructor
 * @param 
 **/
-var Railroad = Class.extend({
+var Railway = Class.extend({
 	/**
-	* Constructor for the railroad class
+	* Constructor for the railway class
 	* @method init
 	**/
 	init: function () {
-		this.tracks = new Array();				//Unordered array of Tracks objects that form the railroad
+		this.tracks = new Array();				//Unordered array of Tracks objects that form the railway
 		this.graph = new Graph();				//Graph of all connections between the tracks.
 
 		this.gizmo = new Gizmo();				//Visual representation the connection possibility between two tracks
@@ -32,9 +32,9 @@ var Railroad = Class.extend({
 	},
 	
 	/**
-	* Add a track to the railroad object
+	* Add a track to the railway object
 	* @method addTrack
-	* @param {Track} newTrack The added track to the railroad
+	* @param {Track} newTrack The added track to the railway
 	**/
 	addTrack: function (newTrack) {
 		this.tracks[newTrack.id] = newTrack;
@@ -49,9 +49,9 @@ var Railroad = Class.extend({
 	},
 	
 	/**
-	* Remove a track to the railroad object
+	* Remove a track to the railway object
 	* @method removeTrack
-	* @param {Track} removedTrack The added removed from the railroad
+	* @param {Track} removedTrack The added removed from the railway
 	**/
 	removeTrack: function (removedTrack) {
 		for (var element in removedTrack.connectors) {
@@ -66,7 +66,7 @@ var Railroad = Class.extend({
 	},
 
 	/**
-	* Move all tracks of the railroad by a specific x,y distance 
+	* Move all tracks of the railway by a specific x,y distance 
 	* @method moveAllTracks
 	* @param {Number} dx The x delta
 	* @param {Number} dy The y delta
@@ -391,13 +391,13 @@ var Railroad = Class.extend({
 	},
 	
 	reconnectConnectorsWithinNeighbourhood: function (selection) {
-		var	neighbours = railroad.getNeighboursTracks(selection, railroad.tracks);
+		var	neighbours = railway.getNeighboursTracks(selection, railway.tracks);
 		var extendedSelection = new Selection();
 			 	
 		extendedSelection.addArray(selection);
 		extendedSelection.addArray(neighbours);
 		
-		railroad.reconnectConnectors(extendedSelection);
+		railway.reconnectConnectors(extendedSelection);
 		extendedSelection.clear();
 	},
 	
@@ -420,7 +420,7 @@ var Railroad = Class.extend({
 								 		source.connectors[sourceConnector].p1.closeTo(target.connectors[targetConnector].p2, config.influenceRadiusForConnectors) || 
 								 		source.connectors[sourceConnector].p1.closeTo(target.connectors[targetConnector].p1, config.influenceRadiusForConnectors)) {
 									 //Match !
-									 railroad.connect(source.connectors[sourceConnector], target.connectors[targetConnector], source, target);
+									 railway.connect(source.connectors[sourceConnector], target.connectors[targetConnector], source, target);
 								 }
 							 }
 						 }
@@ -497,16 +497,43 @@ var Railroad = Class.extend({
    					      .call(redirectTickerToStage, [false]);; 
    	},
    	
-   	save: function() {
-
-   		var serializedRailroad = new Array();
+   	save: function(saveToServer) {
+		if (typeof saveToServer == "undefined") saveToServer = false;
+		
+   		var serializedRailway = {}; 
+   		serializedRailway.name = this.getName();
+   		serializedRailway.tracksArray = new Array()
+  		
    		
 		for (var savedTrackIndex in this.tracks) {					
 			var savedTrack = this.tracks[savedTrackIndex];
-			serializedRailroad.push (savedTrack.serialize());
+			serializedRailway.tracksArray.push (savedTrack.serialize());
 		}
 		
-		sessionStorage.setObject('railroad', serializedRailroad);
+		sessionStorage.setObject('railway', serializedRailway);
+		
+		
+		if (saveToServer) {
+			$.ajax({
+  				url: "api/railwaysave",
+  				dataType: 'json',
+  				data: serializedRailway,
+  				async: false,
+  				type: 'POST',
+  				success: function() { 
+  					
+  				},
+  				error: function(request,error) {
+  					console.log(error);
+  				}
+			});	
+		
+		}
+   	},
+   	
+   	load: function(id) {
+   		if (typeof id == "undefined")return;
+
    	},
    	
    	restore: function() {
@@ -521,16 +548,19 @@ var Railroad = Class.extend({
 			this.removeTrack(allTracks[i-1]);
 		}
 
-		railroad.selection.clear();
+		railway.selection.clear();
 		
-		var previousRailroad = sessionStorage.getObject('railroad');
+		var previousRailway = sessionStorage.getObject('railway');
 		
-		for (var trackIndex in previousRailroad) {
-			var addedTrack = new Track(previousRailroad[trackIndex].name);
-			addedTrack.move(previousRailroad[trackIndex].x, previousRailroad[trackIndex].y);
-			addedTrack.rotate(previousRailroad[trackIndex].rotation);
-			railroad.addTrack(addedTrack);
+		for (var trackIndex in previousRailway.tracksArray) {
+			var addedTrack = new Track(previousRailway.tracksArray[trackIndex].name);
+			addedTrack.move(previousRailway.tracksArray[trackIndex].x, previousRailway.tracksArray[trackIndex].y);
+			addedTrack.rotate(previousRailway.tracksArray[trackIndex].rotation);
+			railway.addTrack(addedTrack);
 		}
+		
+		this.showMeasure();
+		Cursor.restore();
    	},
    	
    	measure: function() {
@@ -575,7 +605,17 @@ var Railroad = Class.extend({
 		measure.refresh();
 		
 		if ((typeof mapView !== "undefined") && (mapView !== null)) mapView.refresh();
-   	}
+   	},
    	
+   	getName: function() {
+   		if (typeof this.name == "undefined") {
+   			this.name = "";
+   		}
    		
+   		return this.name;
+   	},
+   	
+   	setName: function(name) {
+   		this.name = name;
+   	}
 });

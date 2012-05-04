@@ -38,8 +38,8 @@
 	}
 	
 	RotationDial.prototype.onPress = function (evt) {
-		railroad.save();
-		railroad.hideMeasure();
+		railway.save();
+		railway.hideMeasure();
 		
 		redirectTickerToStage(true);
 		
@@ -87,7 +87,7 @@
 		
 		evt.onMouseUp = function (evt) {
 			redirectTickerToStage(false);
-			railroad.showMeasure();
+			railway.showMeasure();
 			setDirty();
 		};
 	}

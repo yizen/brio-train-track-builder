@@ -1,7 +1,7 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 // Generally will be localhost if you're querying from the machine that Mongo is installed on
-$config['mongo_host'] = "localhost";
+$config['mongo_host'] = "127.0.0.1";
 
 // Generally will be 27017 unless you've configured Mongo otherwise
 $config['mongo_port'] = 27017;

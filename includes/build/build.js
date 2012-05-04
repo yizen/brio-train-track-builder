@@ -78,7 +78,7 @@ var SOURCE_FILES = [
 	"../js/tracks/Selection.js",
 	"../js/tracks/RotationDial.js",
 	
-	"../js/tracks/Railroad.js",
+	"../js/tracks/Railway.js",
 	
 	/*
 	"../js/tracks/static/StaticTrack.js",

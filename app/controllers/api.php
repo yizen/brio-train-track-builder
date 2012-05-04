@@ -8,6 +8,7 @@ class Api extends CI_Controller {
 
         // this is used for the CRUD
 		$this->load->model('template_model');
+		$this->load->model('railway_model');
     }
     
     public function index() {
@@ -22,14 +23,9 @@ class Api extends CI_Controller {
 		$result = $this->template_model->list_all();
 
 		foreach($result as $entry) {
-			log_message('error', $entry["name"]);
-
 			$tracks[]= $entry;
 		}
 					
-		log_message('error', "--".sizeof($tracks));
-
-		
 		$output["tracks"] = $tracks;
 				
 		$this->output
@@ -37,5 +33,32 @@ class Api extends CI_Controller {
     			->set_output(json_encode($output));
     }
 
+	public function railwaysave() {
+		log_message('error', $this->input->post('name'));
+	    $name = $this->input->post('name');
+	   	$tracksArray = $this->input->post('tracksArray');
+	   	
+	   	$data = Array();
+	   	$data['name'] = $name;
+	   	$data['tracksArray'] = $tracksArray;
+	   	
+	   	//Check if this record already exist
+	   	$query = $this->railway_model->get_by_name($name);
+			
+		// process the query like a normal CI Query.
+        if (count($query) > 0) {
+        	//We're updating;
+        	$row = $query[0];
+        	$id = $row["_id"];
+        	$this->railway_model->update($id, $data); 
+        } else {
+        	//We're creating
+        	$this->railway_model->create($data); 
+        }
+	}
+	
+	public function railwayload() {
+		
+	}
 }
 ?>

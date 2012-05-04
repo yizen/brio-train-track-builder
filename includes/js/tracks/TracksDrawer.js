@@ -59,7 +59,7 @@
 			child.onPress = function (evt) {
 			
 				var newTrack = new Track(this.config.name);
-				railroad.addTrack(newTrack);
+				railway.addTrack(newTrack);
 				
 				newTrack.x = evt.stageX;
 				newTrack.y = evt.stageY;

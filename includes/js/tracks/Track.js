@@ -144,7 +144,7 @@
 
 	Track.prototype.onPress = function (evt) {
 		if (!evt.doNoSave) {
-			railroad.save();
+			railway.save();
 		}
 		
 		var offset = {
@@ -154,22 +154,22 @@
 		
 		var rootTrack = this; //The dragged element.
 		
-		railroad.selection.reset();
+		railway.selection.reset();
 		
 		// are we selecting the whole connected block ?
 		if (!evt.nativeEvent.shiftKey) {
 	   		// find all the tracks belonging to this subgraph 
-			var dps = new DepthFirstSearch(railroad.graph.getVertices(), this.vertex);
+			var dps = new DepthFirstSearch(railway.graph.getVertices(), this.vertex);
 			
 			for (var t in dps.preorder) {
-				railroad.selection.add( railroad.tracks[dps.preorder[t]] ); 
+				railway.selection.add( railway.tracks[dps.preorder[t]] ); 
 			}  							 			  	
 		}  else {
-			railroad.selection.add(this);
+			railway.selection.add(this);
 		}
 		
-		railroad.showRotationDial( railroad.selection );
-		railroad.startDrag();
+		railway.showRotationDial( railway.selection );
+		railway.startDrag();
 					
 		rootTrack.isDragged = true;
 
@@ -179,8 +179,8 @@
 		// this will be active until the user releases the mouse button:
 		evt.onMouseMove = function (ev) {
 
-			railroad.hideRotationDial();
-			railroad.hideMeasure();
+			railway.hideRotationDial();
+			railway.hideMeasure();
 			
 		
 			x = ev.stageX + offset.x;
@@ -188,7 +188,7 @@
 		   
 		   	//FIXME : not really nice.
 			rootTrack.moveWithSelection(x, y);
-			railroad.startMagnetism();
+			railway.startMagnetism();
 
 			// indicate that the stage should be updated on the next tick:
 			setDirty();
@@ -196,9 +196,9 @@
 		};
 		
 		evt.onMouseUp = function (ev) {
-			railroad.showMeasure();
+			railway.showMeasure();
 			rootTrack.isDragged = false;
-			railroad.endDrag();
+			railway.endDrag();
 			Cursor.restore();
 		}
 	}
@@ -234,7 +234,7 @@
 		var dx = x - this.x;
 		var dy = y - this.y;
 		
-		railroad.selection.move(dx, dy);
+		railway.selection.move(dx, dy);
 	}
 
 	Track.prototype.rotate = function (angle) { 
@@ -496,7 +496,7 @@
 		
 		this.makeShape();
 		this.showFlipButtons();
-		railroad.refresh();	
+		railway.refresh();	
 	}
 	
 	Track.prototype.serialize = function () {

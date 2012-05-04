@@ -66,33 +66,33 @@
 	<script src="<? base_url() ?>includes/js/lib/node-graph/searches/dijkstra.js"></script>
 	
 	<!-- EASELJS LIBS -->
-	<script src="../EaselJS/src/easeljs/utils/UID.js"></script>
-	<script src="../EaselJS/src/easeljs/geom/Matrix2D.js"></script>
-	<script src="../EaselJS/src/easeljs/geom/Point.js"></script>
-	<script src="../EaselJS/src/easeljs/geom/Rectangle.js"></script>
-	<script src="../EaselJS/src/easeljs/events/MouseEvent.js"></script>
-	<script src="../EaselJS/src/easeljs/display/SpriteSheet.js"></script>
-	<script src="../EaselJS/src/easeljs/display/Shadow.js"></script>
-	<script src="../EaselJS/src/easeljs/display/DisplayObject.js"></script>
-	<script src="../EaselJS/src/easeljs/display/Container.js"></script>
-	<script src="../EaselJS/src/easeljs/display/Stage.js"></script>
-	<script src="../EaselJS/src/easeljs/display/Bitmap.js"></script>
-	<script src="../EaselJS/src/easeljs/display/BitmapAnimation.js"></script>
-	<script src="../EaselJS/src/easeljs/display/Graphics.js"></script>
-	<script src="../EaselJS/src/easeljs/display/Shape.js"></script>
-	<script src="../EaselJS/src/easeljs/display/Text.js"></script>
-	<script src="../EaselJS/src/easeljs/filters/Filter.js"></script> 
-	<script src="../EaselJS/src/easeljs/filters/ColorFilter.js"></script> 
-	<script src="../EaselJS/src/easeljs/filters/BoxBlurFilter.js"></script> 
-	<script src="../EaselJS/src/easeljs/filters/ColorMatrixFilter.js"></script> 
-	<script src="../EaselJS/src/easeljs/utils/SpriteSheetUtils.js"></script>
-	<script src="../EaselJS/src/easeljs/utils/Ticker.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/utils/UID.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/geom/Matrix2D.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/geom/Point.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/geom/Rectangle.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/events/MouseEvent.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/SpriteSheet.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Shadow.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/DisplayObject.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Container.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Stage.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Bitmap.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/BitmapAnimation.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Graphics.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Shape.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/display/Text.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/filters/Filter.js"></script> 
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/filters/ColorFilter.js"></script> 
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/filters/BoxBlurFilter.js"></script> 
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/filters/ColorMatrixFilter.js"></script> 
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/utils/SpriteSheetUtils.js"></script>
+	<script src="<? base_url() ?>../EaselJS/src/easeljs/utils/Ticker.js"></script>
 	
 	<script src="<? base_url() ?>includes/js/lib/SimpleMaskContainer.js"></script>
 	
 	<!-- Tween JS LIBS -->
-	<script src="../TweenJS/src/tweenjs/Tween.js"></script>
-	<script src="../TweenJS/src/tweenjs/Ease.js"></script>
+	<script src="<? base_url() ?>../TweenJS/src/tweenjs/Tween.js"></script>
+	<script src="<? base_url() ?>../TweenJS/src/tweenjs/Ease.js"></script>
 
 	
 	<!-- BEZIER PATH LIBS -->
@@ -131,7 +131,7 @@
 	<script src="<? base_url() ?>includes/js/tracks/Selection.js"></script>
 	<script src="<? base_url() ?>includes/js/tracks/RotationDial.js"></script>
 	
-	<script src="<? base_url() ?>includes/js/tracks/Railroad.js"></script>
+	<script src="<? base_url() ?>includes/js/tracks/Railway.js"></script>
 
 	<!-- 
 	<script src="<? base_url() ?>includes/js/tracks/static/StaticTrack.js"></script>
@@ -150,5 +150,15 @@
 	<script src="<? base_url() ?>includes/js/tracks/Cursor.js"></script>
 
 	<script src="<? base_url() ?>includes/js/tracks/Main.js"></script>
+	<?php
+	
+	//Are we loading a track ?
+	
+	if (isset($loadedRailwayId)) {
+		echo '<script type="text/javascript">
+	loadedRailwayId = "'.$loadedRailwayId.'";
+	</script>';
+	}
+	?>
   </body>
 </html>

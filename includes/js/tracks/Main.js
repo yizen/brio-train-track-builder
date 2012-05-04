@@ -5,7 +5,7 @@ var mapView;
 
 var update = true;
 
-var railroad;
+var railway;
 var carriage = new Carriage();
 var library = new Library();
 var tracksDrawer = new TracksDrawer();
@@ -45,12 +45,12 @@ function init() {
 	//tracksDrawer.addTemplate("LargeCurvedTrack");
 	//tracksDrawer.addTemplate("CurvedSwitchingTrack");
 
-	railroad = new Railroad();
-	sessionStorage.resetObject('railroad');
+	railway = new Railway();
+	sessionStorage.resetObject('railway');
 }
 
 function createSampleObjects() {
-
+	/*
 	var maxObjects = 10;
 	var objectsArray = new Array();
 	var rnd = 0;
@@ -69,12 +69,13 @@ function createSampleObjects() {
 			break;
 		}
 
-		railroad.addTrack(objectsArray[i]);
+		railway.addTrack(objectsArray[i]);
 
 		objectsArray[i].move((Math.floor(Math.random() * 400)), (Math.floor(Math.random() * 400)));
 		objectsArray[i].rotate(Math.floor(Math.random() * 361));
 	}
-
+	*/
+	
 	carriage.move(100, 100);
 	stage.addChild(carriage);
 }
@@ -114,11 +115,18 @@ function redirectTickerToStage(value) {
 
 $(function () {
 	init();
-	//createSampleObjects();
+	createSampleObjects();
+	
 	Ticker.addListener(window);
 	Ticker.setFPS(config.maxFPS);
 
 	$(window).jkey('backspace', Keys.deleteSelection);
 	$(window).jkey('space', Keys.stopTrain);
 	$(window).jkey('ctrl+z', Keys.undo);
+	$(window).jkey('ctrl+s', Keys.saveRailway);
+	
+	//Prevent the text selection cursor to appear on drag.
+	$("#trackCanvas").each(function() {
+      this.onselectstart = function() { return false; };
+    });
 });

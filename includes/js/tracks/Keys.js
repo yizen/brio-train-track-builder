@@ -11,13 +11,13 @@ var Keys = (function () {
 		//these can be accessed externally
 		//publicVar: 'this is public',
 		deleteSelection: function () {
-			if (railroad.selection.length == 0) return;
+			if (railway.selection.length == 0) return;
 
-			for (var i = 0; i < railroad.selection.length; i++) {
-				railroad.removeTrack(railroad.selection[i]);
+			for (var i = 0; i < railway.selection.length; i++) {
+				railway.removeTrack(railway.selection[i]);
 			}
 
-			railroad.selection.clear();
+			railway.selection.clear();
 		},
 
 		stopTrain: function () {
@@ -25,8 +25,29 @@ var Keys = (function () {
 		},
 
 		undo: function () {
-			railroad.restore();
-		}
+			railway.restore();
+		},
+		
+		saveRailway: function() {
+		
+			var cancelProcess = false;
+			var self = this;
+			
+			if (railway.getName()== "") {
+				//Name not defined : show modal to prompt for railway name
+   				$('#track-name').modal('show');
+   				$('#track-name-cancel').click(function() { self.cancelProcess = true;});
+   				$('#track-name-save').click(function() {
+   					$('#track-name').modal('hide');
+   					railway.setName($('#track-name-input').val());
+   					railway.save(true);
+   					
+   					});
+   			} else {
+   				railway.save(true);
+   				
+   			}
+   		}
 
 		//this is a 'privileged' function - it can access the internal private vars
 	/*

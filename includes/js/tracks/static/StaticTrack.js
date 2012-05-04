@@ -33,42 +33,42 @@
         
         var rootTrack = this; //The dragged element.
         
-        railroad.selection.reset();
+        railway.selection.reset();
         
         // are we selecting the whole connected block ?
         if (!evt.nativeEvent.shiftKey) {
        		// find all the tracks belonging to this subgraph 
-        	var dps = new DepthFirstSearch(railroad.graph.getVertices(), this.vertex);
+        	var dps = new DepthFirstSearch(railway.graph.getVertices(), this.vertex);
         	
 			for (var t in dps.preorder) {
-				railroad.selection.add( railroad.tracks[dps.preorder[t]] ); 
+				railway.selection.add( railway.tracks[dps.preorder[t]] ); 
 			}  					      	        	
         }  else {
-        	railroad.selection.add(this);
+        	railway.selection.add(this);
         }
         
-        railroad.showRotationDial( railroad.selection );
-        railroad.startDrag();
+        railway.showRotationDial( railway.selection );
+        railway.startDrag();
 
         // add a handler to the event object's onMouseMove callback
         // this will be active until the user releases the mouse button:
         evt.onMouseMove = function (ev) {
         	
-        	railroad.hideRotationDial();
+        	railway.hideRotationDial();
         
             x = ev.stageX + offset.x;
             y = ev.stageY + offset.y;
            
            	//FIXME : not really nice.
             rootTrack.moveWithSelection(x, y);
-            railroad.startMagnetism();
+            railway.startMagnetism();
 
             // indicate that the stage should be updated on the next tick:
             setDirty();
         };
         
         evt.onMouseUp = function (ev) {
-        	railroad.endDrag();
+        	railway.endDrag();
         }
     }
 
@@ -101,7 +101,7 @@
     	var dx = x - this.x;
     	var dy = y - this.y;
     	
-    	railroad.selection.move(dx, dy);
+    	railway.selection.move(dx, dy);
     }
 
     StaticTrack.prototype.rotate = function (angle) { 

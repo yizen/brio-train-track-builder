@@ -1,5 +1,5 @@
 <?php
-class Home extends CI_Controller {
+class Railway extends CI_Controller {
 	function __construct() {
         parent::__construct();
         
@@ -11,7 +11,7 @@ class Home extends CI_Controller {
 		$this->load->model('railway_model');
     }
     
-    public function index() {
+    public function open($loadedRailwayId = 0) {
     	$layout_data['content'] = $this->load->view('templates/canvas', "", true);
     	$layout_data['content'].= $this->load->view('templates/modal-name', "", true);
     	
@@ -26,11 +26,11 @@ class Home extends CI_Controller {
         	
         	$navigation_data['railways'] .= '<li><a href="'.base_url().'railway/'.$id.'">'.$entry['name'].'</a></li>';
         }
-
 		
 		$navigation_data['activeTab'] = "home";
 		
 		$layout_data['pageTitle'] = "Tracks";
+		$layout_data['loadedRailwayId'] = $loadedRailwayId;
 		$layout_data['pageDescription'] = "";
 		$layout_data['nav_bar'] = $this->load->view('common/navigation', $navigation_data, true);
 
