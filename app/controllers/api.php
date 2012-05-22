@@ -58,9 +58,21 @@ class Api extends CI_Controller {
 	
 	public function railwayload() {
 		$id = $this->input->post('id');
-		$query = $this->railway_model->get_by_id($id);
-
 		
+		$output = array("version" => "1");
+		$tracks = array();
+		
+		$result = $this->railway_model->get_by_id($id);
+		
+		/*foreach($result as $key => $value) {
+			if ($key == "tracksArray") $tracks[]= $value;
+		}*/
+					
+		$output["railway"] = $result[0];
+				
+		$this->output
+    			->set_content_type('application/json')
+    			->set_output(json_encode($output));
 	}
 }
 ?>

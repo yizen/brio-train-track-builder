@@ -20,7 +20,7 @@
 			data = new Object;
 			var lib = this;
 			$.ajax({
-  				url: "api/templates",
+  				url: baseUrl+"api/templates",
   				dataType: 'json',
   				data: data,
   				async: false,

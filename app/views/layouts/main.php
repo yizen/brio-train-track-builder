@@ -150,15 +150,12 @@
 	<script src="<?= base_url() ?>includes/js/tracks/Cursor.js"></script>
 
 	<script src="<?= base_url() ?>includes/js/tracks/Main.js"></script>
+	<script type="text/javascript">
 	<?php
-	
-	//Are we loading a track ?
-	
-	if (isset($loadedRailwayId)) {
-		echo '<script type="text/javascript">
-	loadedRailwayId = "'.$loadedRailwayId.'";
-	</script>';
-	}
+		echo 'baseUrl = "'.base_url().'";';
+		if (isset($loadedRailwayId))
+			echo 'loadedRailwayId = "'.$loadedRailwayId.'";';
 	?>
+	</script>
   </body>
 </html>

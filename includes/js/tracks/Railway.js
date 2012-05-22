@@ -515,7 +515,7 @@ var Railway = Class.extend({
 		
 		if (saveToServer) {
 			$.ajax({
-  				url: "api/railwaysave",
+  				url: baseUrl+"api/railwaysave",
   				dataType: 'json',
   				data: serializedRailway,
   				async: false,
@@ -538,13 +538,23 @@ var Railway = Class.extend({
 		serializedRailwayId.id = id;
 		
 		$.ajax({
-  				url: "api/railwayload",
+  				url: baseUrl+"api/railwayload",
   				dataType: 'json',
   				data: serializedRailwayId,
   				async: false,
   				type: 'POST',
-  				success: function() { 
-  					console.log("LOAD SUCCESS");
+  				success: function(data) { 
+  					railway.name = data.railway.name;
+  					
+  					for (var i=0; i < data.railway.tracksArray.length; i++) {
+  						var addedTrack = new Track(data.railway.tracksArray[i].name);
+						addedTrack.move(parseFloat(data.railway.tracksArray[i].x), parseFloat(data.railway.tracksArray[i].y));
+						addedTrack.rotate(parseFloat(data.railway.tracksArray[i].rotation));
+						railway.addTrack(addedTrack);
+  					}
+  					
+  					railway.showMeasure();
+  					Cursor.restore();
   				},
   				error: function(request,error) {
   					console.log(error);
@@ -575,7 +585,7 @@ var Railway = Class.extend({
 			railway.addTrack(addedTrack);
 		}
 		
-		this.showMeasure();
+		railway.showMeasure();
 		Cursor.restore();
    	},
    	

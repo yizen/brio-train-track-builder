@@ -7,7 +7,7 @@ var update = true;
 
 var railway;
 var carriage = new Carriage();
-var library = new Library();
+var library;
 var tracksDrawer = new TracksDrawer();
 var measure = new Measure();
 
@@ -39,6 +39,7 @@ function init() {
 	stage.addChild(tracksDrawer);
 	stage.addChild(measure);
 	
+	library = new Library();
 	tracksDrawer.initWithLibrary(library);
 	
 	//tracksDrawer.addTemplate("ShortTrack");
