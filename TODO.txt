@@ -6,9 +6,10 @@
 -FIXME = carriage : some wrong circles moves
 -FIXME = rotation dial doe not keep previous rotation
 -FIXME = undo / redo does not take into account track flip
+-FIXME = save does not take into account track flip
 
 -TODO = Railway naming (flip side from mapview)
--TODO = Save, restore tracks
+-TODO = User management (https://github.com/ericbae/Tank-Auth---3rd-Party-Authentication-Project)
 -TODO = Traffic lights
 -TODO = Timetables
 -TODO = Stations

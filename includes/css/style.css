@@ -6,3 +6,9 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+
+#lastSaved {
+	position: fixed;
+	bottom: 10px;
+	left:10px;
+}

@@ -55,7 +55,7 @@
     
     <script src="<?= base_url() ?>/includes/js/lib/base.js"></script>
 	<script src="<?= base_url() ?>/includes/js/lib/jquery.jkey-1.1.js"></script>
-
+	<script src="<?= base_url() ?>/includes/js/lib/cutetime/jquery.cuteTime.js"></script>
 	
 	<!-- NODE GRAPH LIBS -->
 	<script src="<?= base_url() ?>/includes/js/lib/node-graph/edge.js"></script>

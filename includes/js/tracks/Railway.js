@@ -502,10 +502,9 @@ var Railway = Class.extend({
 		
    		var serializedRailway = {}; 
    		serializedRailway.name = this.getName();
-   		serializedRailway.tracksArray = new Array()
-  		
+   		serializedRailway.tracksArray = new Array();
    		
-		for (var savedTrackIndex in this.tracks) {					
+   		for (var savedTrackIndex in this.tracks) {					
 			var savedTrack = this.tracks[savedTrackIndex];
 			serializedRailway.tracksArray.push (savedTrack.serialize());
 		}
@@ -521,7 +520,8 @@ var Railway = Class.extend({
   				async: false,
   				type: 'POST',
   				success: function() { 
-  					
+  					railway.lastSaved = new Date();
+  					railway.lastSavedUpdate();  					
   				},
   				error: function(request,error) {
   					console.log(error);
@@ -553,8 +553,11 @@ var Railway = Class.extend({
 						railway.addTrack(addedTrack);
   					}
   					
+  					railway.lastSaved = new Date(data.railway.updated.sec * 1000);
+  					
   					railway.showMeasure();
   					Cursor.restore();
+  					railway.lastSavedUpdate();
   				},
   				error: function(request,error) {
   					console.log(error);
@@ -643,5 +646,14 @@ var Railway = Class.extend({
    	
    	setName: function(name) {
    		this.name = name;
+   	},
+   	
+   	lastSavedUpdate: function() {
+   		
+   		$('#lastSaved').text(this.lastSaved.toISOString());
+   		$('#lastSaved').cuteTime();
+   		
+   		$('#lastSaved').text("Saved "+$('#lastSaved').text());
    	}
+
 });

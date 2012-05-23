@@ -32,10 +32,15 @@ class Railway_model extends CI_Model {
 	}
 	
 	function update($id, $data) {
+		$data["updated"] =  new MongoDate();
+
 		$this->mongo_db->where('_id', $id)->set($data)->update($this->collection);
 	}
 	
 	function create($data) {
+		$data["created"] =  new MongoDate();
+		$data["updated"] =  new MongoDate();
+	
 		$this->mongo_db->insert($this->collection, $data);
 	}
 
