@@ -3,7 +3,6 @@ var Cursor = (function () {
 
 	return {
 		restore: function () {
-			console.log("restore");
 			canvas.style.cursor = "default";
 		},
 		
@@ -12,7 +11,6 @@ var Cursor = (function () {
 		},
 		
 		move: function() {
-			console.log("move");
 			canvas.style.cursor = "move";
 		}
 	};

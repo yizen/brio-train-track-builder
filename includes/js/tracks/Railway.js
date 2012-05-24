@@ -520,14 +520,7 @@ var Railway = Class.extend({
   				async: false,
   				type: 'POST',
   				success: function() { 
-  					railway.lastSaved = null;
-  					
-  					railway.lastSaved = new Date();
-  					//Remove 1 second to avoid time ronding issues in cuteTime.
-  					
-  					railway.lastSaved.setSeconds(railway.lastSaved.getSeconds()-10000);
-  					
-  					railway.lastSavedUpdate();  					
+  					railway.lastSavedUpdate(true);  					
   				},
   				error: function(request,error) {
   					console.log(error);
@@ -654,9 +647,29 @@ var Railway = Class.extend({
    		this.name = name;
    	},
    	
-   	lastSavedUpdate: function() {
+   	ISODateString: function(d) {  
+	   	function pad(n){return n<10 ? '0'+n : n}  
+	   	return d.getUTCFullYear()+'-'  
+	      + pad(d.getUTCMonth()+1)+'-'  
+	      + pad(d.getUTCDate())+'T'  
+	      + pad(d.getUTCHours())+':'  
+	      + pad(d.getUTCMinutes())+':'  
+	      + pad(d.getUTCSeconds())+'Z'  
+	},
+   	
+   	lastSavedUpdate: function(justNow) {
+   	
+   		var ISOTime = "";
+   		
+   		if (justNow == true) {
+   			var d=new Date();
+	   		ISOTime = this.ISODateString(d); 
+   		} else {
+	   		ISOTime = this.lastSaved.toISOString();
+   		}
+   		
    		$('#lastSavedTime').removeAttr("data-timestamp");
-   		$('#lastSavedTime').text(this.lastSaved.toISOString());
+   		$('#lastSavedTime').text(ISOTime);
    		$('#lastSavedTime').cuteTime({ refresh: 10000 });
    		
    		$('#lastSavedText').text("Saved ");
