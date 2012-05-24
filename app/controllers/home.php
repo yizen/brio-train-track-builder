@@ -12,8 +12,8 @@ class Home extends CI_Controller {
     }
     
     public function index() {
-    	$layout_data['content'] = $this->load->view('templates/canvas', "", true);
-    	$layout_data['content'].= $this->load->view('templates/modal-name', "", true);
+    	$layout_data['canvas'] = $this->load->view('templates/canvas', "", true);
+    	$layout_data['content']= $this->load->view('templates/modal-name', "", true);
     	
     	//List all available tracks
     	$result = $this->railway_model->list_all();

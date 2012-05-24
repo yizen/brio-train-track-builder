@@ -14,8 +14,8 @@ class Railway extends CI_Controller {
     public function open($loadedRailwayId = 0) {
         log_message('error', base_url());
 
-    	$layout_data['content'] = $this->load->view('templates/canvas', "", true);
-    	$layout_data['content'].= $this->load->view('templates/modal-name', "", true);
+    	$layout_data['canvas'] = $this->load->view('templates/canvas', "", true);
+    	$layout_data['content']= $this->load->view('templates/modal-name', "", true);
     	
     	//List all available tracks
     	$result = $this->railway_model->list_all();

@@ -46,6 +46,8 @@
       </div>
     </div>
     
+    <?= $canvas ?>
+    
     <div class="container">
 		<?= $content ?>
     </div> <!-- /container -->

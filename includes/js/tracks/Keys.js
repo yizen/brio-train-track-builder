@@ -35,13 +35,18 @@ var Keys = (function () {
 			
 			if (railway.getName()== "") {
 				//Name not defined : show modal to prompt for railway name
+				$('#track-name').on('shown', function () {
+					$('#track-name-input').focus();
+				});
+				
+				
    				$('#track-name').modal('show');
+   				   				
    				$('#track-name-cancel').click(function() { self.cancelProcess = true;});
    				$('#track-name-save').click(function() {
    					$('#track-name').modal('hide');
    					railway.setName($('#track-name-input').val());
    					railway.save(true);
-   					
    					});
    			} else {
    				railway.save(true);

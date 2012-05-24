@@ -1,2 +1,2 @@
-<canvas style="position:absolute; float:left" id="trackCanvas" height="100%" width="100%"></canvas>
-<div id="lastSaved">Saved</div>
+<canvas id="trackCanvas" height="100%" width="100%"></canvas>
+<div id="lastSaved"><span id="lastSavedText"></span><span id="lastSavedTime">Not saved yet</span></div>

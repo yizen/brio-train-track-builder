@@ -520,7 +520,13 @@ var Railway = Class.extend({
   				async: false,
   				type: 'POST',
   				success: function() { 
+  					railway.lastSaved = null;
+  					
   					railway.lastSaved = new Date();
+  					//Remove 1 second to avoid time ronding issues in cuteTime.
+  					
+  					railway.lastSaved.setSeconds(railway.lastSaved.getSeconds()-10000);
+  					
   					railway.lastSavedUpdate();  					
   				},
   				error: function(request,error) {
@@ -649,11 +655,11 @@ var Railway = Class.extend({
    	},
    	
    	lastSavedUpdate: function() {
+   		$('#lastSavedTime').removeAttr("data-timestamp");
+   		$('#lastSavedTime').text(this.lastSaved.toISOString());
+   		$('#lastSavedTime').cuteTime({ refresh: 10000 });
    		
-   		$('#lastSaved').text(this.lastSaved.toISOString());
-   		$('#lastSaved').cuteTime();
-   		
-   		$('#lastSaved').text("Saved "+$('#lastSaved').text());
+   		$('#lastSavedText').text("Saved ");
    	}
 
 });
