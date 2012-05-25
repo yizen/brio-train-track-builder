@@ -41,6 +41,7 @@
 $route['default_controller'] = "home";
 $route['404_override'] = '';
 $route['railway/(:any)'] = "railway/open/$1";
+$route['admin'] = "admin/templates";
 
 
 /* End of file routes.php */

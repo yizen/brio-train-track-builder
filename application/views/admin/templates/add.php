@@ -49,7 +49,7 @@ function select_input($name, $options, $value, $label = NULL) {
 echo validation_errors('<div class="alert"><a class="close" data-dismiss="alert">×</a>','</div>'); 
 
 $attributes = array('class' => 'form-horizontal');
-echo form_open_multipart('/back/templates/add/', $attributes);
+echo form_open_multipart('/admin/templates/add/', $attributes);
 
 echo form_fieldset('Track Infos');
 

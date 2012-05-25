@@ -288,7 +288,7 @@ class Templates extends CI_Controller {
 	public function index($page = 0) {
 
 		$this->load->library('pagination');
-        $config['base_url']   = site_url('back/templates/index/') ;
+        $config['base_url']   = site_url('admin/templates/index/') ;
         $config['total_rows'] = $this->template_model->count_all();
         $config['per_page']   = 10;    // if you change this you must also change the crud call below.
 
@@ -311,9 +311,9 @@ class Templates extends CI_Controller {
         	$this->table->add_row(
                         $id, 
                         $entry['name'], 
-                        anchor('back/templates/edit/'.$id,'Edit'),
-                        anchor('back/templates/delete/'.$id,'Delete'),
-                        anchor('back/templates/display/'.$id, 'View'));
+                        anchor('admin/templates/edit/'.$id,'Edit'),
+                        anchor('admin/templates/delete/'.$id,'Delete'),
+                        anchor('admin/templates/display/'.$id, 'View'));
         }
         
         //Generate table if at least one template
@@ -324,20 +324,20 @@ class Templates extends CI_Controller {
         }
         
         //Add "New" button
-        $table_data['content'].= '<a class="btn btn-small btn-info" href="'.site_url('back/templates/add/').'"><i class="icon-plus icon-white"></i> Add new template</a>';
+        $table_data['content'].= '<a class="btn btn-small btn-info" href="'.site_url('admin/templates/add/').'"><i class="icon-plus icon-white"></i> Add new template</a>';
         
         $table_data['messages'] = $this->messages->get();
 
         
-        $layout_data['content'] = $this->load->view('back/templates/list', $table_data, true);
+        $layout_data['content'] = $this->load->view('admin/templates/list', $table_data, true);
 		
 		$navigation_data['activeTab'] = "templates";
 		
 		$layout_data['pageTitle'] = "Tracks";
 		$layout_data['pageDescription'] = "";
-		$layout_data['nav_bar'] = $this->load->view('back/common/navigation', $navigation_data, true);
+		$layout_data['nav_bar'] = $this->load->view('admin/common/navigation', $navigation_data, true);
 
-		$this->load->view('back/layouts/main', $layout_data);
+		$this->load->view('admin/layouts/main', $layout_data);
 
 	}
 	
@@ -363,7 +363,7 @@ class Templates extends CI_Controller {
         if ($this->form_validation->run() == FALSE)
         {
             // Load the form as a var 
-            $display['content'] = $this->load->view('back/templates/add', '', TRUE);
+            $display['content'] = $this->load->view('admin/templates/add', '', TRUE);
 
             // Display the final output.
         	$layout_data['content'] = $display['content'];
@@ -372,9 +372,9 @@ class Templates extends CI_Controller {
 		
 	     	$layout_data['pageTitle'] = "Tracks";
 	     	$layout_data['pageDescription'] = "";
-	     	$layout_data['nav_bar'] = $this->load->view('back/common/navigation', $navigation_data, true);
+	     	$layout_data['nav_bar'] = $this->load->view('admin/common/navigation', $navigation_data, true);
 
-	     	$this->load->view('back/layouts/main', $layout_data);
+	     	$this->load->view('admin/layouts/main', $layout_data);
         } 
         else
         {
@@ -401,7 +401,7 @@ class Templates extends CI_Controller {
 			$this->messages->add("Added a new track, ".$this->input->post('name'), "success");
                         
             // Return to the index.
-            redirect(site_url('back/templates/'));
+            redirect(site_url('admin/templates/'));
         }
 	}
 	
@@ -422,7 +422,7 @@ class Templates extends CI_Controller {
                 // Load the form
                 $form['id'] = $id;
                 $form['name'] = $this->input->post('name');
-                $display['content'] = $this->load->view('back/templates/edit', $form, TRUE);
+                $display['content'] = $this->load->view('admin/templates/edit', $form, TRUE);
             } else    {
             	$data = array( "name" => $this->input->post('name'),
             				   "vendor" => $this->input->post('vendor'),
@@ -435,7 +435,7 @@ class Templates extends CI_Controller {
             	$this->messages->add("Updated the track, ".$this->input->post('name'), "success");
 
                 // We are done updating, return to the index.
-                redirect(site_url('back/templates/'));
+                redirect(site_url('admin/templates/'));
             }            
 		
 		} else {
@@ -456,7 +456,7 @@ class Templates extends CI_Controller {
 
                 
                 // Save the form as "content"
-                $display['content'] = $this->load->view('back/templates/edit', $form, TRUE);
+                $display['content'] = $this->load->view('admin/templates/edit', $form, TRUE);
             } 
             else 
             {
@@ -473,14 +473,14 @@ class Templates extends CI_Controller {
 		
 	     $layout_data['pageTitle'] = "Tracks";
 	     $layout_data['pageDescription'] = "";
-	     $layout_data['nav_bar'] = $this->load->view('back/common/navigation', $navigation_data, true);
+	     $layout_data['nav_bar'] = $this->load->view('admin/common/navigation', $navigation_data, true);
 
-	     $this->load->view('back/layouts/main', $layout_data);
+	     $this->load->view('admin/layouts/main', $layout_data);
 	}
 	
 	public function delete($id = 0) {
 		$this->template_model->delete_by_id($id);
-		redirect(site_url('back/templates/'));
+		redirect(site_url('admin/templates/'));
 	}
 }
 ?>

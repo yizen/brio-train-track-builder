@@ -43,7 +43,7 @@ function select_input($name, $options, $value, $label = NULL) {
 echo validation_errors('<div class="alert"><a class="close" data-dismiss="alert">×</a>','</div>'); 
 
 $attributes = array('class' => 'form-horizontal');
-echo form_open('/back/templates/edit/' . $id, $attributes);
+echo form_open('/admin/templates/edit/' . $id, $attributes);
 
 $data = array(
     'id'  => $id
