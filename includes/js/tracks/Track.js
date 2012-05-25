@@ -25,6 +25,8 @@
 		this.isHovered = false;
 		this.isDragged = false;
 		
+		this.mirrorHistory = new Array();
+		
 		//this.shadow = new Shadow("rgba(0,0,0,0.7)",0,0,6);
 		
 		this.flipButtons = new Array();
@@ -32,6 +34,7 @@
 		//Connectors
 		for (var connectorNumber in this.config.connectors) {
 			var connector = new Connector(this, this.config.connectors[connectorNumber].type, 
+												this.config.connectors[connectorNumber].name, 
 												this.config.connectors[connectorNumber].p1, 
 												this.config.connectors[connectorNumber].p2);
 
@@ -143,10 +146,7 @@
 	}
 
 	Track.prototype.onPress = function (evt) {
-		if (!evt.doNoSave) {
-			railway.save();
-		}
-		
+
 		var offset = {
 			x: this.x - evt.stageX,
 			y: this.y - evt.stageY
@@ -494,8 +494,12 @@
 			}
 		}
 		
+		//Save this to mirror history, so we can replay what happened at one point in time
+		this.mirrorHistory.push(connector.name);
+		
 		this.makeShape();
 		this.showFlipButtons();
+		railway.history();
 		railway.refresh();	
 	}
 	
@@ -506,6 +510,7 @@
 		serialized.y = this.y;
 		serialized.name = this.config.name;
 		serialized.rotation = this.rotation;
+		serialized.mirrorHistory = this.mirrorHistory;
 		
 		return serialized;
 	}

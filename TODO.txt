@@ -6,8 +6,6 @@
 -FIXME = Normalize points on bezier curves for smooth carriage moves
 -FIXME = carriage : some wrong circles moves
 -FIXME = rotation dial doe not keep previous rotation
--FIXME = undo / redo does not take into account track flip
--FIXME = save does not take into account track flip
 
 -TODO = User management with Facebook / Twitter (https://github.com/ericbae/Tank-Auth---3rd-Party-Authentication-Project)
 -TODO = Traffic lights

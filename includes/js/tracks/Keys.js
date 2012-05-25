@@ -46,11 +46,10 @@ var Keys = (function () {
    				$('#track-name-save').click(function() {
    					$('#track-name').modal('hide');
    					railway.setName($('#track-name-input').val());
-   					railway.save(true);
+   					railway.save();
    					});
    			} else {
-   				railway.save(true);
-   				
+   				railway.save();
    			}
    		}
 

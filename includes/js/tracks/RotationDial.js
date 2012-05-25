@@ -38,7 +38,6 @@
 	}
 	
 	RotationDial.prototype.onPress = function (evt) {
-		railway.save();
 		railway.hideMeasure();
 		
 		redirectTickerToStage(true);
@@ -87,6 +86,7 @@
 		
 		evt.onMouseUp = function (evt) {
 			redirectTickerToStage(false);
+			railway.history();
 			railway.showMeasure();
 			setDirty();
 		};

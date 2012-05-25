@@ -29,6 +29,8 @@ var Railway = Class.extend({
 	
 		stage.addChild(this.forwardArrow);
 		stage.addChild(this.backwardArrow);
+		
+		this.resetHistory();
 	},
 	
 	/**
@@ -257,6 +259,9 @@ var Railway = Class.extend({
 		if (this.dragGestureConnection.status == false) {
 			//this.dragGestureConnection.sourceConnector.edge = null; //FIXME : why ?
 			this.refresh();
+			
+			//Save to history
+			this.history();
 			return;
 		}
 
@@ -330,6 +335,7 @@ var Railway = Class.extend({
 				.call(this.extendSelection, [this.dragGestureConnection.sourceTrack], this)
 				.call(this.showRotationDial, [this.selection], this)
 				.call(this.refresh)
+				.call(this.history)
 				.call(redirectTickerToStage, [false]);  
 	},
 	
@@ -497,8 +503,34 @@ var Railway = Class.extend({
    					      .call(redirectTickerToStage, [false]);; 
    	},
    	
-   	save: function(saveToServer) {
-		if (typeof saveToServer == "undefined") saveToServer = false;
+   	history: function() {
+	   	console.log("History");
+   		//Push previous history one step further
+   		var previousState = sessionStorage.getObject('currentState');
+   		
+   		if (previousState) {
+	   		sessionStorage.setObject('previousState', previousState);	
+   		}
+   		
+   		//Build current state
+	   	var serializedRailway = {}; 
+   		serializedRailway.name = railway.getName();
+   		serializedRailway.tracksArray = new Array();
+   		
+   		for (var savedTrackIndex in railway.tracks) {					
+			var savedTrack = railway.tracks[savedTrackIndex];
+			serializedRailway.tracksArray.push (savedTrack.serialize());
+		}
+		
+		sessionStorage.setObject('currentState', serializedRailway);
+   	},
+   	
+   	resetHistory: function() {
+	   	sessionStorage.setObject('currentState', undefined);
+		sessionStorage.setObject('previousState', undefined);
+   	},
+   	
+   	save: function() {
 		
    		var serializedRailway = {}; 
    		serializedRailway.name = this.getName();
@@ -507,13 +539,9 @@ var Railway = Class.extend({
    		for (var savedTrackIndex in this.tracks) {					
 			var savedTrack = this.tracks[savedTrackIndex];
 			serializedRailway.tracksArray.push (savedTrack.serialize());
-		}
+		}		
 		
-		sessionStorage.setObject('railway', serializedRailway);
-		
-		
-		if (saveToServer) {
-			$.ajax({
+		$.ajax({
   				url: baseUrl+"api/railwaysave",
   				dataType: 'json',
   				data: serializedRailway,
@@ -526,12 +554,12 @@ var Railway = Class.extend({
   					console.log(error);
   				}
 			});	
-		
-		}
    	},
    	
    	load: function(id) {
    		if (typeof id == "undefined") return;
+   		
+   		this.resetHistory();
 		
 		var serializedRailwayId = {};
 		serializedRailwayId.id = id;
@@ -549,6 +577,12 @@ var Railway = Class.extend({
   						var addedTrack = new Track(data.railway.tracksArray[i].name);
 						addedTrack.move(parseFloat(data.railway.tracksArray[i].x), parseFloat(data.railway.tracksArray[i].y));
 						addedTrack.rotate(parseFloat(data.railway.tracksArray[i].rotation));
+						
+						for (var j in data.railway.tracksArray[i].mirrorHistory) {
+							var connector = addedTrack.connectors[ data.railway.tracksArray[i].mirrorHistory[j] ];
+							addedTrack.mirror(connector);
+						}
+
 						railway.addTrack(addedTrack);
   					}
   					
@@ -565,7 +599,10 @@ var Railway = Class.extend({
    	},
    	
    	restore: function() {
-   	
+   		var previousRailway = sessionStorage.getObject('previousState');
+   		
+   		if (previousRailway == null) return;
+   			
    		var allTracks = new Array();
    	
    		for (var trackIndex in this.tracks) {		  			
@@ -578,12 +615,17 @@ var Railway = Class.extend({
 
 		railway.selection.clear();
 		
-		var previousRailway = sessionStorage.getObject('railway');
 		
 		for (var trackIndex in previousRailway.tracksArray) {
 			var addedTrack = new Track(previousRailway.tracksArray[trackIndex].name);
 			addedTrack.move(previousRailway.tracksArray[trackIndex].x, previousRailway.tracksArray[trackIndex].y);
 			addedTrack.rotate(previousRailway.tracksArray[trackIndex].rotation);
+			
+			for (var i in previousRailway.tracksArray[trackIndex].mirrorHistory) {
+				var connector = addedTrack.connectors[ previousRailway.tracksArray[trackIndex].mirrorHistory[i] ];
+				addedTrack.mirror(connector);
+			}
+			
 			railway.addTrack(addedTrack);
 		}
 		
