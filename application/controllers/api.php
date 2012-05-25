@@ -3,8 +3,8 @@ class Api extends CI_Controller {
 	function __construct() {
         parent::__construct();
         
-        // Load the URL helper so redirects work.
         $this->load->helper('url');
+        $this->load->library('tank_auth');
 
         // this is used for the CRUD
 		$this->load->model('template_model');
@@ -16,6 +16,13 @@ class Api extends CI_Controller {
     }
     
     public function templates() {
+		
+		if (!$this->tank_auth->is_logged_in()) {
+			redirect('/auth/login/');
+		} else {
+			$data['user_id']	= $this->tank_auth->get_user_id();
+			$data['username']	= $this->tank_auth->get_username();
+		}
 		
 		$output = array("version" => "1");
 		$tracks = array();
@@ -34,12 +41,19 @@ class Api extends CI_Controller {
     }
 
 	public function railwaysave() {
+		
+		if (!$this->tank_auth->is_logged_in()) {
+			redirect('/auth/login/');
+		} 
+		
 	    $name = $this->input->post('name');
 	   	$tracksArray = $this->input->post('tracksArray');
 	   	
 	   	$data = Array();
 	   	$data['name'] = $name;
 	   	$data['tracksArray'] = $tracksArray;
+	   	$data['user_id']	= $this->tank_auth->get_user_id();
+
 	   	
 	   	//Check if this record already exist
 	   	$query = $this->railway_model->get_by_name($name);
@@ -57,6 +71,13 @@ class Api extends CI_Controller {
 	}
 	
 	public function railwayload() {
+	
+		if (!$this->tank_auth->is_logged_in()) {
+			redirect('/auth/login/');
+		} else {
+			$user_id	= $this->tank_auth->get_user_id();
+		}
+		
 		$id = $this->input->post('id');
 		
 		$output = array("version" => "1");

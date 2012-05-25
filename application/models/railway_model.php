@@ -19,6 +19,10 @@ class Railway_model extends CI_Model {
 		return $this->mongo_db->order_by(array('name' => 'asc'))->get($this->collection);
 	}
 	
+	function list_all_with_userid($user_id) {
+		return $this->mongo_db->where('user_id', $user_id)->order_by(array('name' => 'asc'))->get($this->collection);
+	}
+	
 	function list_paginated($limit, $offset) {
 		return $this->mongo_db->order_by(array('name' => 'asc'))->limit($limit)->offset($offset)->get($this->collection);
 	}

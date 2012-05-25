@@ -34,13 +34,17 @@
   
   <div class="navbar navbar-fixed-top">
   	<div class="navbar-inner">
-    	<div class="container">
+    	<div class="container-fluid">
           <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="#">FO</a>
+          <div class="btn-group pull-right">
+	         Logged in as <?= $username ?> 
+	         <?php echo anchor('/auth/logout/', 'Logout'); ?>
+          </div>
           <?= $nav_bar ?>
         </div> <!-- /container -->
       </div>

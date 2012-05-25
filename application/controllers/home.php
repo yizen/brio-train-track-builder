@@ -5,6 +5,7 @@ class Home extends CI_Controller {
         
         // Load the URL helper so redirects work.
         $this->load->helper('url');
+		$this->load->library('tank_auth');
 
         // this is used for the CRUD
 		$this->load->model('template_model');
@@ -12,11 +13,18 @@ class Home extends CI_Controller {
     }
     
     public function index() {
+    
+    	if (!$this->tank_auth->is_logged_in()) {
+			redirect('/auth/login/');
+		} else {
+			$navigation_data['username'] = $this->tank_auth->get_username();
+		}
+    
     	$layout_data['canvas'] = $this->load->view('templates/canvas', "", true);
     	$layout_data['content']= $this->load->view('templates/modal-name', "", true);
     	
     	//List all available tracks
-    	$result = $this->railway_model->list_all();
+    	$result = $this->railway_model->list_all_with_userid($this->tank_auth->get_user_id());
     	
     	$navigation_data['railways'] = "";
     	

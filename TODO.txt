@@ -1,5 +1,6 @@
--FIXME = Reconnect all tracks not working properly. Should be called also after UNDO.
--FIXME = Rotating groups fails after a long circle time
+-FIXME = Reconnect all tracks not working properly. 
+-FIXME = Call Reconnect after UNDO.
+-FIXME = Call Reconnect after LOAD.
 -FIXME = main.js : remove dependency on carriage (tick)
 -FIXME = Keys.js : remove dependency on carriage (stop)
 -FIXME = Normalize points on bezier curves for smooth carriage moves
@@ -8,8 +9,7 @@
 -FIXME = undo / redo does not take into account track flip
 -FIXME = save does not take into account track flip
 
--TODO = Railway naming (flip side from mapview)
--TODO = User management (https://github.com/ericbae/Tank-Auth---3rd-Party-Authentication-Project)
+-TODO = User management with Facebook / Twitter (https://github.com/ericbae/Tank-Auth---3rd-Party-Authentication-Project)
 -TODO = Traffic lights
 -TODO = Timetables
 -TODO = Stations
