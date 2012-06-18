@@ -381,7 +381,8 @@ class Templates extends CI_Controller {
         	// If the form passed validation
             $data = array( "name" => $this->input->post('name'),
             			   "vendor" => $this->input->post('vendor'),
-            			   "reference" => $this->input->post('reference')
+            			   "reference" => $this->input->post('reference'),
+            			   "influence" => $this->input->post('influence')
             			   );
 			
 			if ($this->input->post('illustrator')) {
@@ -427,6 +428,7 @@ class Templates extends CI_Controller {
             	$data = array( "name" => $this->input->post('name'),
             				   "vendor" => $this->input->post('vendor'),
             				   "reference" => $this->input->post('reference'),
+            				   "influence" => $this->input->post('influence'),
             				   "connectors" => $this->input->post('connectors'));
             	
             	

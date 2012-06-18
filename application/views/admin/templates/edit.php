@@ -51,12 +51,14 @@ $data = array(
 echo form_hidden($data);
 
 echo form_fieldset('Track Infos');
-
 text_input("name", $name);
 text_input("vendor", $vendor);
 text_input("reference", $reference);
-
 echo form_fieldset_close(); 
+
+echo form_fieldset('Geometry Infos');
+text_input("influence", $influence);
+echo form_fieldset_close();
 
 if (isset($connectors)) {
 	echo form_fieldset('Connectors');

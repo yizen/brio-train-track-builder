@@ -64,6 +64,12 @@ text_input("reference", $reference);
 
 echo form_fieldset_close(); 
 
+if (!isset($influence)) $influence = "0";
+
+echo form_fieldset('Geometry Infos');
+text_input("influence", $influence);
+echo form_fieldset_close();
+
 echo form_fieldset('Geometry from Illustrator');
 if (!isset($illustrator)) $illustrator = "";
 text_input("illustrator", $illustrator, "Illustrator file", true);
