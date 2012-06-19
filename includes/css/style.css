@@ -11,6 +11,26 @@
 	left:0;
 }
 
+#mapCanvas {
+
+	/*keep in synch with config object*/
+	height: 200px;
+	width: 300px;
+	
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+
+	border: 5px solid black;
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	overflow: hidden;
+}
+
 #lastSaved {
 	position: fixed;
 	bottom: 10px;

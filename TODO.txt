@@ -6,6 +6,7 @@
 -FIXME = Normalize points on bezier curves for smooth carriage moves
 -FIXME = carriage : some wrong circles moves
 -FIXME = rotation dial doe not keep previous rotation
+-FIXME = some moves are incorrect : double or triple each step
 -FIXME = incorrect touch coordinates reported on retina displays.
 -FIXME = broken mapview since Easel 0.4.1
 

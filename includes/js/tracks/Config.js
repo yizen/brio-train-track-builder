@@ -51,7 +51,10 @@ config.maxFPS = 30;
 
 config.influenceRadiusMultiplier = 2.3;
 config.influenceRadiusForConnectors = 4;
-config.mapViewZoomLevel = 0.20;
+
+config.mapViewZoomLevel = 0.15;
+config.mapWidth = 300;
+config.mapHeight = 200;
 
 config.gridMain = 200; // width / height of grid divisions in pixels
 config.gridSecondary = 5; // number of divisions of the main grid.

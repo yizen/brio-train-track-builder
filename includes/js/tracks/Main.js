@@ -30,15 +30,21 @@ function init() {
 	trackapp.stage.snapToPixelEnabled = true;
 
 	trackapp.backgroundGrid = new Grid(canvasWidth, canvasHeight);
-
 	trackapp.backgroundGrid.x = canvasWidth / 2;
 	trackapp.backgroundGrid.y = canvasHeight / 2;
-
-	trackapp.mapView = new MapView(trackapp.backgroundGrid, config.mapViewZoomLevel, 300, 250);
-
 	trackapp.stage.addChild(trackapp.backgroundGrid);
-	//trackapp.stage.addChild(trackapp.mapView);
 
+
+	trackapp.mapCanvas = document.getElementById("mapCanvas");
+	trackapp.mapCanvas.width = config.mapWidth;
+	trackapp.mapCanvas.height = config.mapHeight;
+	trackapp.mapCanvas.style.width = config.mapWidth+"px";
+	trackapp.mapCanvas.style.height = config.mapHeight+"px";
+	
+	trackapp.mapStage = new Stage(trackapp.mapCanvas);
+	trackapp.mapView = new MapView(trackapp.backgroundGrid, config.mapViewZoomLevel, config.mapWidth, config.mapHeight);
+	trackapp.mapStage.addChild(trackapp.mapView);
+	
 	trackapp.measure = new Measure();
 	trackapp.tracksDrawer = new TracksDrawer;
 	trackapp.stage.addChild(trackapp.tracksDrawer);
@@ -98,9 +104,8 @@ function tick() {
 	// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
 	if (trackapp.update) {
 		trackapp.update = false; // only update once
-		trackapp.stage.addChild(trackapp.mapView); //keep the mapview on top
 		trackapp.mapView.refresh();
-
+		trackapp.mapStage.update();
 		trackapp.stage.update();
 	}
 }

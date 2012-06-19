@@ -13,30 +13,30 @@
 		this.width	= width;
 		this.height = height;
 		
-		this.x = this.gridWidth	 - this.width / 2 - 20;
-		this.y = this.gridHeight - this.height /2 - 20;
-			 	
+		//this.x = this.gridWidth	 - this.width / 2 - 20;
+		//this.y = this.gridHeight - this.height /2 - 20;
+		
+		/*	 	
 		this.rectangleMask = new Object;
 		this.rectangleMask.x = -this.width/2;
 		this.rectangleMask.y = -this.height/2;
 		this.rectangleMask.width  = this.width;
 		this.rectangleMask.height = this.height;
-		
+		*/
 		this.initialize();
 	}
 
-	MapView.prototype = new SimpleMaskContainer();
-	MapView.prototype.SimpleMaskContainer_initialize = MapView.prototype.initialize; //unique to avoid overriding base class
-	// constructor:
+	MapView.prototype = new Container();
+	MapView.prototype.Container_initialize = MapView.prototype.initialize; //unique to avoid overriding base class
 	MapView.prototype.initialize = function () {
-		this.SimpleMaskContainer_initialize();
+		this.Container_initialize();
 		
 		this.background = new Shape();
 		this.background.snapToPixel = true;
 		this.background.width = this.width;
 		this.background.height = this.height;
-		this.background.regX = this.width / 2;
-		this.background.regY = this.height / 2;
+		//this.background.regX = this.width / 2;
+		//this.background.regY = this.height / 2;
 
 		this.map = new Shape();
 		this.map.snapToPixel = true;
@@ -47,8 +47,8 @@
 		this.map.width	= this.gridWidth;
 		this.map.height = this.gridHeight;
 		
-		this.map.regX	= this.map.width / 2;
-		this.map.regY	= this.map.height / 2
+		//this.map.regX	= this.map.width / 2;
+		//this.map.regY	= this.map.height / 2
 
 		this.addChild(this.background);
 		this.addChild(this.map);
