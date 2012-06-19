@@ -12,16 +12,31 @@ var tracksDrawer = new TracksDrawer();
 var measure = new Measure();
 
 
+
 function init() {
 	//associate the canvas with the stage
 	canvas = document.getElementById("trackCanvas");
 	stage = new Stage(canvas);
-
+	Touch.enable(stage);
+	
 	var canvasWidth = window.innerWidth;
 	var canvasHeight = window.innerHeight;
+	
+	/*
+	var retina = window.devicePixelRatio > 1 ? true : false;
 
+	if (retina) {
+		canvasWidth = canvasWidth * 2;
+		canvasHeight = canvasHeight * 2;
+	}
+	*/
+	
 	canvas.width = canvasWidth;
 	canvas.height = canvasHeight;
+		
+	canvas.style.width = window.innerWidth+"px";
+	canvas.style.height = window.innerHeight+"px";
+
 
 	stage.enableMouseOver();
 	stage.snapToPixelEnabled = true;

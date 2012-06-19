@@ -271,7 +271,8 @@
 	
 	
 	Track.prototype.getStrokeWidth = function() {
-		return config.trackStroke;
+		if (this.selected) 				return config.selectedTrackStroke;
+		return config.defaultTrackStroke;
 	}
 	
 	Track.prototype.resetConnections = function() {

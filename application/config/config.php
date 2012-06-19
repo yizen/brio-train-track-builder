@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost:8888/tracks/';
+$config['base_url']	= 'http://10.20.10.26:8888/tracks/';
 
 /*
 |--------------------------------------------------------------------------

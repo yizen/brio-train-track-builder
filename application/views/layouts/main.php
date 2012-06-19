@@ -56,6 +56,11 @@
 		<?= $content ?>
     </div> <!-- /container -->
     
+    <!-- Get rid of the createjs namespace for now -->
+    <script>
+	    var createjs = window; // sets window as the createjs namespace (the object the classes will be defined in)
+	</script>
+    
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script src="<?= base_url() ?>/includes/js/bootstrap.min.js"></script>
     
@@ -73,6 +78,10 @@
 	
 	<!-- EASELJS LIBS -->
 	<script src="/EaselJS/src/easeljs/utils/UID.js"></script>
+	<script src="/EaselJS/src/easeljs/utils/Ticker.js"></script>
+	
+	<script src="/EaselJS/src/easeljs/ui/Touch.js"></script>
+
 	<script src="/EaselJS/src/easeljs/geom/Matrix2D.js"></script>
 	<script src="/EaselJS/src/easeljs/geom/Point.js"></script>
 	<script src="/EaselJS/src/easeljs/geom/Rectangle.js"></script>
@@ -91,8 +100,6 @@
 	<script src="/EaselJS/src/easeljs/filters/ColorFilter.js"></script> 
 	<script src="/EaselJS/src/easeljs/filters/BoxBlurFilter.js"></script> 
 	<script src="/EaselJS/src/easeljs/filters/ColorMatrixFilter.js"></script> 
-	<script src="/EaselJS/src/easeljs/utils/SpriteSheetUtils.js"></script>
-	<script src="/EaselJS/src/easeljs/utils/Ticker.js"></script>
 	
 	<script src="<?= base_url() ?>includes/js/lib/SimpleMaskContainer.js"></script>
 	

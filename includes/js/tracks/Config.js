@@ -57,7 +57,8 @@ config.gridMain = 200; // width / height of grid divisions in pixels
 config.gridSecondary = 5; // number of divisions of the main grid.
 
 config.defaultTemplate = "defaultTemplate";
-config.defaultTrackStroke = 3;
+config.defaultTrackStroke = 1;
+config.selectedTrackStroke = 2;
 
 config.smallTemplate = "smallTemplate";
 
