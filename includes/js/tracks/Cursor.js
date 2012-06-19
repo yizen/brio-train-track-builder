@@ -3,15 +3,15 @@ var Cursor = (function () {
 
 	return {
 		restore: function () {
-			canvas.style.cursor = "default";
+			trackapp.canvas.style.cursor = "default";
 		},
 		
 		pointer: function() {
-			canvas.style.cursor = "pointer";
+			trackapp.canvas.style.cursor = "pointer";
 		},
 		
 		move: function() {
-			canvas.style.cursor = "move";
+			trackapp.canvas.style.cursor = "move";
 		}
 	};
 })();

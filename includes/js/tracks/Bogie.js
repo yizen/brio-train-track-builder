@@ -40,10 +40,10 @@
 
 	Bogie.prototype.onPress = function (evt) {
 
-		railway.hideRotationDial();
+		trackapp.railway.hideRotationDial();
 
-		railway.forwardArrow.hide();
-		railway.backwardArrow.hide();
+		trackapp.railway.forwardArrow.hide();
+		trackapp.railway.backwardArrow.hide();
 
 		var offset = {
 			x: this.x - evt.stageX,
@@ -76,7 +76,7 @@
 	Bogie.prototype.moveWithMagnetism = function (x, y) {
 		this.snapped = false;
 
-		var objectsUnderPoint = stage.getObjectsUnderPoint(x, y);
+		var objectsUnderPoint = trackapp.stage.getObjectsUnderPoint(x, y);
 		var targetPoint = this.createNewTargetPoint(x, y);
 
 		for (var obj in objectsUnderPoint) {

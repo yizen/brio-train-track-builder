@@ -20,8 +20,8 @@
 	}
 
 	Arrow.prototype.show = function () {
-		var topmost = stage.getNumChildren();
-		stage.addChildAt(this, topmost);
+		var topmost = trackapp.stage.getNumChildren();
+		trackapp.stage.addChildAt(this, topmost);
 		this.alpha = 0.8;
 		this.visible = true;
 		setDirty();
@@ -35,7 +35,7 @@
 	}
 
 	Arrow.prototype.onClick = function (evt) {
-		railway.hideArrows();
+		trackapp.railway.hideArrows();
 		this.carriage.start(this.targetConnector);
 		setDirty();
 	}

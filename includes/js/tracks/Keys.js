@@ -11,21 +11,21 @@ var Keys = (function () {
 		//these can be accessed externally
 		//publicVar: 'this is public',
 		deleteSelection: function () {
-			if (railway.selection.length == 0) return;
+			if (trackapp.railway.selection.length == 0) return;
 
-			for (var i = 0; i < railway.selection.length; i++) {
-				railway.removeTrack(railway.selection[i]);
+			for (var i = 0; i < trackapp.railway.selection.length; i++) {
+				trackapp.railway.removeTrack(trackapp.railway.selection[i]);
 			}
 
-			railway.selection.clear();
+			trackapp.railway.selection.clear();
 		},
 
 		stopTrain: function () {
-			carriage.stop();
+			trackapp.carriage.stop();
 		},
 
 		undo: function () {
-			railway.restore();
+			trackapp.railway.restore();
 		},
 		
 		saveRailway: function() {
@@ -33,7 +33,7 @@ var Keys = (function () {
 			var cancelProcess = false;
 			var self = this;
 			
-			if (railway.getName()== "") {
+			if (trackapp.railway.getName()== "") {
 				//Name not defined : show modal to prompt for railway name
 				$('#track-name').on('shown', function () {
 					$('#track-name-input').focus();
@@ -45,11 +45,11 @@ var Keys = (function () {
    				$('#track-name-cancel').click(function() { self.cancelProcess = true;});
    				$('#track-name-save').click(function() {
    					$('#track-name').modal('hide');
-   					railway.setName($('#track-name-input').val());
-   					railway.save();
+   					trackapp.railway.setName($('#track-name-input').val());
+   					trackapp.railway.save();
    					});
    			} else {
-   				railway.save();
+   				trackapp.railway.save();
    			}
    		}
 

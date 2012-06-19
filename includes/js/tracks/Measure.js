@@ -25,7 +25,7 @@
 	}
 	
 	Measure.prototype.refresh = function() {
-		this.coord = railway.measure();
+		this.coord = trackapp.railway.measure();
 		this.makeShape();
 		
 	}

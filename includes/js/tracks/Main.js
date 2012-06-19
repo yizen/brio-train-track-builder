@@ -1,23 +1,12 @@
-var stage;
-var canvas;
-var backgroundGrid;
-var mapView;
-
-var update = true;
-
-var railway;
-var carriage = new Carriage();
-var library;
-var tracksDrawer = new TracksDrawer();
-var measure = new Measure();
-
-
+var trackapp = [];
 
 function init() {
 	//associate the canvas with the stage
-	canvas = document.getElementById("trackCanvas");
-	stage = new Stage(canvas);
-	Touch.enable(stage);
+	trackapp.canvas = document.getElementById("trackCanvas");
+	trackapp.stage = new Stage(trackapp.canvas);
+	Touch.enable(trackapp.stage);
+	
+	trackapp.update = true;
 	
 	var canvasWidth = window.innerWidth;
 	var canvasHeight = window.innerHeight;
@@ -31,37 +20,38 @@ function init() {
 	}
 	*/
 	
-	canvas.width = canvasWidth;
-	canvas.height = canvasHeight;
+	trackapp.canvas.width = canvasWidth;
+	trackapp.canvas.height = canvasHeight;
 		
-	canvas.style.width = window.innerWidth+"px";
-	canvas.style.height = window.innerHeight+"px";
+	trackapp.canvas.style.width = window.innerWidth+"px";
+	trackapp.canvas.style.height = window.innerHeight+"px";
 
+	trackapp.stage.enableMouseOver();
+	trackapp.stage.snapToPixelEnabled = true;
 
-	stage.enableMouseOver();
-	stage.snapToPixelEnabled = true;
+	trackapp.backgroundGrid = new Grid(canvasWidth, canvasHeight);
 
-	backgroundGrid = new Grid(canvasWidth, canvasHeight);
+	trackapp.backgroundGrid.x = canvasWidth / 2;
+	trackapp.backgroundGrid.y = canvasHeight / 2;
 
-	backgroundGrid.x = canvasWidth / 2;
-	backgroundGrid.y = canvasHeight / 2;
+	trackapp.mapView = new MapView(trackapp.backgroundGrid, config.mapViewZoomLevel, 300, 250);
 
-	mapView = new MapView(backgroundGrid, config.mapViewZoomLevel, 300, 250);
+	trackapp.stage.addChild(trackapp.backgroundGrid);
+	//trackapp.stage.addChild(trackapp.mapView);
 
-	stage.addChild(backgroundGrid);
-	stage.addChild(mapView);
-
-	stage.addChild(tracksDrawer);
-	stage.addChild(measure);
+	trackapp.measure = new Measure();
+	trackapp.tracksDrawer = new TracksDrawer;
+	trackapp.stage.addChild(trackapp.tracksDrawer);
+	trackapp.stage.addChild(trackapp.measure);
 	
-	library = new Library();
-	tracksDrawer.initWithLibrary(library);
+	trackapp.library = new Library();
+	trackapp.tracksDrawer.initWithLibrary(trackapp.library);
 	
 	//tracksDrawer.addTemplate("ShortTrack");
 	//tracksDrawer.addTemplate("LargeCurvedTrack");
 	//tracksDrawer.addTemplate("CurvedSwitchingTrack");
 
-	railway = new Railway();
+	trackapp.railway = new Railway();
 	sessionStorage.resetObject('railway');
 }
 
@@ -92,38 +82,39 @@ function createSampleObjects() {
 	}
 	*/
 	
-	carriage.move(100, 100);
-	stage.addChild(carriage);
+	trackapp.carriage = new Carriage();
+	trackapp.carriage.move(100, 100);
+	trackapp.stage.addChild(trackapp.carriage);
 }
 
 function tick() {
 
-	if (carriage) {
-		if (carriage.moving) {
-			carriage.tick();
+	if (trackapp.carriage) {
+		if (trackapp.carriage.moving) {
+			trackapp.carriage.tick();
 		}
 	}
 
 	// this set makes it so the stage only re-renders when an event handler indicates a change has happened.
-	if (update) {
-		update = false; // only update once
-		stage.addChild(mapView); //keep the mapview on top
-		mapView.refresh();
+	if (trackapp.update) {
+		trackapp.update = false; // only update once
+		trackapp.stage.addChild(trackapp.mapView); //keep the mapview on top
+		trackapp.mapView.refresh();
 
-		stage.update();
+		trackapp.stage.update();
 	}
 }
 
 function setDirty() {
-	update = true;
+	trackapp.update = true;
 }
 
 function redirectTickerToStage(value) {
 	if (value) {
 		Ticker.removeListener(window);
-		Ticker.addListener(stage);
+		Ticker.addListener(trackapp.stage);
 	} else {
-		Ticker.removeListener(stage);
+		Ticker.removeListener(trackapp.stage);
 		Ticker.addListener(window);
 	}
 }
@@ -136,7 +127,7 @@ $(function () {
 		//If we have no railway to load, throw optionnaly new objects on the canvas.
 		createSampleObjects();
 	} else {
-		railway.load(loadedRailwayId);
+		trackapp.railway.load(loadedRailwayId);
 	}
 	
 	Ticker.addListener(window);

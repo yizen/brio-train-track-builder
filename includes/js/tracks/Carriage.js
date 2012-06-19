@@ -59,13 +59,13 @@
 
 	Carriage.prototype.onPress = function (evt) {
 
-		railway.hideRotationDial();
-		railway.forwardArrow.hide();
-		railway.backwardArrow.hide();
+		trackapp.railway.hideRotationDial();
+		trackapp.railway.forwardArrow.hide();
+		trackapp.railway.backwardArrow.hide();
 		
 		//Show carriage on topmost of other objects
-		var topmost = stage.getNumChildren();
-		stage.addChildAt(this, topmost);
+		var topmost = trackapp.stage.getNumChildren();
+		trackapp.stage.addChildAt(this, topmost);
 
 		var offset = {
 			x: this.x - evt.stageX,
@@ -200,54 +200,54 @@
 
 	Carriage.prototype.showArrows = function () {
 		//init arrows
-		railway.forwardArrow.targetConnector = this.bogieFront.snappedSegment.connectorA;
-		railway.backwardArrow.targetConnector = this.bogieFront.snappedSegment.connectorB;
-		railway.forwardArrow.carriage = this;
-		railway.backwardArrow.carriage = this;
+		trackapp.railway.forwardArrow.targetConnector = this.bogieFront.snappedSegment.connectorA;
+		trackapp.railway.backwardArrow.targetConnector = this.bogieFront.snappedSegment.connectorB;
+		trackapp.railway.forwardArrow.carriage = this;
+		trackapp.railway.backwardArrow.carriage = this;
 
 		//TODO : Check if we're at the beginning or the end of a track, 
 		//       and if this is the case evaluate if we have another track connected
 		//       or if we're pointing to the void
 		//display arrows
-		railway.forwardArrow.x = this.x;
-		railway.backwardArrow.x = this.x;
+		trackapp.railway.forwardArrow.x = this.x;
+		trackapp.railway.backwardArrow.x = this.x;
 
-		railway.forwardArrow.y = this.y - 20;
-		railway.backwardArrow.y = this.y - 20;
+		trackapp.railway.forwardArrow.y = this.y - 20;
+		trackapp.railway.backwardArrow.y = this.y - 20;
 
 		//Calculate direction
-		var forwardTarget = railway.forwardArrow.targetConnector.getCenter();
-		var backwardTarget = railway.backwardArrow.targetConnector.getCenter();
+		var forwardTarget = trackapp.railway.forwardArrow.targetConnector.getCenter();
+		var backwardTarget = trackapp.railway.backwardArrow.targetConnector.getCenter();
 
 		var position = new Point2D(this.x, this.y);
 
 		var forwardAngle = position.getAngle(
-		new Point2D(railway.forwardArrow.x, railway.forwardArrow.y), new Point2D(forwardTarget.x, forwardTarget.y));
+		new Point2D(trackapp.railway.forwardArrow.x, trackapp.railway.forwardArrow.y), new Point2D(forwardTarget.x, forwardTarget.y));
 
 		//FIXME : something must be wrong somewhere, we shouldn't have to substract 180.
-		railway.forwardArrow.rotation = forwardAngle - 180;
+		trackapp.railway.forwardArrow.rotation = forwardAngle - 180;
 
-		var newForwardArrowPosition = new Point2D(railway.forwardArrow.x, railway.forwardArrow.y);
-		newForwardArrowPosition.rotate(railway.forwardArrow.rotation, new Point2D(this.x, this.y));
+		var newForwardArrowPosition = new Point2D(trackapp.railway.forwardArrow.x, trackapp.railway.forwardArrow.y);
+		newForwardArrowPosition.rotate(trackapp.railway.forwardArrow.rotation, new Point2D(this.x, this.y));
 
-		railway.forwardArrow.x = newForwardArrowPosition.x;
-		railway.forwardArrow.y = newForwardArrowPosition.y;
+		trackapp.railway.forwardArrow.x = newForwardArrowPosition.x;
+		trackapp.railway.forwardArrow.y = newForwardArrowPosition.y;
 
 
 		var backwardAngle = position.getAngle(
-		new Point2D(railway.backwardArrow.x, railway.backwardArrow.y), new Point2D(backwardTarget.x, backwardTarget.y));
+		new Point2D(trackapp.railway.backwardArrow.x, trackapp.railway.backwardArrow.y), new Point2D(backwardTarget.x, backwardTarget.y));
 
 		//FIXME : something must be wrong somewhere, we shouldn't have to substract 180.
-		railway.backwardArrow.rotation = backwardAngle - 180;
+		trackapp.railway.backwardArrow.rotation = backwardAngle - 180;
 
-		var newBackwardArrowPosition = new Point2D(railway.backwardArrow.x, railway.backwardArrow.y);
-		newBackwardArrowPosition.rotate(railway.backwardArrow.rotation, new Point2D(this.x, this.y));
+		var newBackwardArrowPosition = new Point2D(trackapp.railway.backwardArrow.x, trackapp.railway.backwardArrow.y);
+		newBackwardArrowPosition.rotate(trackapp.railway.backwardArrow.rotation, new Point2D(this.x, this.y));
 
-		railway.backwardArrow.x = newBackwardArrowPosition.x;
-		railway.backwardArrow.y = newBackwardArrowPosition.y;
+		trackapp.railway.backwardArrow.x = newBackwardArrowPosition.x;
+		trackapp.railway.backwardArrow.y = newBackwardArrowPosition.y;
 
-		railway.forwardArrow.show();
-		railway.backwardArrow.show();
+		trackapp.railway.forwardArrow.show();
+		trackapp.railway.backwardArrow.show();
 	}
 
 	Carriage.prototype.move = function (x, y) {

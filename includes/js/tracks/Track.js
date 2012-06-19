@@ -2,7 +2,7 @@
 
 	function Track(name) {
 		//FIXME : we should use a model here
-		this.config = library.getTrackConfig(name);		
+		this.config = trackapp.library.getTrackConfig(name);		
 		this.initialize();
 	}
 
@@ -41,7 +41,7 @@
 			if (this.config.connectors[connectorNumber].isAxisForFlip == "true") {
 				connector.isAxisForFlip = true;
 					var flipButton = new Button(baseUrl+"includes/img/flip.png", baseUrl+"includes/img/flipHover.png");
-					stage.addChild(flipButton);
+					trackapp.stage.addChild(flipButton);
 					flipButton.snapToPixel = true;
 					flipButton.connector = connector;
 					flipButton.regX = 10;
@@ -154,22 +154,22 @@
 		
 		var rootTrack = this; //The dragged element.
 		
-		railway.selection.reset();
+		trackapp.railway.selection.reset();
 		
 		// are we selecting the whole connected block ?
 		if (!evt.nativeEvent.shiftKey) {
 	   		// find all the tracks belonging to this subgraph 
-			var dps = new DepthFirstSearch(railway.graph.getVertices(), this.vertex);
+			var dps = new DepthFirstSearch(trackapp.railway.graph.getVertices(), this.vertex);
 			
 			for (var t in dps.preorder) {
-				railway.selection.add( railway.tracks[dps.preorder[t]] ); 
+				trackapp.railway.selection.add( trackapp.railway.tracks[dps.preorder[t]] ); 
 			}  							 			  	
 		}  else {
-			railway.selection.add(this);
+			trackapp.railway.selection.add(this);
 		}
 		
-		railway.showRotationDial( railway.selection );
-		railway.startDrag();
+		trackapp.railway.showRotationDial( trackapp.railway.selection );
+		trackapp.railway.startDrag();
 					
 		rootTrack.isDragged = true;
 
@@ -179,8 +179,8 @@
 		// this will be active until the user releases the mouse button:
 		evt.onMouseMove = function (ev) {
 
-			railway.hideRotationDial();
-			railway.hideMeasure();
+			trackapp.railway.hideRotationDial();
+			trackapp.railway.hideMeasure();
 			
 		
 			x = ev.stageX + offset.x;
@@ -188,7 +188,7 @@
 		   
 		   	//FIXME : not really nice.
 			rootTrack.moveWithSelection(x, y);
-			railway.startMagnetism();
+			trackapp.railway.startMagnetism();
 
 			// indicate that the stage should be updated on the next tick:
 			setDirty();
@@ -196,9 +196,9 @@
 		};
 		
 		evt.onMouseUp = function (ev) {
-			railway.showMeasure();
+			trackapp.railway.showMeasure();
 			rootTrack.isDragged = false;
-			railway.endDrag();
+			trackapp.railway.endDrag();
 			Cursor.restore();
 		}
 	}
@@ -234,7 +234,7 @@
 		var dx = x - this.x;
 		var dy = y - this.y;
 		
-		railway.selection.move(dx, dy);
+		trackapp.railway.selection.move(dx, dy);
 	}
 
 	Track.prototype.rotate = function (angle) { 
@@ -500,8 +500,8 @@
 		
 		this.makeShape();
 		this.showFlipButtons();
-		railway.history();
-		railway.refresh();	
+		trackapp.railway.history();
+		trackapp.railway.refresh();	
 	}
 	
 	Track.prototype.serialize = function () {

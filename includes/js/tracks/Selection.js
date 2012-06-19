@@ -66,7 +66,7 @@
 	
 	Selection.prototype.clear = function() {
 		this.reset();
-		railway.rotationDial.hide();
+		trackapp.railway.rotationDial.hide();
 	}
 	
 	

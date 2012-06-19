@@ -59,7 +59,7 @@
 			child.onPress = function (evt) {
 			
 				var newTrack = new Track(this.config.name);
-				railway.addTrack(newTrack);
+				trackapp.railway.addTrack(newTrack);
 				
 				newTrack.x = evt.stageX;
 				newTrack.y = evt.stageY;
@@ -96,7 +96,7 @@
 		*/
 				
 		this.x = 20;
-		this.y = backgroundGrid.visibleHeight - 120;
+		this.y = trackapp.backgroundGrid.visibleHeight - 120;
 	}
 	
 	window.TracksDrawer = TracksDrawer;

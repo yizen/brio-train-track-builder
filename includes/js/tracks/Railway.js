@@ -21,14 +21,14 @@ var Railway = Class.extend({
 		this.selection = new Selection();
 		
 		this.rotationDial = new RotationDial();
- 		stage.addChild(this.rotationDial);
+ 		trackapp.stage.addChild(this.rotationDial);
  		
  		//Arrows to change train direction
 		this.forwardArrow	= new Arrow();
 		this.backwardArrow = new Arrow();
 	
-		stage.addChild(this.forwardArrow);
-		stage.addChild(this.backwardArrow);
+		trackapp.stage.addChild(this.forwardArrow);
+		trackapp.stage.addChild(this.backwardArrow);
 		
 		this.resetHistory();
 	},
@@ -47,7 +47,7 @@ var Railway = Class.extend({
 		
 		this.graph.addVertex(newTrack.vertex);
 
-		stage.addChild(newTrack);
+		trackapp.stage.addChild(newTrack);
 	},
 	
 	/**
@@ -57,11 +57,11 @@ var Railway = Class.extend({
 	**/
 	removeTrack: function (removedTrack) {
 		for (var element in removedTrack.connectors) {
-			stage.removeChild( removedTrack.connectors[element].shape );
+			trackapp.stage.removeChild( removedTrack.connectors[element].shape );
 			delete (removedTrack.connectors[element]);
 		};		  
 		
-		stage.removeChild( removedTrack );
+		trackapp.stage.removeChild( removedTrack );
 		
 		var idx = this.tracks.indexOf(removedTrack); 	// Find the index
 		if(idx!=-1) this.tracks.splice(idx, 1); 		// Remove it if really found!
@@ -88,7 +88,7 @@ var Railway = Class.extend({
 	   	//Remove any previous connection
 	   	this.dragGestureConnection.status = false;
 	
-		stage.addChildAt(this.gizmo, stage.getChildIndex(backgroundGrid) + 1);
+		trackapp.stage.addChildAt(this.gizmo, trackapp.stage.getChildIndex(trackapp.backgroundGrid) + 1);
 
 		// Reset all connections of the selection
 		this.disconnectAllConnector( this.selection );
@@ -111,8 +111,8 @@ var Railway = Class.extend({
 		// Clear debug views
 		if (debug.magnetism || debug.snapTo) {
 			this.debugView.graphics.clear();
-			stage.addChild(this.debugView);
-			//stage.addChildAt(this.debugView, stage.getChildIndex(backgroundGrid)+1);
+			trackapp.stage.addChild(this.debugView);
+			//trackapp.stage.addChildAt(this.debugView, trackapp.stage.getChildIndex(trackapp.backgroundGrid)+1);
 		}
 		
 		// Get our candidate tracks
@@ -397,13 +397,13 @@ var Railway = Class.extend({
 	},
 	
 	reconnectConnectorsWithinNeighbourhood: function (selection) {
-		var	neighbours = railway.getNeighboursTracks(selection, railway.tracks);
+		var	neighbours = trackapp.railway.getNeighboursTracks(selection, trackapp.railway.tracks);
 		var extendedSelection = new Selection();
 			 	
 		extendedSelection.addArray(selection);
 		extendedSelection.addArray(neighbours);
 		
-		railway.reconnectConnectors(extendedSelection);
+		trackapp.railway.reconnectConnectors(extendedSelection);
 		extendedSelection.clear();
 	},
 	
@@ -426,7 +426,7 @@ var Railway = Class.extend({
 								 		source.connectors[sourceConnector].p1.closeTo(target.connectors[targetConnector].p2, config.influenceRadiusForConnectors) || 
 								 		source.connectors[sourceConnector].p1.closeTo(target.connectors[targetConnector].p1, config.influenceRadiusForConnectors)) {
 									 //Match !
-									 railway.connect(source.connectors[sourceConnector], target.connectors[targetConnector], source, target);
+									 trackapp.railway.connect(source.connectors[sourceConnector], target.connectors[targetConnector], source, target);
 								 }
 							 }
 						 }
@@ -482,13 +482,13 @@ var Railway = Class.extend({
 	},
 	
 	showRotationDial: function (selection) {
-		var topmost = stage.getNumChildren();
-		stage.addChildAt(this.rotationDial, topmost);
+		var topmost = trackapp.stage.getNumChildren();
+		trackapp.stage.addChildAt(this.rotationDial, topmost);
 		
 		this.rotationDial.selection = selection;
 		this.rotationDial.show();
-		Ticker.removeListener(stage);	
-		Ticker.addListener(window);
+		
+		redirectTickerToStage(false);
    	},
    	
    	hideRotationDial: function() {
@@ -514,11 +514,11 @@ var Railway = Class.extend({
    		
    		//Build current state
 	   	var serializedRailway = {}; 
-   		serializedRailway.name = railway.getName();
+   		serializedRailway.name = trackapp.railway.getName();
    		serializedRailway.tracksArray = new Array();
    		
-   		for (var savedTrackIndex in railway.tracks) {					
-			var savedTrack = railway.tracks[savedTrackIndex];
+   		for (var savedTrackIndex in trackapp.railway.tracks) {					
+			var savedTrack = trackapp.railway.tracks[savedTrackIndex];
 			serializedRailway.tracksArray.push (savedTrack.serialize());
 		}
 		
@@ -548,7 +548,7 @@ var Railway = Class.extend({
   				async: false,
   				type: 'POST',
   				success: function() { 
-  					railway.lastSavedUpdate(true);  					
+  					trackapp.railway.lastSavedUpdate(true);  					
   				},
   				error: function(request,error) {
   					console.log(error);
@@ -571,7 +571,7 @@ var Railway = Class.extend({
   				async: false,
   				type: 'POST',
   				success: function(data) { 
-  					railway.name = data.railway.name;
+  					trackapp.railway.name = data.railway.name;
   					
   					for (var i=0; i < data.railway.tracksArray.length; i++) {
   						var addedTrack = new Track(data.railway.tracksArray[i].name);
@@ -583,14 +583,14 @@ var Railway = Class.extend({
 							addedTrack.mirror(connector);
 						}
 
-						railway.addTrack(addedTrack);
+						trackapp.railway.addTrack(addedTrack);
   					}
   					
-  					railway.lastSaved = new Date(data.railway.updated.sec * 1000);
+  					trackapp.railway.lastSaved = new Date(data.railway.updated.sec * 1000);
   					
-  					railway.showMeasure();
+  					trackapp.railway.showMeasure();
   					Cursor.restore();
-  					railway.lastSavedUpdate();
+  					trackapp.railway.lastSavedUpdate();
   				},
   				error: function(request,error) {
   					console.log(error);
@@ -613,7 +613,7 @@ var Railway = Class.extend({
 			this.removeTrack(allTracks[i-1]);
 		}
 
-		railway.selection.clear();
+		trackapp.railway.selection.clear();
 		
 		
 		for (var trackIndex in previousRailway.tracksArray) {
@@ -626,10 +626,10 @@ var Railway = Class.extend({
 				addedTrack.mirror(connector);
 			}
 			
-			railway.addTrack(addedTrack);
+			trackapp.railway.addTrack(addedTrack);
 		}
 		
-		railway.showMeasure();
+		trackapp.railway.showMeasure();
 		Cursor.restore();
    	},
    	
@@ -661,20 +661,20 @@ var Railway = Class.extend({
    	},
    	
    	showMeasure: function() {
-   		measure.refresh();
-   		measure.visible = true;
+   		trackapp.measure.refresh();
+   		trackapp.measure.visible = true;
    		setDirty();
    	},
    	
    	hideMeasure: function() {
-   		measure.visible = false;
+   		trackapp.measure.visible = false;
    		setDirty();
    	},
    	
    	refresh: function() {
-		measure.refresh();
+		trackapp.measure.refresh();
 		
-		if ((typeof mapView !== "undefined") && (mapView !== null)) mapView.refresh();
+		if ((typeof trackapp.mapView !== "undefined") && (trackapp.mapView !== null)) trackapp.mapView.refresh();
    	},
    	
    	getName: function() {

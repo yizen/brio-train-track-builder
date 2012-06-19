@@ -34,8 +34,8 @@
 
 	Grid.prototype.onPress = function (evt) {
 
-		railway.hideRotationDial();
-		railway.hideMeasure();
+		trackapp.railway.hideRotationDial();
+		trackapp.railway.hideMeasure();
 		Cursor.move();
 
 		this.dx = this.x;
@@ -61,14 +61,14 @@
 		};
 
 		evt.onMouseUp = function (ev) {
-			railway.showMeasure();
-			railway.refresh();
+			trackapp.railway.showMeasure();
+			trackapp.railway.refresh();
 			Cursor.restore();
 			setDirty();
 
 			if (!grid.clickWasADrag) {
 				//clear selection
-				railway.selection.reset();
+				trackapp.railway.selection.reset();
 			}
 		}
 	}
@@ -85,7 +85,7 @@
 		this.absoluteY += displaceY;
 
 		//FIXME : we should move all objects
-		railway.moveAllTracks(displaceX, displaceY);
+		trackapp.railway.moveAllTracks(displaceX, displaceY);
 
 
 		this.x = this.absoluteX % config.gridMain + this.regX - config.gridMain;

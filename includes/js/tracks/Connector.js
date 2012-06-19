@@ -23,7 +23,7 @@ var Connector = Class.extend({
 		this.shape = new Shape();
 		this.shapeDraw();
 
-		stage.addChild(this.shape);
+		trackapp.stage.addChild(this.shape);
 	},
 
 	evalType: function () {
@@ -80,8 +80,8 @@ var Connector = Class.extend({
 	},
 
 	move: function (x, y) {
-		dx = x - this.previous.x;
-		dy = y - this.previous.y;
+		var dx = x - this.previous.x;
+		var dy = y - this.previous.y;
 
 		this.p1.rmoveto(dx, dy);
 		this.p2.rmoveto(dx, dy);
