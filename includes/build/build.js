@@ -37,9 +37,7 @@ var SOURCE_FILES = [
 	"../js/lib/node-graph/matrices/adjacency.js",
 	"../js/lib/node-graph/searches/depthfirstsearch.js",
 	"../js/lib/node-graph/searches/dijkstra.js",
-		
-	"../js/lib/SimpleMaskContainer.js",
-	
+			
 	/*  Tween JS LIBS */
 	"../../TweenJS/src/tweenjs/Tween.js",
 	"../../TweenJS/src/tweenjs/Ease.js",

@@ -100,9 +100,7 @@
 	<script src="/EaselJS/src/easeljs/filters/ColorFilter.js"></script> 
 	<script src="/EaselJS/src/easeljs/filters/BoxBlurFilter.js"></script> 
 	<script src="/EaselJS/src/easeljs/filters/ColorMatrixFilter.js"></script> 
-	
-	<script src="<?= base_url() ?>includes/js/lib/SimpleMaskContainer.js"></script>
-	
+		
 	<!-- Tween JS LIBS -->
 	<script src="/TweenJS/src/tweenjs/Tween.js"></script>
 	<script src="/TweenJS/src/tweenjs/Ease.js"></script>
@@ -145,13 +143,6 @@
 	<script src="<?= base_url() ?>includes/js/tracks/RotationDial.js"></script>
 	
 	<script src="<?= base_url() ?>includes/js/tracks/Railway.js"></script>
-
-	<!-- 
-	<script src="<?= base_url() ?>includes/js/tracks/static/StaticTrack.js"></script>
-	<script src="<?= base_url() ?>includes/js/tracks/static/StraightTrack.js"></script>
-	<script src="<?= base_url() ?>includes/js/tracks/static/CurvedTrack.js"></script>
-	<script src="<?= base_url() ?>includes/js/tracks/static/TripleTrack.js"></script>
-	-->
 	
 	<script src="<?= base_url() ?>includes/js/tracks/Bogie.js"></script>
 	<script src="<?= base_url() ?>includes/js/tracks/Carriage.js"></script>

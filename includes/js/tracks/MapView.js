@@ -13,16 +13,6 @@
 		this.width	= width;
 		this.height = height;
 		
-		//this.x = this.gridWidth	 - this.width / 2 - 20;
-		//this.y = this.gridHeight - this.height /2 - 20;
-		
-		/*	 	
-		this.rectangleMask = new Object;
-		this.rectangleMask.x = -this.width/2;
-		this.rectangleMask.y = -this.height/2;
-		this.rectangleMask.width  = this.width;
-		this.rectangleMask.height = this.height;
-		*/
 		this.initialize();
 	}
 
@@ -47,8 +37,11 @@
 		this.map.width	= this.gridWidth;
 		this.map.height = this.gridHeight;
 		
-		//this.map.regX	= this.map.width / 2;
-		//this.map.regY	= this.map.height / 2
+		this.map.regX	= this.map.width / 2;
+		this.map.regY	= this.map.height / 2
+		
+		this.map.x = this.width / 2;
+		this.map.y = this.height / 2;
 
 		this.addChild(this.background);
 		this.addChild(this.map);
