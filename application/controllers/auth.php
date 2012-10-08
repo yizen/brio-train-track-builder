@@ -11,6 +11,10 @@ class Auth extends CI_Controller
 		$this->load->library('security');
 		$this->load->library('tank_auth');
 		$this->lang->load('tank_auth');
+		
+		//Allow drawing in the background
+		$this->load->model('template_model');
+		$this->load->model('railway_model');
 	}
 
 	function index()
@@ -92,7 +96,20 @@ class Auth extends CI_Controller
 					$data['captcha_html'] = $this->_create_captcha();
 				}
 			}
-			$this->load->view('auth/login_form', $data);
+			
+			$layout_data['loginform']=$this->load->view('auth/login_form', $data, true);
+			
+			$layout_data['canvas'] = $this->load->view('templates/canvas', "", true);
+			$layout_data['content']= $this->load->view('templates/modal-name', "", true);
+
+			$navigation_data['activeTab'] = "home";
+		
+			$layout_data['pageTitle'] = "Tracks";
+			$layout_data['pageDescription'] = "";
+			$layout_data['nav_bar'] = $this->load->view('common/navigation', $navigation_data, true);
+			
+			$this->load->view('layouts/main', $layout_data);
+			
 		}
 	}
 

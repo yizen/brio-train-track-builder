@@ -12,7 +12,7 @@ var colors = new Object();
 colors.trackFill 	= "#FFFFFF";
 colors.trackStroke = "#A0998A";
 
-colors.selectedTrackFill = "#FCF688";
+colors.selectedTrackFill = "#ffdd40";
 colors.selectedTrackStroke = "#A0998A";
 
 colors.hoveredTrackFill = "#FC0088";
@@ -47,7 +47,7 @@ var config = new Object();
 config.minimumLibraryVersion = 1;
 
 config.pathPrecision = 20; //Discreetization of bezier and line paths, ranging from 1 to 100;
-config.maxFPS = 30;
+config.maxFPS = 5;
 
 config.influenceRadiusMultiplier = 2.3;
 config.influenceRadiusForConnectors = 4;

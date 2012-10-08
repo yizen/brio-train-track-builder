@@ -31,6 +31,17 @@
 		this.makeShape();
 		this.clickWasADrag = false;
 	}
+	
+	Grid.prototype.resize = function(visibleWidth, visibleHeight) {
+		
+		this.visibleWidth = visibleWidth;
+		this.visibleHeight = visibleHeight;
+
+		this.width = this.visibleWidth + (2 * config.gridMain);
+		this.height = this.visibleHeight + (2 * config.gridMain);
+		
+		this.makeShape();
+	}
 
 	Grid.prototype.onPress = function (evt) {
 

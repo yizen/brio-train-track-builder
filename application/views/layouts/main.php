@@ -16,7 +16,7 @@
     </style>
     <link href="<?= base_url() ?>includes/css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="<?= base_url() ?>includes/css/style.css" rel="stylesheet">
-
+    <link href="<?= base_url() ?>includes/css/welcome.css" rel="stylesheet">
 
     <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -41,16 +41,38 @@
             <span class="icon-bar"></span>
           </a>
           <a class="brand" href="#">FO</a>
+          
           <div class="btn-group pull-right">
-	         Logged in as <?= $username ?> 
-	         <?php echo anchor('/auth/logout/', 'Logout'); ?>
-          </div>
+          	<?php if(isset($username)) {
+	          	echo "Logged in as ".$username;
+	          	echo anchor('/auth/logout/', 'Logout');
+          	} 
+          	?>
+	      </div>
           <?= $nav_bar ?>
         </div> <!-- /container -->
       </div>
     </div>
     
     <?= $canvas ?>
+    
+    <?php if (isset($loginform)) { ?>
+    
+    <div class="tucked-corners top-corners">
+   		<span class="tucked-corners bottom-corners">
+   			<div class="row">
+   				<div class="span4" id="welcome-message">
+   				<h1>Welcome</h1>
+   				<h2>This is a quick intro to our new system</h2>
+   				<p>Lorem ipsum</p>
+   				</div>
+  
+   				<div class="span4" id="welcome-login"><?= $loginform ?></div>
+   			</div>
+   		</span> <!-- Span used for bottom corners -->
+    </div>
+    
+    <?php } //enf loginform ?>
     
     <div class="container">
 		<?= $content ?>
@@ -60,9 +82,13 @@
     <script>
 	    var createjs = window; // sets window as the createjs namespace (the object the classes will be defined in)
 	</script>
-    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script src="<?= base_url() ?>/includes/js/bootstrap.min.js"></script>
+	
+    <!-- 
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    -->
+    <script src="<?= base_url() ?>/includes/js/lib/jquery-1.7.2.min.js"></script>
+
+    <script src="<?= base_url() ?>/includes/js/lib/bootstrap.min.js"></script>
     
     <script src="<?= base_url() ?>/includes/js/lib/base.js"></script>
 	<script src="<?= base_url() ?>/includes/js/lib/jquery.jkey-1.1.js"></script>

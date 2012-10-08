@@ -8,32 +8,12 @@ function init() {
 	
 	trackapp.update = true;
 	
-	var canvasWidth = window.innerWidth;
-	var canvasHeight = window.innerHeight;
-	
-	/*
-	var retina = window.devicePixelRatio > 1 ? true : false;
-
-	if (retina) {
-		canvasWidth = canvasWidth * 2;
-		canvasHeight = canvasHeight * 2;
-	}
-	*/
-	
-	trackapp.canvas.width = canvasWidth;
-	trackapp.canvas.height = canvasHeight;
-		
-	trackapp.canvas.style.width = window.innerWidth+"px";
-	trackapp.canvas.style.height = window.innerHeight+"px";
-
 	trackapp.stage.enableMouseOver();
 	trackapp.stage.snapToPixelEnabled = true;
+	
+	resizeCanvas();
 
-	trackapp.backgroundGrid = new Grid(canvasWidth, canvasHeight);
-	trackapp.backgroundGrid.x = canvasWidth / 2;
-	trackapp.backgroundGrid.y = canvasHeight / 2;
 	trackapp.stage.addChild(trackapp.backgroundGrid);
-
 
 	trackapp.mapCanvas = document.getElementById("mapCanvas");
 	trackapp.mapCanvas.width = config.mapWidth;
@@ -59,6 +39,38 @@ function init() {
 
 	trackapp.railway = new Railway();
 	sessionStorage.resetObject('railway');
+}
+
+function resizeCanvas() {
+	
+	var canvasWidth = window.innerWidth;
+	var canvasHeight = window.innerHeight;
+	
+	var retina = window.devicePixelRatio > 1 ? true : false;
+
+	if (retina) {
+		canvasWidth = canvasWidth * 2;
+		canvasHeight = canvasHeight * 2;
+	}
+	
+	trackapp.canvas.width = canvasWidth;
+	trackapp.canvas.height = canvasHeight;
+		
+	trackapp.canvas.style.width = window.innerWidth+"px";
+	trackapp.canvas.style.height = window.innerHeight+"px";
+
+	if (trackapp.backgroundGrid === undefined) {
+		trackapp.backgroundGrid = new Grid(canvasWidth, canvasHeight);
+	} else {
+		trackapp.backgroundGrid.resize(canvasWidth, canvasHeight);
+	}
+	
+	if (trackapp.tracksDrawer != undefined) {
+		trackapp.tracksDrawer.makeShape();
+	}
+	
+	trackapp.backgroundGrid.x = canvasWidth / 2;
+	trackapp.backgroundGrid.y = canvasHeight / 2;
 }
 
 function createSampleObjects() {
@@ -138,10 +150,12 @@ $(function () {
 	Ticker.addListener(window);
 	Ticker.setFPS(config.maxFPS);
 
-	$(window).jkey('backspace', Keys.deleteSelection);
-	$(window).jkey('space', Keys.stopTrain);
-	$(window).jkey('ctrl+z', Keys.undo);
-	$(window).jkey('ctrl+s', Keys.saveRailway);
+	$(document).jkey('backspace', true, Keys.deleteSelection);
+	$(document).jkey('space', true, Keys.stopTrain);
+	$(document).jkey('ctrl+z', true, Keys.undo);
+	$(document).jkey('ctrl+s', true, Keys.saveRailway);
+	
+	$(window).resize(function () { resizeCanvas(); });
 	
 	//Prevent the text selection cursor to appear on drag.
 	$("#trackCanvas").each(function() {

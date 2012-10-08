@@ -75,6 +75,7 @@
 	
 	MapView.prototype.refresh = function() {
 		this.makeShape();
+		setDirty();
 	}
 
 	MapView.prototype.drawPath = function (track, graphics) {
@@ -83,7 +84,7 @@
 			var c1 = trackapp.backgroundGrid.absolutizePoint ( track.segments[segmentIndex].connectorA.getCenter() );
 			var c2 = trackapp.backgroundGrid.absolutizePoint ( track.segments[segmentIndex].connectorB.getCenter() );
 
-			graphics.endFill().setStrokeStyle(5/this.zoomFactor).beginStroke("#000");
+			graphics.endFill().setStrokeStyle(4/this.zoomFactor).beginStroke("#000");
 
 			if (track.segments[segmentIndex].type == "LINE") {
 				graphics.moveTo(c1.x, c1.y).lineTo(c2.x, c2.y).closePath();
@@ -103,7 +104,7 @@
 		
 		for (var connector in track.connectors) {
 			//Draw connectors
-			graphics.endFill().setStrokeStyle(1/this.zoomFactor).beginStroke("#000");
+			graphics.endFill().setStrokeStyle(2/this.zoomFactor).beginStroke("#000");
 			
 			var p1 = trackapp.backgroundGrid.absolutizePoint ( track.connectors[connector].p1 );
 			var p2 = trackapp.backgroundGrid.absolutizePoint ( track.connectors[connector].p2 );
