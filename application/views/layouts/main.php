@@ -65,7 +65,15 @@
    				<h1>Welcome</h1>
    				<h2>This is a quick intro to our new system</h2>
    				<p>Lorem ipsum</p>
+   				
+   				<?php
+   				$attributes = array('class' => 'btn btn-info');	
+   				if ($this->config->item('allow_registration', 'tank_auth')) echo anchor('/auth/register/', 'Register', $attributes);
+   				?>
+   				
    				</div>
+   				
+
   
    				<div class="span4" id="welcome-login"><?= $loginform ?></div>
    			</div>

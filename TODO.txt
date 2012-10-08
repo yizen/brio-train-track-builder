@@ -8,7 +8,6 @@
 -FIXME = rotation dial doe not keep previous rotation
 -FIXME = some moves are incorrect : double or triple each step
 -FIXME = incorrect touch coordinates reported on retina displays.
--FIXME = broken mapview since Easel 0.4.1
 -FIXME = delete track should recalc measures
 -FIXME = conditionnal loading of welcome.css only on not loggued user
 

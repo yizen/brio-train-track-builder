@@ -47,7 +47,7 @@ var config = new Object();
 config.minimumLibraryVersion = 1;
 
 config.pathPrecision = 20; //Discreetization of bezier and line paths, ranging from 1 to 100;
-config.maxFPS = 5;
+config.maxFPS = 15;
 
 config.influenceRadiusMultiplier = 2.3;
 config.influenceRadiusForConnectors = 4;

@@ -106,13 +106,12 @@ echo '</label>';
 echo '</div>';
 echo '</div>';
 
-echo '<div class="form-actions">';
+echo '<div class="form-actions form-login-buttons">';
 	
 $attributes = array('class' => 'btn');	
 echo anchor('/auth/forgot_password/', 'Forgot password', $attributes); 
-echo "&nbsp;";
-if ($this->config->item('allow_registration', 'tank_auth')) echo anchor('/auth/register/', 'Register', $attributes);
-echo "&nbsp;";
+echo "<br/>";
+
 $attributes = array('class' => 'btn btn-primary');		
 echo form_submit($attributes, 'Let me in'); 
 
